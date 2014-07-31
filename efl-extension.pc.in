@@ -1,0 +1,11 @@
+prefix=@PREFIX@
+exec_prefix=@EXEC_DIR@
+libdir=@LIBDIR@
+includedir=@INCDIR@
+
+Name: EFL Extention
+Description: An EFL Extension library
+Version: @VERSION@
+Requires:
+Libs: -L${libdir} -lefl-extension
+Cflags: -I${includedir}/efl-extension
