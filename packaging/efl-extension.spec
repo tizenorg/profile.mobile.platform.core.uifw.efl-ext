@@ -8,6 +8,7 @@ URL:        http://www.tizen.org/
 Source0:    %{name}-%{version}.tar.gz
 BuildRequires:  pkgconfig(elementary)
 BuildRequires:  pkgconfig(dlog)
+BuildRequires:  cmake
 Requires(post): /sbin/ldconfig
 Requires(postun): /sbin/ldconfig
 
