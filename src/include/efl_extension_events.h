@@ -180,7 +180,8 @@ EAPI void *eext_object_event_callback_del(Evas_Object *obj, Eext_Callback_Type t
 EAPI void eext_object_event_callback_add(Evas_Object *obj, Eext_Callback_Type type, Eext_Event_Cb func, void *data);
 
 /**
- * @brief Convenient macro function that cancel the selection of the entry.
+ * @brief Convenient macro function that cancels the selection of the entry.
+ *
  * @see   eext_entry_selection_back_event_allow_set()
  * @since_tizen 2.3
  */
@@ -195,7 +196,11 @@ eext_entry_back_cb(void *data, Evas_Object *obj, void *event_info)
 }
 
 /**
- * @brief Convenient macro function that cancel the selection of the entry.
+ * @brief Convenient macro function that registers back key callback for entry.
+ *
+ * @details If the selection handler should be canceled when back key event is
+ *          triggered, then use this API.
+ *
  * @see   eext_entry_selection_back_event_allow_set()
  * @since_tizen 2.3
  */
@@ -211,10 +216,7 @@ eext_entry_selection_start_cb(void *data, Evas_Object *obj, void *event_info)
 }
 
 /**
- * @brief Convenient macro function that cancel the selection of the entry.
- *
- * @details If the selection handler should be canceled when back key event is
- *          triggered, then use this API.
+ * @brief Convenient macro function that clears back key callback for entry.
  *
  * @see   eext_entry_selection_back_event_allow_set()
  * @see   eext_object_event_callback_add()
