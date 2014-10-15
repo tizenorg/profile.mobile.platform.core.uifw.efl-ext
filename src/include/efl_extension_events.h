@@ -112,9 +112,9 @@ eext_naviframe_back_cb(void *data, Evas_Object *obj, void *event_info)
  */
 typedef enum _Eext_Callback_Type
 {
-   EEXT_CALLBACK_BACK,    /***< H/W Back Key Event */
-   EEXT_CALLBACK_MORE,    /***< H/W More Key Event */
-   EEXT_CALLBACK_LAST     /***< Reserved value. Acutally This is not matched to
+   EEXT_CALLBACK_BACK,    /**< H/W Back Key Event */
+   EEXT_CALLBACK_MORE,    /**< H/W More Key Event */
+   EEXT_CALLBACK_LAST     /**< Reserved value. Acutally This is not matched to
                             any meaningful behavior. */
 } Eext_Callback_Type;
 
