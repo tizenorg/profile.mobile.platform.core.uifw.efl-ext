@@ -40,6 +40,10 @@ extern "C" {
  * @details Popup will be removed when it has the back key event with
  *          eext_object_event_callback_add()
  *
+ * @param[in] data user data
+ * @param[in] obj target object
+ * @param[in] event_info event information
+ *
  * @see   eext_object_event_callback_add()
  * @since_tizen 2.3
  */
@@ -56,6 +60,10 @@ eext_popup_back_cb(void *data, Evas_Object *obj, void *event_info)
  * @details Ctxpopup will be dismissed when it has the back key event with
  *          eext_object_event_callback_add()
  *
+ * @param[in] data user data
+ * @param[in] obj target object
+ * @param[in] event_info event information
+ *
  * @see   eext_object_event_callback_add()
  * @since_tizen 2.3
  */
@@ -71,6 +79,10 @@ eext_ctxpopup_back_cb(void *data, Evas_Object *obj, void *event_info)
  *
  * @details Ctxpopup will be shown/hidden when naviframe has the more key event
  *          with eext_object_event_callback_add()
+ *
+ * @param[in] data user data
+ * @param[in] obj target object
+ * @param[in] event_info event information
  *
  * @see   eext_object_event_callback_add()
  * @since_tizen 2.3
@@ -93,6 +105,10 @@ eext_naviframe_more_cb(void *data, Evas_Object *obj, void *event_info)
  *
  * @details Naviframe will be popped when naviframe has the back key event
  *          with eext_object_event_callback_add()
+ *
+ * @param[in] data user data
+ * @param[in] obj target object
+ * @param[in] event_info event information
  *
  * @see   eext_object_event_callback_add()
  * @since_tizen 2.3
@@ -148,7 +164,7 @@ typedef void (*Eext_Event_Cb)(void *data, Evas_Object *obj, void *event_info);
  * @see eext_object_event_callback_add()
  * @since_tizen 2.3
  */
-EAPI void *eext_object_event_callback_del(Evas_Object *obj, Eext_Callback_Type type, Eext_Event_Cb);
+EAPI void *eext_object_event_callback_del(Evas_Object *obj, Eext_Callback_Type type, Eext_Event_Cb func);
 
 /**
  * @brief Add (register) a callback function to a given evas object.
@@ -182,6 +198,10 @@ EAPI void eext_object_event_callback_add(Evas_Object *obj, Eext_Callback_Type ty
 /**
  * @brief Convenient macro function that cancels the selection of the entry.
  *
+ * @param[in] data user data
+ * @param[in] obj target object
+ * @param[in] event_info event information
+ *
  * @see   eext_entry_selection_back_event_allow_set()
  * @since_tizen 2.3
  */
@@ -201,6 +221,10 @@ eext_entry_back_cb(void *data, Evas_Object *obj, void *event_info)
  * @details If the selection handler should be canceled when back key event is
  *          triggered, then use this API.
  *
+ * @param[in] data user data
+ * @param[in] obj target object
+ * @param[in] event_info event information
+ *
  * @see   eext_entry_selection_back_event_allow_set()
  * @since_tizen 2.3
  */
@@ -217,6 +241,10 @@ eext_entry_selection_start_cb(void *data, Evas_Object *obj, void *event_info)
 
 /**
  * @brief Convenient macro function that clears back key callback for entry.
+ *
+ * @param[in] data user data
+ * @param[in] obj target object
+ * @param[in] event_info event information
  *
  * @see   eext_entry_selection_back_event_allow_set()
  * @see   eext_object_event_callback_add()
