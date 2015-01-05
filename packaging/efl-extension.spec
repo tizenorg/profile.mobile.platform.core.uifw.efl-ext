@@ -35,10 +35,7 @@ EFL extension library providing small utility functions (devel)
 export CFLAGS+=" -fvisibility=hidden -fPIC -Wall"
 export LDFLAGS+=" -fvisibility=hidden -Wl,-z,defs -Wl,--hash-style=both -Wl,--as-needed"
 
-cmake \
-	. -DCMAKE_INSTALL_PREFIX=/usr \
-	  -DLIBDIR=%{_libdir} \
-	  -DINCLUDEDIR=%{_includedir}
+%cmake
 
 make %{?jobs:-j%jobs}
 
