@@ -1,6 +1,6 @@
 Name:       efl-extension
 Summary:    EFL extension library
-Version:    0.1.2
+Version:    0.1.3
 Release:    1
 Group:      System/Libraries
 License:    Apache License, Version 2.0
@@ -9,9 +9,10 @@ Source0:    %{name}-%{version}.tar.gz
 BuildRequires:  pkgconfig(elementary)
 BuildRequires:  pkgconfig(dlog)
 BuildRequires:  cmake
+BuildRequires:  eo-devel
+BuildRequires:  eolian-devel
 Requires(post): /sbin/ldconfig
 Requires(postun): /sbin/ldconfig
-
 
 %description
 EFL extension library
@@ -57,11 +58,13 @@ cp %{_builddir}/%{buildsubdir}/LICENSE %{buildroot}/%{_datadir}/license/%{name}
 %files
 %defattr(-,root,root,-)
 %{_libdir}/libefl-extension.so.*
+%{_datadir}/efl-extension/themes/*.edj
 %{_datadir}/license/%{name}
 %manifest %{name}.manifest
 
 %files devel
 %defattr(-,root,root,-)
 %{_includedir}/efl-extension/*.h
+%{_datadir}/eolian/include/efl-extension/*.eo
 %{_libdir}/*.so
 %{_libdir}/pkgconfig/efl-extension.pc

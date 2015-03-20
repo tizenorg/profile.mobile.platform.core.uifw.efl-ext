@@ -37,6 +37,7 @@ SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fvisibility=hidden -Wall")
 INCLUDE(FindPkgConfig)
 
 ADD_SUBDIRECTORY(src)
+ADD_SUBDIRECTORY(data)
 #ADD_SUBDIRECTORY(doc)
 
 SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${EXTRA_CFLAGS} -fPIC -Wall -Werror")
