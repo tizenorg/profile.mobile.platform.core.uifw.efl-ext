@@ -17,5 +17,7 @@
 
 collections {
    base_scale: 1.8;
+
+   #include "./groups/floatingbutton.edc"
 }
 

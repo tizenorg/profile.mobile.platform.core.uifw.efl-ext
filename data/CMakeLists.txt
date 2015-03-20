@@ -1,6 +1,6 @@
-ADD_CUSTOM_TARGET(efl-extension.edj
-	COMMAND edje_cc -id ./images/ efl-extension.edc efl-extension.edj
+ADD_CUSTOM_TARGET(${PROJECT_NAME}.edj
+   COMMAND edje_cc -id ./images/ ${PROJECT_NAME}.edc ${PROJECT_NAME}.edj
 )
-ADD_DEPENDENCIES(${PROJECT_NAME} efl-extension.edj)
+ADD_DEPENDENCIES(${PROJECT_NAME} ${PROJECT_NAME}.edj)
 
-INSTALL(FILES efl-extension.edj DESTINATION share/efl-extension/themes)
+INSTALL(FILES ${PROJECT_NAME}.edj DESTINATION ${EDJDIR})

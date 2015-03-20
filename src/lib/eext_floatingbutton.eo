@@ -1,0 +1,58 @@
+class Eext.Floatingbutton (Elm_Layout) {
+   eo_prefix: eext_obj_floatingbutton;
+   properties {
+      pos {
+         set {
+            /*@
+            @brief
+            @return
+            @warning
+            @see
+            @ingroup Floatingbutton */
+         }
+         get {
+            /*@
+            @brief
+            @return
+            @warning
+            @see
+            @ingroup Floatingbutton */
+         }
+         values {
+            Eext_Floatingbutton_Pos pos; /*@ ... */
+         }
+      }
+      pos_fixed {
+         set {
+            /*@
+            @brief
+            @return
+            @warning
+            @see
+            @ingroup Floatingbutton */
+         }
+         get {
+            /*@
+            @brief
+            @return
+            @warning
+            @see
+            @ingroup Floatingbutton */
+         }
+         values {
+            Eina_Bool pos_fixed; /*@ ... */
+         }
+      }
+   }
+   implements {
+      class.constructor;
+      Eo.Base.constructor;
+      Evas.Object_Smart.add;
+      Evas.Object_Smart.del;
+      Evas.Object_Smart.resize;
+      Elm_Widget.parent.set;
+      Elm_Container.content_set;
+      Elm_Container.content_get;
+      Elm_Container.content_unset;
+   }
+}
