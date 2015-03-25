@@ -19,9 +19,9 @@
  * @{
  */
 #include "eext_floatingbutton_common.h"
-//#ifdef EFL_EO_API_SUPPORT
+#ifdef EFL_EO_API_SUPPORT
 #include "eext_floatingbutton_eo.h"
-//#endif
+#endif
 #ifndef EFL_NOLEGACY_API_SUPPORT
 #include "eext_floatingbutton_legacy.h"
 #endif
