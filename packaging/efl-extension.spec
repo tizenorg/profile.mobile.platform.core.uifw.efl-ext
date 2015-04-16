@@ -65,6 +65,6 @@ cp %{_builddir}/%{buildsubdir}/LICENSE %{buildroot}/%{_datadir}/license/%{name}
 %files devel
 %defattr(-,root,root,-)
 %{_includedir}/efl-extension/*.h
-%{_datadir}/eolian/include/efl-extension/*.eo
+#%{_datadir}/eolian/include/efl-extension/*.eo
 %{_libdir}/*.so
 %{_libdir}/pkgconfig/efl-extension.pc

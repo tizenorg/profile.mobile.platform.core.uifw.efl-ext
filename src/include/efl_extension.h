@@ -19,7 +19,6 @@
 #define __EFL_EXTENSION_H__
 
 #include "efl_extension_events.h"
-#include "eext_floatingbutton.h"
 
 #endif /* __EFL_EXTENSION_H__ */
 

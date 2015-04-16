@@ -2,11 +2,10 @@ add_definitions(-DEFL_EO_API_SUPPORT=1 -DEFL_BETA_API_SUPPORT=1)
 
 SET(LIB_SRCS
 	efl_extension.c
-	eext_floatingbutton.c
 	efl_extension_events.c)
 
 SET ( ALL_EO_FILES
-	eext_floatingbutton.eo)
+	)
 
 foreach(eo_file ${ALL_EO_FILES})
 	string(REPLACE .eo .eo.c out_c_file ${eo_file})
@@ -39,5 +38,5 @@ SET_TARGET_PROPERTIES(${LIB_NAME} PROPERTIES SOVERSION ${VERSION_MAJOR})
 TARGET_LINK_LIBRARIES(${LIB_NAME} ${LIB_PKGS_LDFLAGS} ${LIB_TARGET_PKGS_LDFLAGS})
 
 INSTALL(TARGETS ${LIB_NAME} DESTINATION lib)
-INSTALL(FILES ${ALL_EO_FILES} DESTINATION share/eolian/include/efl-extension)
+#INSTALL(FILES ${ALL_EO_FILES} DESTINATION share/eolian/include/efl-extension)
 
