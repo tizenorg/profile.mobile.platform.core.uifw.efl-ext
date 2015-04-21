@@ -28,8 +28,8 @@ typedef struct _Eext_Event_Callback
 
 const char *EEXT_OBJ_KEY_EVENT_MGR = "_eext_obj_key_event_mgr";
 const char *EEXT_OBJ_KEY_OBJ_EVENT = "_eext_obj_key_obj_event";
-const char *EEXT_KEY_STOP = "XF86Stop";
-const char *EEXT_KEY_SEND = "XF86Send";
+const char *EEXT_KEY_BACK = "XF86Back";
+const char *EEXT_KEY_MENU = "XF86Menu";
 
 
 static Eina_List *event_mgrs = NULL;
@@ -244,9 +244,9 @@ _eext_key_grab_rect_key_up_cb(void *data, Evas *e, Evas_Object *obj,
    obj_event = _eext_top_obj_event_find(event_mgr);
    if (!obj_event) return;
 
-   if (!strcmp(ev->keyname, EEXT_KEY_STOP))
+   if (!strcmp(ev->keyname, EEXT_KEY_BACK))
      type = EEXT_CALLBACK_BACK;
-   else if (!strcmp(ev->keyname, EEXT_KEY_SEND))
+   else if (!strcmp(ev->keyname, EEXT_KEY_MENU))
      type = EEXT_CALLBACK_MORE;
    else return;
 
@@ -268,11 +268,11 @@ _eext_key_grab_obj_create(Eext_Event_Mgr *event_mgr)
 
    evas_object_event_callback_add(key_grab_rect, EVAS_CALLBACK_KEY_UP,
                                   _eext_key_grab_rect_key_up_cb, event_mgr);
-   if (!evas_object_key_grab(key_grab_rect, EEXT_KEY_STOP, 0, 0, EINA_FALSE))
-     LOGE("Failed to grab END KEY\n");
+   if (!evas_object_key_grab(key_grab_rect, EEXT_KEY_BACK, 0, 0, EINA_FALSE))
+     LOGE("Failed to grab BACK KEY\n");
 
-   if (!evas_object_key_grab(key_grab_rect, EEXT_KEY_SEND, 0, 0, EINA_FALSE))
-     LOGE("Failed to grab MORE KEY\n");
+   if (!evas_object_key_grab(key_grab_rect, EEXT_KEY_MENU, 0, 0, EINA_FALSE))
+     LOGE("Failed to grab MENU KEY\n");
 
    event_mgr->key_grab_rect = key_grab_rect;
 }
