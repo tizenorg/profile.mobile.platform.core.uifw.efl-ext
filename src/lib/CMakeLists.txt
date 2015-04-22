@@ -2,7 +2,7 @@ add_definitions(-DEFL_EO_API_SUPPORT=1 -DEFL_BETA_API_SUPPORT=1)
 
 SET(LIB_SRCS
 	efl_extension.c
-	efl_extension_events.c)
+	eext_events.c)
 
 SET ( ALL_EO_FILES
 	)
