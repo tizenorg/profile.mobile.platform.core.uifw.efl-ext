@@ -19,6 +19,21 @@
 #define __EFL_EXTENSION_H__
 
 #include "eext_events.h"
+typedef uintptr_t tzsh_native_window;
+
+/**
+ * @brief Get the native window handle of the Elm_Win object
+ *
+ * @details This API returns the handle of the tizen shell native window.
+ *
+ * @param[in] obj object to get the native window handle
+ *            The widget type of this object should be elm_win
+ *
+ * @return    The native window handle
+ *
+ * @since_tizen 2.4
+ */
+EAPI tzsh_native_window eext_win_tzsh_native_window_get(const Elm_Win *obj);
 
 #endif /* __EFL_EXTENSION_H__ */
 

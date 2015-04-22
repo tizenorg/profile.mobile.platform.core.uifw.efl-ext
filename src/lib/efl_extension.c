@@ -72,3 +72,32 @@ _eext_magic_fail(const void *d, eext_magic m, eext_magic req_m, const char *fnam
  *                                  API                                      *
  *===========================================================================*/
 
+EAPI tzsh_native_window
+eext_win_tzsh_native_window_get(const Elm_Win *obj)
+{
+   Evas *e = evas_object_evas_get(obj);
+   Ecore_Evas *ee = ecore_evas_ecore_evas_get(e);
+   const char *engine_name = ecore_evas_engine_name_get(ee);
+
+   if (strcmp(elm_object_widget_type_get(obj), "elm_win"))
+     {
+        LOGE("  Input object is not elm_win widget");
+        return 0;
+     }
+   if (engine_name &&
+       ((!strcmp(engine_name, "opengl_x11")) ||
+        (!strcmp(engine_name, "software_x11"))))
+     return (tzsh_native_window) elm_win_xwindow_get(obj);
+#ifdef HAVE_ELEMENTARY_WAYLAND
+   else if (engine_name &&
+            ((!strcmp(engine_name, "wayland_shm")) ||
+             (!strcmp(engine_name, "wayland_egl"))))
+     {
+        Ecore_Wl_Window wl_win;
+        wl_win = elm_win_wl_window_get(obj);
+        return (tzsh_native_window)ecore_wl_window_surface_get(wl_win);
+     }
+#endif
+   LOGE("  Do not support %s window system", engine_name);
+   return 0;
+}
