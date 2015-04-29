@@ -19,6 +19,8 @@
 #define __EFL_EXTENSION_H__
 
 #include "eext_events.h"
+#include "eext_floatingbutton.h"
+
 typedef uintptr_t tzsh_native_window;
 
 /**
