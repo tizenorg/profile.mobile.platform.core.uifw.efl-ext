@@ -35,5 +35,24 @@ typedef uintptr_t tzsh_native_window;
  */
 EAPI tzsh_native_window eext_win_tzsh_native_window_get(const Elm_Win *obj);
 
+/**
+ * @brief Sets the alpha window's visual state to opaque state
+ *
+ * @details This API sets the window's visual state to opaque state even if the window is an alpha window.
+ *          This is available only for an alpha window.
+ *          If the alpha window sets the visual state to the opaque,
+ *          then the window manager could handle it as the opaque window while calculating visibility.
+ *
+ * @param[in] obj object to get the native window handle
+ *            The widget type of this object should be elm_win
+ * @param[in] opaque value that indicates whether the window has set a visual state to opaque (@c true = on, @c false = off)
+ *
+ * @return    @c EINA_TRUE on success,
+              otherwise failure
+ *
+ * @since_tizen 2.4
+ */
+EAPI Eina_Bool eext_win_visual_opaque_set(Elm_Win *obj, Eina_Bool opaque);
+
 #endif /* __EFL_EXTENSION_H__ */
 

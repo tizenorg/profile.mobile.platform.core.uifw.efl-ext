@@ -8,6 +8,8 @@ URL:        http://www.tizen.org/
 Source0:    %{name}-%{version}.tar.gz
 BuildRequires:  pkgconfig(elementary)
 BuildRequires:  pkgconfig(dlog)
+BuildRequires:  pkgconfig(ecore-x)
+BuildRequires:  pkgconfig(utilX)
 BuildRequires:  cmake
 BuildRequires:  eo-devel
 BuildRequires:  eolian-devel

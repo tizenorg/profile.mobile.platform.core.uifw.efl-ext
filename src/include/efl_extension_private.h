@@ -24,6 +24,8 @@
 #include <string.h>
 #include <strings.h>
 #include <dlog.h>
+#include <Ecore_X.h>
+#include <utilX.h>
 
 #ifdef __cplusplus
 extern "C" {
