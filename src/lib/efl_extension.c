@@ -101,3 +101,47 @@ eext_win_tzsh_native_window_get(const Elm_Win *obj)
    LOGE("  Do not support %s window system", engine_name);
    return 0;
 }
+
+EAPI int
+eext_win_alpha_visual_opaque_set(const Elm_Win *obj, Eina_Bool opaque)
+{
+   tzsh_native_window win;
+
+   if (!obj) return 0;
+
+   Evas *e = evas_object_evas_get(obj);
+   Ecore_Evas *ee = ecore_evas_ecore_evas_get(e);
+   const char *engine_name = ecore_evas_engine_name_get(ee);
+
+   if (engine_name &&
+       ((!strcmp(engine_name, "opengl_x11")) ||
+        (!strcmp(engine_name, "software_x11"))))
+     {
+        Ecore_X_Display *dpy;
+        dpy = ecore_x_display_get();
+        if (!dpy)
+          {
+             LOGE("  Ecore_X_Display is invalid");
+             return 0;
+          }
+        win = (tzsh_native_window) elm_win_xwindow_get(obj);
+        if (opaque)
+          utilx_set_window_opaque_state(dpy, win, UTILX_OPAQUE_STATE_ON);
+        else
+          utilx_set_window_opaque_state(dpy, win, UTILX_OPAQUE_STATE_OFF);
+
+        return 1;
+     }
+#ifdef HAVE_ELEMENTARY_WAYLAND
+   else if (engine_name &&
+            ((!strcmp(engine_name, "wayland_shm")) ||
+             (!strcmp(engine_name, "wayland_egl"))))
+     {
+        // TODO
+        return 1;
+     }
+#endif
+   LOGE("  Do not support %s window system", engine_name);
+   return 0;
+}
+
