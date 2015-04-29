@@ -26,7 +26,7 @@ endforeach(eo_file)
 ADD_LIBRARY(${LIB_NAME} SHARED ${LIB_SRCS})
 
 ADD_DEFINITIONS("-DEXPORT_API=__attribute__((visibility(\"default\")))")
-PKG_CHECK_MODULES(LIB_PKGS REQUIRED elementary dlog eo)
+PKG_CHECK_MODULES(LIB_PKGS REQUIRED elementary dlog eo utilX ecore-x)
 
 FOREACH(flag ${LIB_PKGS_CFLAGS})
 	SET(LIB_CFLAGS "${LIB_CFLAGS} ${flag}")
