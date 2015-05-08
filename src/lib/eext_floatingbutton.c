@@ -37,7 +37,9 @@ typedef struct _Eext_Floatingbutton_Data {
    Evas_Object *scroller;
    Evas_Object *main_layout;
    Evas_Object *bg;
+   Evas_Object *bg1;
    Evas_Object *event;
+   Efl_VG_Shape *base_shape;
 
    Evas_Object *parent;
 
@@ -49,6 +51,33 @@ typedef struct _Eext_Floatingbutton_Data {
    Eina_Bool pos_fixed : 1;
 
 } Eext_Floatingbutton_Data;
+
+
+static void
+_scroller_anim_start_cb(void *data, Evas_Object *obj, void *event_info)
+{
+   Eext_Floatingbutton_Data *fbd = (Eext_Floatingbutton_Data *)data;
+   if (eo_do(fbd->main_layout, elm_obj_container_content_get(BTN1_PART)) &&
+       eo_do(fbd->main_layout, elm_obj_container_content_get(BTN2_PART)))
+     {
+        char buf[200];
+        snprintf(buf, sizeof(buf), "elm,floatingbutton,state,%d", fbd->pos);
+        elm_object_signal_emit(fbd->main_layout, buf, "elm");
+     }
+}
+
+static void
+vg_resize_cb(void *data, Evas *e EINA_UNUSED,
+                      Evas_Object *obj EINA_UNUSED,
+                      void *event_info EINA_UNUSED)
+{
+   Eext_Floatingbutton_Data *fbd = (Eext_Floatingbutton_Data *)data;
+   Evas_Coord x, y, w, h;
+   evas_object_geometry_get(fbd->bg1, &x, &y, &w, &h);
+   //Base Shape
+   evas_vg_shape_shape_reset(fbd->base_shape);
+   evas_vg_shape_shape_append_rect(fbd->base_shape, 0, 0, w, h, 35, 100);
+}
 
 static void
 _update_pos(Eo *obj, Eext_Floatingbutton_Data *fbd, Eina_Bool scroll)
@@ -158,9 +187,9 @@ _on_mouse_up(void *data, Evas *e, Evas_Object *obj, void *event_info)
    finger_size = elm_config_finger_size_get();
 
    if (diff_x > finger_size && fbd->pos > EEXT_FLOATINGBUTTON_LEFT_OUT)
-      fbd->pos--;
+     fbd->pos--;
    else if (diff_x < -finger_size && fbd->pos < EEXT_FLOATINGBUTTON_RIGHT_OUT)
-      fbd->pos++;
+     fbd->pos++;
 
    _update_pos(obj, fbd, EINA_TRUE);
 }
@@ -247,6 +276,15 @@ _eext_floatingbutton_evas_object_smart_add(Eo *obj, Eext_Floatingbutton_Data *pr
    evas_object_color_set(priv->bg, 0, 0, 0, 0);
    elm_object_part_content_set(priv->main_layout, "elm.swallow.bg", priv->bg);
 
+   priv->bg1 = evas_object_vg_add(evas_object_evas_get(obj));
+   evas_object_event_callback_add(priv->bg1, EVAS_CALLBACK_RESIZE,
+                                  vg_resize_cb, priv);
+   elm_widget_sub_object_add(obj, priv->bg1);
+   elm_object_part_content_set(priv->main_layout, "elm.swallow.bg1", priv->bg1);
+   Efl_VG *base_root = evas_object_vg_root_node_get(priv->bg1);
+   priv->base_shape = evas_vg_shape_add(base_root);
+   evas_vg_node_color_set(priv->base_shape, 255, 255, 255, 255);
+
    priv->event = evas_object_rectangle_add(evas_object_evas_get(obj));
    elm_widget_sub_object_add(obj, priv->event);
    evas_object_color_set(priv->event, 0, 0, 0, 0);
@@ -256,6 +294,8 @@ _eext_floatingbutton_evas_object_smart_add(Eo *obj, Eext_Floatingbutton_Data *pr
 
    priv->pos = EEXT_FLOATINGBUTTON_RIGHT_OUT;
    priv->pos_fixed = EINA_FALSE;
+
+   evas_object_smart_callback_add(priv->scroller, "scroll,anim,stop", _scroller_anim_start_cb, priv);
 
    elm_object_part_content_set(obj, "elm.swallow.content", priv->scroller);
 }
@@ -272,13 +312,17 @@ _eext_floatingbutton_elm_container_content_set(Eo *obj, Eext_Floatingbutton_Data
    Eina_Bool int_ret = EINA_FALSE;
 
    if (!strcmp(part, BTN1_PART) || !strcmp(part, BTN2_PART))
-     eo_do(sd->main_layout, elm_obj_container_content_set(part, content));
+     {
+        int_ret = elm_layout_content_set(sd->main_layout, part, content);
+        elm_object_style_set(content, "floating_button");
+        //HACK the signal should be emitted by edje automatically ?
+        char buf[200];
+        snprintf(buf, sizeof(buf), "elm,state,%s,visible", part);
+        elm_object_signal_emit(sd->main_layout, buf, "elm");
+     }
    else
      eo_do_super(obj, MY_CLASS, int_ret = elm_obj_container_content_set(part, content));
-
-   if (!int_ret) return EINA_FALSE;
-
-   return EINA_TRUE;
+   return int_ret;
 }
 
 EOLIAN static Evas_Object *
@@ -287,7 +331,7 @@ _eext_floatingbutton_elm_container_content_get(Eo *obj, Eext_Floatingbutton_Data
    Evas_Object *ret;
 
    if (!strcmp(part, BTN1_PART) || !strcmp(part, BTN2_PART))
-     eo_do(sd->main_layout, ret = elm_obj_container_content_get(part));
+     ret = elm_layout_content_get(sd->main_layout, part);
    else
      eo_do_super(obj, MY_CLASS, ret = elm_obj_container_content_get(part));
 
@@ -300,7 +344,13 @@ _eext_floatingbutton_elm_container_content_unset(Eo *obj, Eext_Floatingbutton_Da
    Evas_Object *ret;
 
    if (!strcmp(part, BTN1_PART) || !strcmp(part, BTN2_PART))
-     eo_do(sd->main_layout, ret = elm_obj_container_content_unset(part));
+     {
+        ret = elm_layout_content_unset(sd->main_layout, part);
+        //HACK the signal should be emitted by edje automatically ?
+        char buf[200];
+        snprintf(buf, sizeof(buf), "elm,state,%s,hidden", part);
+        elm_object_signal_emit(sd->main_layout, buf, "elm");
+     }
    else
      eo_do_super(obj, MY_CLASS, ret = elm_obj_container_content_unset(part));
 
