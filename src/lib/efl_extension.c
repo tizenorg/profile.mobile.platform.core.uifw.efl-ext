@@ -79,7 +79,7 @@ eext_win_tzsh_native_window_get(const Elm_Win *obj)
    Ecore_Evas *ee = ecore_evas_ecore_evas_get(e);
    const char *engine_name = ecore_evas_engine_name_get(ee);
 
-   if (strcmp(elm_object_widget_type_get(obj), "elm_win"))
+   if (!strcmp(elm_object_widget_type_get(obj), "elm_win"))
      {
         LOGE("  Input object is not elm_win widget");
         return 0;
