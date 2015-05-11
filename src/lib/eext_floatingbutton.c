@@ -88,7 +88,7 @@ _update_pos(Eo *obj, Eext_Floatingbutton_Data *fbd, Eina_Bool scroll)
 
    evas_object_geometry_get(elm_object_top_widget_get(fbd->parent), NULL, NULL, &base_w, NULL);
 
-   if (!fbd->pos_table[0])
+   if (!fbd->pos_table[EEXT_FLOATINGBUTTON_LEFT_OUT])
      {
         int handler_size = 0, base_diff = 0;
         Evas_Coord left_w, right_w;
@@ -104,13 +104,11 @@ _update_pos(Eo *obj, Eext_Floatingbutton_Data *fbd, Eina_Bool scroll)
         edje_object_part_geometry_get(elm_layout_edje_get(fbd->main_layout), BTN1_PART, NULL, NULL, &left_w, NULL);
         edje_object_part_geometry_get(elm_layout_edje_get(fbd->main_layout), BTN2_PART, NULL, NULL, &right_w, NULL);
 
-        fbd->pos_table[0] = base_diff + base_w + left_w + right_w - handler_size;
-        fbd->pos_table[1] = base_diff + base_w + left_w;
-        fbd->pos_table[2] = base_diff + base_w + handler_size;
-        fbd->pos_table[3] = base_diff + left_w + (base_w / 2);
-        fbd->pos_table[4] = base_diff + left_w + right_w - handler_size;
-        fbd->pos_table[5] = base_diff + left_w;
-        fbd->pos_table[6] = base_diff + handler_size;
+        fbd->pos_table[EEXT_FLOATINGBUTTON_LEFT_OUT] = base_diff + base_w + left_w + right_w - handler_size;
+        fbd->pos_table[EEXT_FLOATINGBUTTON_LEFT] = base_diff + base_w + handler_size;
+        fbd->pos_table[EEXT_FLOATINGBUTTON_CENTER] = base_diff + left_w + (base_w / 2);
+        fbd->pos_table[EEXT_FLOATINGBUTTON_RIGHT] = base_diff + left_w + right_w - handler_size;
+        fbd->pos_table[EEXT_FLOATINGBUTTON_RIGHT_OUT] = base_diff + handler_size;
      }
 
    str = edje_object_data_get(elm_layout_edje_get(fbd->main_layout), "button_height");
@@ -149,7 +147,7 @@ _eext_floatingbutton_evas_object_smart_resize(Eo *obj, Eext_Floatingbutton_Data 
 
    evas_object_size_hint_min_set(sd->bg, (sd->base_w * 2 + left_w + right_w), button_height);
 
-   sd->pos_table[0] = 0;
+   sd->pos_table[EEXT_FLOATINGBUTTON_LEFT_OUT] = 0;
 
    _update_pos(obj, sd, EINA_FALSE);
 }
