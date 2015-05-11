@@ -4,43 +4,60 @@ class Eext.Floatingbutton (Elm_Layout) {
       pos {
          set {
             /*@
-            @brief
-            @return
-            @warning
-            @see
+            @brief Set the floatingbutton position
+
+            @remark The floatingbutton can be moved among fixed positions
+            (LEFT_OUT, LEFT, CENTER, RIGHT, RIGHT_OUT),
+            eext_floatingbutton_pos_set() moves floatingbutton to a given position immediately
+            (without animation).
+
+            @since_tizen 2.4
+
             @ingroup Floatingbutton */
+
          }
          get {
             /*@
-            @brief
-            @return
-            @warning
-            @see
+            @brief Get the floatingbutton position
+
+            @return Floatingbutton position with Eext_Floatingbutton_Pos enumeration
+
+            @see eext_floatingbutton_position_set()
+
+            @since_tizen 2.4
+
             @ingroup Floatingbutton */
          }
          values {
-            Eext_Floatingbutton_Pos pos; /*@ ... */
+            Eext_Floatingbutton_Pos pos; /*@ the floatingbutton position */
          }
       }
       pos_fixed {
          set {
             /*@
-            @brief
-            @return
-            @warning
-            @see
+            @brief Set whether floatingbutton can be moved or not.
+
+            @remark By default, floatingbutton are movable by user interaction.
+
+            @since_tizen 2.4
+
             @ingroup Floatingbutton */
          }
          get {
             /*@
-            @brief
-            @return
-            @warning
-            @see
+            @brief Get movability for a given floatingbutton widget.
+
+            @return @c EINA_TRUE, if @p obj is set to be unmovable,
+            @c EINA_FALSE, if it's @b movable.
+
+            @see eext_floatingbutton_pos_fixed_set()
+
+            @since_tizen 2.4
+
             @ingroup Floatingbutton */
          }
          values {
-            Eina_Bool pos_fixed; /*@ ... */
+            Eina_Bool pos_fixed; /*@ the floatingbutton movability */
          }
       }
    }
