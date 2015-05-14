@@ -36,8 +36,13 @@ EFL extension library providing small utility functions (devel)
 export CFLAGS+=" -fvisibility=hidden -fPIC -Wall"
 export LDFLAGS+=" -fvisibility=hidden -Wl,-z,defs -Wl,--hash-style=both -Wl,--as-needed"
 
+%if "%{?tizen_profile_name}" == "wearable"
 cmake \
-	. -DCMAKE_INSTALL_PREFIX=/usr
+   . -DCMAKE_INSTALL_PREFIX=/usr -DTIZEN_PROFILE_NAME="wearable"
+%else
+cmake \
+   . -DCMAKE_INSTALL_PREFIX=/usr -DTIZEN_PROFILE_NAME="default"
+%endif
 
 make %{?jobs:-j%jobs}
 
@@ -65,6 +70,9 @@ cp %{_builddir}/%{buildsubdir}/LICENSE %{buildroot}/%{_datadir}/license/%{name}
 %files devel
 %defattr(-,root,root,-)
 %{_includedir}/efl-extension/*.h
-%{_datadir}/eolian/include/efl-extension/*.eo
 %{_libdir}/*.so
 %{_libdir}/pkgconfig/efl-extension.pc
+%if "%{?tizen_profile_name}" == "wearable"
+%else
+   %{_datadir}/eolian/include/efl-extension/*.eo
+%endif
