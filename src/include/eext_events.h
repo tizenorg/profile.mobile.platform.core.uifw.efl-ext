@@ -48,7 +48,7 @@ extern "C" {
  * @since_tizen 2.3
  */
 static inline void
-eext_popup_back_cb(void *data, Evas_Object *obj, void *event_info)
+eext_popup_back_cb(void *data EINA_UNUSED, Evas_Object *obj, void *event_info EINA_UNUSED)
 {
    evas_object_del(obj);
 }
@@ -68,7 +68,7 @@ eext_popup_back_cb(void *data, Evas_Object *obj, void *event_info)
  * @since_tizen 2.3
  */
 static inline void
-eext_ctxpopup_back_cb(void *data, Evas_Object *obj, void *event_info)
+eext_ctxpopup_back_cb(void *data EINA_UNUSED, Evas_Object *obj, void *event_info EINA_UNUSED)
 {
    elm_ctxpopup_dismiss(obj);
 }
@@ -88,7 +88,7 @@ eext_ctxpopup_back_cb(void *data, Evas_Object *obj, void *event_info)
  * @since_tizen 2.3
  */
 static inline void
-eext_naviframe_more_cb(void *data, Evas_Object *obj, void *event_info)
+eext_naviframe_more_cb(void *data EINA_UNUSED, Evas_Object *obj, void *event_info EINA_UNUSED)
 {
    Elm_Object_Item *top = elm_naviframe_top_item_get(obj);
    if (!top) return;
@@ -114,7 +114,7 @@ eext_naviframe_more_cb(void *data, Evas_Object *obj, void *event_info)
  * @since_tizen 2.3
  */
 static inline void
-eext_naviframe_back_cb(void *data, Evas_Object *obj, void *event_info)
+eext_naviframe_back_cb(void *data EINA_UNUSED, Evas_Object *obj, void *event_info EINA_UNUSED)
 {
    elm_naviframe_item_pop(obj);
 }
@@ -206,7 +206,7 @@ EAPI void eext_object_event_callback_add(Evas_Object *obj, Eext_Callback_Type ty
  * @since_tizen 2.3
  */
 static inline void
-eext_entry_back_cb(void *data, Evas_Object *obj, void *event_info)
+eext_entry_back_cb(void *data EINA_UNUSED, Evas_Object *obj, void *event_info EINA_UNUSED)
 {
    if (elm_entry_selection_get(obj))
      elm_entry_select_none(obj);
@@ -229,7 +229,7 @@ eext_entry_back_cb(void *data, Evas_Object *obj, void *event_info)
  * @since_tizen 2.3
  */
 static inline void
-eext_entry_selection_start_cb(void *data, Evas_Object *obj, void *event_info)
+eext_entry_selection_start_cb(void *data EINA_UNUSED, Evas_Object *obj, void *event_info EINA_UNUSED)
 {
    if (!evas_object_data_get(obj, "eext_entry"))
      {
@@ -251,7 +251,7 @@ eext_entry_selection_start_cb(void *data, Evas_Object *obj, void *event_info)
  * @since_tizen 2.3
  */
 static inline void
-eext_entry_selection_cleared_cb(void *data, Evas_Object *obj, void *event_info)
+eext_entry_selection_cleared_cb(void *data EINA_UNUSED, Evas_Object *obj, void *event_info EINA_UNUSED)
 {
    if (evas_object_data_get(obj, "eext_entry"))
      {
