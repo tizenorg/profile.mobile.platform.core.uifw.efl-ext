@@ -29,6 +29,8 @@
 #define MY_CLASS_NAME "Eext_Floatingbutton"
 #define MY_CLASS_NAME_LEGACY "eext_floatingbutton"
 
+#define ELM_SCALE_SIZE(x) (((x) / elm_app_base_scale_get()) * elm_config_scale_get())
+
 static const char *BTN1_PART = "button1";
 static const char *BTN2_PART = "button2";
 
@@ -76,7 +78,8 @@ vg_resize_cb(void *data, Evas *e EINA_UNUSED,
    evas_object_geometry_get(fbd->bg1, &x, &y, &w, &h);
    //Base Shape
    evas_vg_shape_shape_reset(fbd->base_shape);
-   evas_vg_shape_shape_append_rect(fbd->base_shape, 0, 0, w, h, 35, 100);
+   evas_vg_shape_shape_append_rect(fbd->base_shape, 0, 0, w, h,
+                                   ELM_SCALE_SIZE(35), 100);
 }
 
 static void
