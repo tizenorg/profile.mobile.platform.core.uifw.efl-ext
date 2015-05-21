@@ -79,6 +79,7 @@
          }
          part { name: "mid_spacer";
             type: SPACER;
+            scale: 1;
             description { state: "default" 0.0;
                fixed: 1 0;
                align: 0.5 0.5;
@@ -122,6 +123,7 @@
 
          part { name: "left_stretch_spacer";
             type: SPACER;
+            scale: 1;
             description { state: "default" 0.0;
                rel1.to_x: "button1";
                rel2.to_x: "button1";
@@ -159,6 +161,7 @@
 
          part { name: "left_spacer";
             type: SPACER;
+            scale: 1;
             description { state: "default" 0.0;
                rel1.to_x: "left_stretch_spacer";
                rel2.to_x: "left_stretch_spacer";
@@ -171,6 +174,7 @@
          }
          part { name: "right_stretch_spacer";
             type: SPACER;
+            scale: 1;
             description { state: "default" 0.0;
                rel1.to_x: "button2";
                rel2.to_x: "button2";
@@ -207,6 +211,7 @@
          }
          part { name: "right_spacer";
             type: SPACER;
+            scale: 1;
             description { state: "default" 0.0;
                rel1.to_x: "right_stretch_spacer";
                rel2.to_x: "right_stretch_spacer";
