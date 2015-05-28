@@ -1,12 +1,20 @@
 IF("${TIZEN_PROFILE_NAME}" STREQUAL "wearable")
 	SET(HEADER_FILES
 		eext_events.h
-		)
+		circle/efl_extension_circle_surface.h
+		circle/efl_extension_circle_object.h
+		circle/efl_extension_circle_object_progressbar.h
+		circle/efl_extension_circle_object_slider.h
+		circle/efl_extension_circle_object_genlist.h
+		circle/efl_extension_circle_object_datetime.h
+		circle/efl_extension_circle_object_scroller.h
+		circle/efl_extension_rotary.h
+		common/efl_extension_common.h
+		common/efl_extension_more_option_layout.h)
 ELSE()
 	SET(HEADER_FILES
 		eext_events.h
-		eext_floatingbutton.h
-		)
+		eext_floatingbutton.h)
 ENDIF()
 
 FOREACH(files ${HEADER_FILES})

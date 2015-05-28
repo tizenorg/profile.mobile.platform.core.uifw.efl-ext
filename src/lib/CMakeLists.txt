@@ -4,7 +4,16 @@ IF(${TIZEN_PROFILE_NAME} STREQUAL "wearable")
 	SET(LIB_SRCS
 		efl_extension.c
 		eext_events.c
-		)
+		circle/efl_extension_circle_surface.c
+		circle/efl_extension_circle_object.c
+		circle/efl_extension_circle_object_item.c
+		circle/efl_extension_circle_object_progressbar.c
+		circle/efl_extension_circle_object_slider.c
+		circle/efl_extension_circle_object_genlist.c
+		circle/efl_extension_circle_object_datetime.c
+		circle/efl_extension_circle_object_scroller.c
+		circle/efl_extension_rotary.c
+		common/efl_extension_more_option_layout.c)
 	SET (ALL_EO_FILES
 		)
 ELSE()
@@ -38,7 +47,21 @@ endforeach(eo_file)
 ADD_LIBRARY(${LIB_NAME} SHARED ${LIB_SRCS})
 
 ADD_DEFINITIONS("-DEXPORT_API=__attribute__((visibility(\"default\")))")
-PKG_CHECK_MODULES(LIB_PKGS REQUIRED elementary dlog eo)
+PKG_CHECK_MODULES(LIB_PKGS REQUIRED
+		elementary
+		dlog
+		eo
+		ecore
+		ecore-x
+		elementary
+		dlog
+		cairo
+		x11
+		xext
+		xi
+		inputproto
+		fontconfig
+		)
 
 FOREACH(flag ${LIB_PKGS_CFLAGS})
 	SET(LIB_CFLAGS "${LIB_CFLAGS} ${flag}")

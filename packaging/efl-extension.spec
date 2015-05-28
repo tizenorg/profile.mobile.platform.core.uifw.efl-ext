@@ -3,12 +3,20 @@ Summary:    EFL extension library
 Version:    0.2.1
 Release:    1
 Group:      System/Libraries
-License:    Apache License, Version 2.0
+License:    Apache-2.0
 URL:        http://www.tizen.org/
 Source0:    %{name}-%{version}.tar.gz
+BuildRequires:  pkgconfig(ecore)
+BuildRequires:  pkgconfig(ecore-x)
 BuildRequires:  pkgconfig(elementary)
 BuildRequires:  pkgconfig(dlog)
+BuildRequires:  pkgconfig(x11)
+BuildRequires:  pkgconfig(xext)
+BuildRequires:  pkgconfig(xi)
+BuildRequires:  pkgconfig(inputproto)
+BuildRequires:  pkgconfig(fontconfig)
 BuildRequires:  cmake
+BuildRequires:  pkgconfig(cairo)
 BuildRequires:  eo-devel
 BuildRequires:  eolian-devel
 Requires(post): /sbin/ldconfig
@@ -66,6 +74,9 @@ cp %{_builddir}/%{buildsubdir}/LICENSE %{buildroot}/%{_datadir}/license/%{name}
 %{_datadir}/efl-extension/themes/*.edj
 %{_datadir}/license/%{name}
 %manifest %{name}.manifest
+%if "%{?tizen_profile_name}" == "wearable"
+    %{_datadir}/efl-extension/images/*
+%endif
 
 %files devel
 %defattr(-,root,root,-)
@@ -73,6 +84,8 @@ cp %{_builddir}/%{buildsubdir}/LICENSE %{buildroot}/%{_datadir}/license/%{name}
 %{_libdir}/*.so
 %{_libdir}/pkgconfig/efl-extension.pc
 %if "%{?tizen_profile_name}" == "wearable"
+    %{_includedir}/efl-extension/circle/*.h
+    %{_includedir}/efl-extension/common/*.h
 %else
    %{_datadir}/eolian/include/efl-extension/*.eo
 %endif

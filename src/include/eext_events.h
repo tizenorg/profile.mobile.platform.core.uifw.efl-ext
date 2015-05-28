@@ -45,7 +45,9 @@ extern "C" {
  * @param[in] event_info event information
  *
  * @see   eext_object_event_callback_add()
- * @since_tizen 2.3
+ * @if MOBILE @since_tizen 2.3
+ * @elseif WEARABLE @since_tizen 2.3.1
+ * @endif
  */
 static inline void
 eext_popup_back_cb(void *data EINA_UNUSED, Evas_Object *obj, void *event_info EINA_UNUSED)
@@ -65,7 +67,9 @@ eext_popup_back_cb(void *data EINA_UNUSED, Evas_Object *obj, void *event_info EI
  * @param[in] event_info event information
  *
  * @see   eext_object_event_callback_add()
- * @since_tizen 2.3
+ * @if MOBILE @since_tizen 2.3
+ * @elseif WEARABLE @since_tizen 2.3.1
+ * @endif
  */
 static inline void
 eext_ctxpopup_back_cb(void *data EINA_UNUSED, Evas_Object *obj, void *event_info EINA_UNUSED)
@@ -85,7 +89,9 @@ eext_ctxpopup_back_cb(void *data EINA_UNUSED, Evas_Object *obj, void *event_info
  * @param[in] event_info event information
  *
  * @see   eext_object_event_callback_add()
- * @since_tizen 2.3
+ * @if MOBILE @since_tizen 2.3
+ * @elseif WEARABLE @since_tizen 2.3.1
+ * @endif
  */
 static inline void
 eext_naviframe_more_cb(void *data EINA_UNUSED, Evas_Object *obj, void *event_info EINA_UNUSED)
@@ -111,7 +117,9 @@ eext_naviframe_more_cb(void *data EINA_UNUSED, Evas_Object *obj, void *event_inf
  * @param[in] event_info event information
  *
  * @see   eext_object_event_callback_add()
- * @since_tizen 2.3
+ * @if MOBILE @since_tizen 2.3
+ * @elseif WEARABLE @since_tizen 2.3.1
+ * @endif
  */
 static inline void
 eext_naviframe_back_cb(void *data EINA_UNUSED, Evas_Object *obj, void *event_info EINA_UNUSED)
@@ -124,7 +132,9 @@ eext_naviframe_back_cb(void *data EINA_UNUSED, Evas_Object *obj, void *event_inf
  *
  * @see eext_object_event_callback_add()
  * @see eext_object_event_callback_del()
- * @since_tizen 2.3
+ * @if MOBILE @since_tizen 2.3
+ * @elseif WEARABLE @since_tizen 2.3.1
+ * @endif
  */
 typedef enum _Eext_Callback_Type
 {
@@ -141,7 +151,9 @@ typedef enum _Eext_Callback_Type
  * @param[in] event_info event information (if the event passes an additional in
               formation.)
  * @see eext_object_event_callback_add()
- * @since_tizen 2.3
+ * @if MOBILE @since_tizen 2.3
+ * @elseif WEARABLE @since_tizen 2.3.1
+ * @endif
  */
 typedef void (*Eext_Event_Cb)(void *data, Evas_Object *obj, void *event_info);
 
@@ -162,7 +174,9 @@ typedef void (*Eext_Event_Cb)(void *data, Evas_Object *obj, void *event_info);
  * @return    data The data pointer that was to be passed to the callback.
  *
  * @see eext_object_event_callback_add()
- * @since_tizen 2.3
+ * @if MOBILE @since_tizen 2.3
+ * @elseif WEARABLE @since_tizen 2.3.1
+ * @endif
  */
 EAPI void *eext_object_event_callback_del(Evas_Object *obj, Eext_Callback_Type type, Eext_Event_Cb func);
 
@@ -191,7 +205,9 @@ EAPI void *eext_object_event_callback_del(Evas_Object *obj, Eext_Callback_Type t
  * @param[in] data The data pointer to be passed to @p func.
  *
  * @see eext_object_event_callback_del()
- * @since_tizen 2.3
+ * @if MOBILE @since_tizen 2.3
+ * @elseif WEARABLE @since_tizen 2.3.1
+ * @endif
  */
 EAPI void eext_object_event_callback_add(Evas_Object *obj, Eext_Callback_Type type, Eext_Event_Cb func, void *data);
 
@@ -203,7 +219,9 @@ EAPI void eext_object_event_callback_add(Evas_Object *obj, Eext_Callback_Type ty
  * @param[in] event_info event information
  *
  * @see   eext_entry_selection_back_event_allow_set()
- * @since_tizen 2.3
+ * @if MOBILE @since_tizen 2.3
+ * @elseif WEARABLE @since_tizen 2.3.1
+ * @endif
  */
 static inline void
 eext_entry_back_cb(void *data EINA_UNUSED, Evas_Object *obj, void *event_info EINA_UNUSED)
@@ -226,7 +244,9 @@ eext_entry_back_cb(void *data EINA_UNUSED, Evas_Object *obj, void *event_info EI
  * @param[in] event_info event information
  *
  * @see   eext_entry_selection_back_event_allow_set()
- * @since_tizen 2.3
+ * @if MOBILE @since_tizen 2.3
+ * @elseif WEARABLE @since_tizen 2.3.1
+ * @endif
  */
 static inline void
 eext_entry_selection_start_cb(void *data EINA_UNUSED, Evas_Object *obj, void *event_info EINA_UNUSED)
@@ -248,7 +268,9 @@ eext_entry_selection_start_cb(void *data EINA_UNUSED, Evas_Object *obj, void *ev
  *
  * @see   eext_entry_selection_back_event_allow_set()
  * @see   eext_object_event_callback_add()
- * @since_tizen 2.3
+ * @if MOBILE @since_tizen 2.3
+ * @elseif WEARABLE @since_tizen 2.3.1
+ * @endif
  */
 static inline void
 eext_entry_selection_cleared_cb(void *data EINA_UNUSED, Evas_Object *obj, void *event_info EINA_UNUSED)
@@ -270,7 +292,9 @@ eext_entry_selection_cleared_cb(void *data EINA_UNUSED, Evas_Object *obj, void *
  *              otherwise.
  * @see   eext_object_event_callback_add()
  * @see   eext_object_event_callback_del()
- * @since_tizen 2.3
+ * @if MOBILE @since_tizen 2.3
+ * @elseif WEARABLE @since_tizen 2.3.1
+ * @endif
  */
 static inline void
 eext_entry_selection_back_event_allow_set(Evas_Object *obj, Eina_Bool allow)

@@ -24,6 +24,9 @@
 #include <string.h>
 #include <strings.h>
 #include <dlog.h>
+#include <unistd.h>
+#include <fontconfig/fontconfig.h>
+#include <fontconfig/fcfreetype.h>
 
 #ifdef __cplusplus
 extern "C" {
