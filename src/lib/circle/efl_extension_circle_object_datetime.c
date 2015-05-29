@@ -361,7 +361,7 @@ _eext_circle_object_datetime_bg_image_append(Eext_Circle_Object *obj)
    char buf[PATH_MAX];
    int i;
 
-   for (i = 0; i <= BG_FILE_COUNT; i++)
+   for (i = 0; i < BG_FILE_COUNT; i++)
      {
         bg_image = elm_image_add(obj->widget_object);
         snprintf(buf, sizeof(buf), "%s/%s.png", IMG_DIR, bg_file_name[i]);
