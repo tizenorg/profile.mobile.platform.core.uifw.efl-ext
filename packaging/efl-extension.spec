@@ -15,6 +15,7 @@ BuildRequires:  pkgconfig(xext)
 BuildRequires:  pkgconfig(xi)
 BuildRequires:  pkgconfig(inputproto)
 BuildRequires:  pkgconfig(fontconfig)
+BuildRequires:  gettext
 BuildRequires:  cmake
 BuildRequires:  pkgconfig(cairo)
 BuildRequires:  eo-devel
@@ -72,6 +73,7 @@ cp %{_builddir}/%{buildsubdir}/LICENSE %{buildroot}/%{_datadir}/license/%{name}
 %defattr(-,root,root,-)
 %{_libdir}/libefl-extension.so.*
 %{_datadir}/efl-extension/themes/*.edj
+%{_datadir}/locale/*
 %{_datadir}/license/%{name}
 %manifest %{name}.manifest
 %if "%{?tizen_profile_name}" == "wearable"
