@@ -363,13 +363,16 @@ _eext_circle_object_datetime_bg_image_append(Eext_Circle_Object *obj)
 
    for (i = 0; i < BG_FILE_COUNT; i++)
      {
-        bg_image = elm_image_add(obj->widget_object);
-        snprintf(buf, sizeof(buf), "%s/%s.png", IMG_DIR, bg_file_name[i]);
-        elm_image_file_set(bg_image, buf, NULL);
-        obj->bg_image_objs = eina_list_append(obj->bg_image_objs, bg_image);
-     }
+        bg_image = evas_object_image_add(evas_object_evas_get(obj->image_widget));
 
-   obj->bg_image_index = BG_FILE_COUNT;
+        snprintf(buf, sizeof(buf), "%s/%s.png", IMG_DIR, bg_file_name[i]);
+        evas_object_image_file_set(bg_image, buf, NULL);
+
+        if (evas_object_image_load_error_get(bg_image) == EVAS_LOAD_ERROR_NONE)
+          obj->bg_image_objs = eina_list_append(obj->bg_image_objs, bg_image);
+        else
+          evas_object_del(bg_image);
+     }
 }
 
 static void

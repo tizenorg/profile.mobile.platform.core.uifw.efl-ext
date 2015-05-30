@@ -63,7 +63,7 @@ _eext_circle_surface_clear(Eext_Circle_Surface *surface)
 static void
 _eext_circle_bg_surface_memcpy(Eext_Circle_Surface *surface, Eext_Circle_Object *obj)
 {
-   Evas_Object *image_object, *bg_image, *bg_image_object;
+   Evas_Object *image_object, *bg_image;
    unsigned char *buffer, *bg_buffer;
 
    if (!surface || !surface->image_widget) return;
@@ -72,12 +72,19 @@ _eext_circle_bg_surface_memcpy(Eext_Circle_Surface *surface, Eext_Circle_Object 
    buffer = (unsigned char *)evas_object_image_data_get(image_object, 1);
 
    bg_image = eina_list_nth(obj->bg_image_objs, obj->bg_image_index);
-   bg_image_object = elm_image_object_get(bg_image);
-   evas_object_image_size_set(bg_image_object, surface->w, surface->h);
-   evas_object_image_fill_set(bg_image_object, 0, 0, surface->w, surface->h);
-   bg_buffer = (unsigned char *)evas_object_image_data_get(bg_image_object, 0);
+   evas_object_image_load_size_set(bg_image, surface->w, surface->h);
+   evas_object_image_fill_set(bg_image, 0, 0, surface->w, surface->h);
+   bg_buffer = (unsigned char *)evas_object_image_data_get(bg_image, 1);
 
-   memcpy(buffer, bg_buffer, surface->w * surface->h * 4);
+   if (bg_buffer)
+     {
+        memcpy(buffer, bg_buffer, surface->w * surface->h * 4);
+     }
+   else
+     {
+        LOGE("Background image buffer is NULL!");
+        memset(buffer, 0, surface->w * surface->h * 4);
+     }
 }
 
 static Eina_Bool
