@@ -96,31 +96,6 @@
                min : 0 0;
             }
          }
-         part { name: "button1";
-            type: SWALLOW;
-            repeat_events: 1;
-            description { state: "default" 0.0;
-               rel1.to: "mid_spacer";
-               rel2.to: "mid_spacer";
-               fixed: 1 1;
-               align: 1.0 0.5;
-               rel1.relative: 0.0 0.5;
-               rel2.relative: 0.0 0.5;
-            }
-         }
-         part { name: "button2";
-            type: SWALLOW;
-            repeat_events: 1;
-            description { state: "default" 0.0;
-               fixed: 1 1;
-               rel1.to: "mid_spacer";
-               rel2.to: "mid_spacer";
-               align: 0.0 0.5;
-               rel1.relative: 1.0 0.5;
-               rel2.relative: 1.0 0.5;
-            }
-         }
-
          part { name: "left_stretch_spacer";
             type: SPACER;
             scale: 1;
@@ -229,6 +204,30 @@
                rel1.to: "elm.swallow.bg1";
                rel2.to: "elm.swallow.bg1";
                color : 128 0 0 128;
+            }
+         }
+         part { name: "button1";
+            type: SWALLOW;
+            repeat_events: 1;
+            description { state: "default" 0.0;
+               rel1.to: "mid_spacer";
+               rel2.to: "mid_spacer";
+               fixed: 1 1;
+               align: 1.0 0.5;
+               rel1.relative: 0.0 0.5;
+               rel2.relative: 0.0 0.5;
+            }
+         }
+         part { name: "button2";
+            type: SWALLOW;
+            repeat_events: 1;
+            description { state: "default" 0.0;
+               fixed: 1 1;
+               rel1.to: "mid_spacer";
+               rel2.to: "mid_spacer";
+               align: 0.0 0.5;
+               rel1.relative: 1.0 0.5;
+               rel2.relative: 1.0 0.5;
             }
          }
          part { name: "event";
