@@ -1,31 +1,19 @@
 add_definitions(-DEFL_EO_API_SUPPORT=1 -DEFL_BETA_API_SUPPORT=1)
 
-IF(${TIZEN_PROFILE_NAME} STREQUAL "wearable")
-	SET(LIB_SRCS
-		efl_extension.c
-		eext_events.c
-		circle/efl_extension_circle_surface.c
-		circle/efl_extension_circle_object.c
-		circle/efl_extension_circle_object_item.c
-		circle/efl_extension_circle_object_progressbar.c
-		circle/efl_extension_circle_object_slider.c
-		circle/efl_extension_circle_object_genlist.c
-		circle/efl_extension_circle_object_datetime.c
-		circle/efl_extension_circle_object_scroller.c
-		circle/efl_extension_rotary.c
-		common/efl_extension_more_option_layout.c)
-	SET (ALL_EO_FILES
-		)
-ELSE()
-	SET(LIB_SRCS
-		efl_extension.c
-		eext_events.c
-		eext_floatingbutton.c
-		)
-	SET (ALL_EO_FILES
-		eext_floatingbutton.eo
-		)
-ENDIF()
+SET(LIB_SRCS
+	${LIB_SRCS}
+	circle/efl_extension_circle_surface.c
+	circle/efl_extension_circle_object.c
+	circle/efl_extension_circle_object_item.c
+	circle/efl_extension_circle_object_progressbar.c
+	circle/efl_extension_circle_object_slider.c
+	circle/efl_extension_circle_object_genlist.c
+	circle/efl_extension_circle_object_datetime.c
+	circle/efl_extension_circle_object_scroller.c
+	circle/efl_extension_rotary.c
+	default/efl_extension_more_option_layout.c)
+SET (ALL_EO_FILES
+	)
 
 
 foreach(eo_file ${ALL_EO_FILES})

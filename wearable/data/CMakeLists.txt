@@ -1,11 +1,5 @@
-IF("${TIZEN_PROFILE_NAME}" STREQUAL "wearable")
-	SET(EDC_FILES
-		)
-ELSE()
-	SET(EDC_FILES
-		groups/floatingbutton.edc
-		)
-ENDIF()
+SET(EDC_FILES
+	)
 
 FOREACH(edc ${EDC_FILES})
 	SET(EDC_INCS "${EDC_INCS}\n   #include \"${edc}\"")

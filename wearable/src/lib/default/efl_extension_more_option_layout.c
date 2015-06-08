@@ -1,7 +1,7 @@
 #include "efl_extension.h"
 #include "efl_extension_private.h"
 #include "circle/efl_extension_circle_private.h"
-#include "common/efl_extension_common_private.h"
+#include "default/efl_extension_common_private.h"
 
 #define _MORE_OPTION_LAYOUT_DEBUG_ENABLED 0
 

@@ -82,12 +82,12 @@ cp %{_builddir}/%{buildsubdir}/LICENSE %{buildroot}/%{_datadir}/license/%{name}
 
 %files devel
 %defattr(-,root,root,-)
-%{_includedir}/efl-extension/*.h
 %{_libdir}/*.so
 %{_libdir}/pkgconfig/efl-extension.pc
 %if "%{?tizen_profile_name}" == "wearable"
     %{_includedir}/efl-extension/circle/*.h
-    %{_includedir}/efl-extension/common/*.h
+    %{_includedir}/efl-extension/default/*.h
 %else
-   %{_datadir}/eolian/include/efl-extension/*.eo
+    %{_includedir}/efl-extension/*.h
+    %{_datadir}/eolian/include/efl-extension/*.eo
 %endif
