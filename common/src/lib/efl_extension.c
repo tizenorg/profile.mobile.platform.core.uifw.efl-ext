@@ -101,3 +101,23 @@ eext_win_tzsh_native_window_get(const Elm_Win *obj)
    LOGE("  Do not support %s window system", engine_name);
    return 0;
 }
+
+EAPI Eina_Bool
+eext_win_keygrab_set(Elm_Win *obj, const char *key)
+{
+   Eina_Bool ret = EINA_FALSE;
+   ret = elm_win_keygrab_set(obj, key, 0, 0, 0, ELM_WIN_KEYGRAB_TOPMOST);
+   if (!ret)
+     LOGE("  Can't set keygrab of [%s].", key);
+   return ret;
+}
+
+EAPI Eina_Bool
+eext_win_keygrab_unset(Elm_Win *obj, const char *key)
+{
+   Eina_Bool ret = EINA_FALSE;
+   ret = elm_win_keygrab_unset(obj, key, 0, 0);
+   if (!ret)
+     LOGE("  Can't unset keygrab of [%s].", key);
+   return ret;
+}
