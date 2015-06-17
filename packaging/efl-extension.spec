@@ -1,6 +1,6 @@
 Name:       efl-extension
 Summary:    EFL extension library
-Version:    0.2.2
+Version:    0.2.3
 Release:    1
 Group:      System/Libraries
 License:    Apache-2.0
