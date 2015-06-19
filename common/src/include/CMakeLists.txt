@@ -1,5 +1,5 @@
 SET(HEADER_FILES
-	eext_events.h
+	efl_extension_events.h
 	)
 
 SET(COMMON_HEADERS
