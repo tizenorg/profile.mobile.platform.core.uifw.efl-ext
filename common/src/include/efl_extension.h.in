@@ -70,7 +70,7 @@ EAPI Eina_Bool eext_win_keygrab_set(Elm_Win *obj, const char *key);
  */
 EAPI Eina_Bool eext_win_keygrab_unset(Elm_Win *obj, const char *key);
 
-#ifdef __cpluscplus
+#ifdef __cplusplus
 }
 #endif
 
