@@ -47,14 +47,18 @@ export LDFLAGS+=" -fvisibility=hidden -Wl,-z,defs -Wl,--hash-style=both -Wl,--as
 
 %if "%{?tizen_profile_name}" == "wearable"
 cmake \
-   . -DCMAKE_INSTALL_PREFIX=/usr -DTIZEN_PROFILE_NAME="wearable"
+. -DCMAKE_INSTALL_PREFIX=/usr -DTIZEN_PROFILE_NAME="wearable"
 %else
-cmake \
-   . -DCMAKE_INSTALL_PREFIX=/usr -DTIZEN_PROFILE_NAME="default"
+  %if "%{?tizen_profile_name}" == "tv"
+    cmake \
+    . -DCMAKE_INSTALL_PREFIX=/usr -DTIZEN_PROFILE_NAME="tv"
+  %else
+    cmake \
+    . -DCMAKE_INSTALL_PREFIX=/usr -DTIZEN_PROFILE_NAME="default"
+  %endif
 %endif
 
 make %{?jobs:-j%jobs}
-
 
 %install
 %make_install
@@ -64,8 +68,6 @@ cp %{_builddir}/%{buildsubdir}/LICENSE %{buildroot}/%{_datadir}/license/%{name}
 
 
 %post -p /sbin/ldconfig
-
-
 %postun -p /sbin/ldconfig
 
 
@@ -89,5 +91,7 @@ cp %{_builddir}/%{buildsubdir}/LICENSE %{buildroot}/%{_datadir}/license/%{name}
     %{_includedir}/efl-extension/circle/*.h
     %{_includedir}/efl-extension/default/*.h
 %else
+  %if "%{?tizen_profile_name}" != "tv"
     %{_datadir}/eolian/include/efl-extension/*.eo
+  %endif
 %endif
