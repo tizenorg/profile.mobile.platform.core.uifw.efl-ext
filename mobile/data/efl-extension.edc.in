@@ -16,7 +16,7 @@
  */
 
 collections {
-   base_scale: 1.8;
+   base_scale: 2.6;
 @EDC_INCS@
 }
 

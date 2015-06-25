@@ -66,8 +66,6 @@ class Eext.Floatingbutton (Elm_Layout) {
       Eo.Base.constructor;
       Evas.Object_Smart.add;
       Evas.Object_Smart.del;
-      Evas.Object_Smart.resize;
-      Elm_Widget.parent.set;
       Elm_Container.content_set;
       Elm_Container.content_get;
       Elm_Container.content_unset;
