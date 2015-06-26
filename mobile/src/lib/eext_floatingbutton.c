@@ -302,7 +302,7 @@ _eext_floatingbutton_evas_object_smart_add(Eo *obj, Eext_Floatingbutton_Data *pr
    elm_box_padding_set(priv->box, ELM_SCALE_SIZE(FLOATINGBUTTON_MID_PADDING_WIDTH), 0);
    elm_object_part_content_set(obj, "elm.swallow.box", priv->box);
 
-   priv->pos = EEXT_FLOATINGBUTTON_RIGHT_OUT;
+   priv->pos = EEXT_FLOATINGBUTTON_RIGHT;
    priv->pos_fixed = EINA_FALSE;
 
    priv->pos_table[EEXT_FLOATINGBUTTON_LEFT_OUT] = 0.0;
