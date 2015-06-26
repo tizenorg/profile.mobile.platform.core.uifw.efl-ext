@@ -30,11 +30,6 @@ ADD_DEFINITIONS("-DEXPORT_API=__attribute__((visibility(\"default\")))")
 PKG_CHECK_MODULES(LIB_PKGS REQUIRED
 		elementary
 		dlog
-		eo
-		ecore
-		ecore-x
-		elementary
-		dlog
 		cairo
 		x11
 		xext

@@ -14,59 +14,38 @@
  *  limitations under the License.
  *
  */
-/*
- *  FB_SIDE_PADDING_WITH_STREATCH_PERCENT_100 = FB_SIDE_PADDING + 100% of (78% of FB_MIDDLE_PADDING) =  39 + 19 = 58
- *  FB_SIDE_PADDING_WITH_STREATCH_PERCENT_50 = FB_SIDE_PADDING + 50% of (78% of FB_MIDDLE_PADDING) =  39 + 10 = 49
- */
-#define FB_SIDE_PADDING 39
-#define FB_MIDDLE_PADDING 24
-#define FB_STRETCH_PADDING_PERCENT_100 19
-#define FB_STRETCH_PADDING_PERCENT_50 10
-#define STRETCH_ANIM_TIME .1
+
+#define FLOATINGBUTTON_LR_WIDTH 50
+#define FLOATINGBUTTON_LR_MAX_WIDTH 70
+#define FLOATINGBUTTON_MID_WIDTH 20
+#define FLOATINGBUTTON_1BTN_WIDTH 185
+#define FLOATINGBUTTON_2BTN_WIDTH 290
+#define FLOATINGBUTTON_HEIGHT 120
+#define FLOATINGBUTTON_HANDLER_SIZE 32
 
    group { name: "elm/floatingbutton/base/default";
+      script {
+         public mouse_down = 0;
+         public g_prev_x = 0;
+      }
       parts {
-         part { name: "elm.swallow.content";
+         part { name: "elm.swallow.vg";
             type: SWALLOW;
             scale: 1;
+            clip_to: "vg_clipper";
             description { state: "default" 0.0;
-            }
-         }
-      }
-   }
-   group { name: "elm/floatingbutton/main_layout/default";
-      data {
-         item: "button_height" "90";
-         item: "handler_size" "10";
-      }
-      script {
-         public btn1_added = 0;
-         public btn2_added = 0;
-      }
-      parts {
-         part { name: "elm.swallow.bg";
-            type: SWALLOW;
-            mouse_events: 0;
-            description { state: "default" 0.0;
-            }
-         }
-         part { name: "elm.swallow.bg1";
-            type: SWALLOW;
-            mouse_events: 1;
-            clip_to: "bg1_clipper";
-            description { state: "default" 0.0;
-               fixed: 1 0;
+               fixed: 1 1;
                rel1.to: "left_spacer";
                rel2.to: "right_spacer";
             }
          }
-         part { name: "bg1_clipper";
+         part { name: "vg_clipper";
             type: RECT;
-            repeat_events: 1;
             description { state: "default" 0.0;
+               fixed: 1 1;
                color: 76 103 211 255;
-               rel1.to: "elm.swallow.bg1";
-               rel2.to: "elm.swallow.bg1";
+               rel1.to: "elm.swallow.vg";
+               rel2.to: "elm.swallow.vg";
             }
             description { state: "pressed" 0.0;
                inherit: "default";
@@ -77,305 +56,206 @@
                color: 134 155 239 255;
             }
          }
-         part { name: "mid_spacer";
+         part { name: "elm.track.left_hidden";
             type: SPACER;
             scale: 1;
             description { state: "default" 0.0;
-               fixed: 1 0;
-               align: 0.5 0.5;
-               rel1.relative: 0.5 0.0;
-               rel2.relative: 0.5 1.0;
-               min : FB_MIDDLE_PADDING 0;
-            }
-            description { state: "btn1" 0.0;
-               inherit: "default" 0.0;
-               min : 0 0;
-            }
-            description { state: "btn2" 0.0;
-               inherit: "default" 0.0;
-               min : 0 0;
-            }
-         }
-         part { name: "left_stretch_spacer";
-            type: SPACER;
-            scale: 1;
-            description { state: "default" 0.0;
-               rel1.to_x: "button1";
-               rel2.to_x: "button1";
+               min: (FLOATINGBUTTON_1BTN_WIDTH-FLOATINGBUTTON_HANDLER_SIZE) 0;
                fixed: 1 1;
                align: 1.0 0.5;
                rel1.relative: 0.0 0.0;
                rel2.relative: 0.0 1.0;
-               min : 0 0;
             }
-            description { state: "btn1" 0.0;
+            description { state: "2buttons" 0.0;
                inherit: "default" 0.0;
-               min : 0 0;
-            }
-            description { state: "btn2" 0.0;
-               inherit: "default" 0.0;
-               min : 0 0;
-            }
-            description { state: "state_1" 0.0;
-               inherit: "default" 0.0;
-               min : FB_STRETCH_PADDING_PERCENT_100 0;
-            }
-            description { state: "state_2" 0.0;
-               inherit: "default" 0.0;
-               min : FB_STRETCH_PADDING_PERCENT_50 0;
-            }
-            description { state: "state_3" 0.0;
-               inherit: "default" 0.0;
-               min : 0 0;
-            }
-            description { state: "state_4" 0.0;
-               inherit: "default" 0.0;
-               min : 0 0;
+               min: (FLOATINGBUTTON_2BTN_WIDTH-FLOATINGBUTTON_HANDLER_SIZE) 0;
             }
          }
-
+         part { name: "elm.track.right_hidden";
+            type: SPACER;
+            scale: 1;
+            description { state: "default" 0.0;
+               min: (FLOATINGBUTTON_1BTN_WIDTH-FLOATINGBUTTON_HANDLER_SIZE) 0;
+               fixed: 1 1;
+               align: 0.0 0.5;
+               rel1.relative: 1.0 0.0;
+               rel2.relative: 1.0 1.0;
+            }
+            description { state: "2buttons" 0.0;
+               inherit: "default" 0.0;
+               min: (FLOATINGBUTTON_2BTN_WIDTH-FLOATINGBUTTON_HANDLER_SIZE) 0;
+            }
+         }
+         part { name: "elm.track.fb";
+            type: SPACER;
+            scale: 1;
+            description { state: "default" 0.0;
+               rel1.to: "elm.track.left_hidden";
+               rel2.to: "elm.track.right_hidden";
+            }
+         }
          part { name: "left_spacer";
             type: SPACER;
             scale: 1;
             description { state: "default" 0.0;
-               rel1.to_x: "left_stretch_spacer";
-               rel2.to_x: "left_stretch_spacer";
-               fixed: 1 0;
+               min: FLOATINGBUTTON_LR_WIDTH 0;
+               fixed: 1 1;
                align: 1.0 0.5;
-               rel1.relative: 0.0 0.0;
-               rel2.relative: 0.0 1.0;
-               min : FB_SIDE_PADDING 0;
-            }
-         }
-         part { name: "right_stretch_spacer";
-            type: SPACER;
-            scale: 1;
-            description { state: "default" 0.0;
-               rel1.to_x: "button2";
-               rel2.to_x: "button2";
-               fixed: 1 0;
-               align: 0.0 0.5;
-               rel1.relative: 1.0 0.0;
-               rel2.relative: 1.0 1.0;
-               min : 0 0;
-            }
-            description { state: "btn1" 0.0;
-               inherit: "default" 0.0;
-               min : 0 0;
-            }
-            description { state: "btn2" 0.0;
-               inherit: "default" 0.0;
-               min : 0 0;
-            }
-            description { state: "state_1" 0.0;
-               inherit: "default" 0.0;
-               min : 0 0;
-            }
-            description { state: "state_2" 0.0;
-               inherit: "default" 0.0;
-               min : 0 0;
-            }
-            description { state: "state_3" 0.0;
-               inherit: "default" 0.0;
-               min : FB_STRETCH_PADDING_PERCENT_50 0;
-            }
-            description { state: "state_4" 0.0;
-               inherit: "default" 0.0;
-               min : FB_STRETCH_PADDING_PERCENT_100 0;
+               rel1 { to_x: "elm.swallow.box"; to_y: "elm.dragable.fb"; relative: 0.0 0.0; }
+               rel2 { to_x: "elm.swallow.box"; to_y: "elm.dragable.fb"; relative: 0.0 1.0; }
             }
          }
          part { name: "right_spacer";
             type: SPACER;
             scale: 1;
             description { state: "default" 0.0;
-               rel1.to_x: "right_stretch_spacer";
-               rel2.to_x: "right_stretch_spacer";
-               fixed: 1 0;
-               align: 0.0 0.5;
-               rel1.relative: 1.0 0.0;
-               rel2.relative: 1.0 1.0;
-               min : FB_SIDE_PADDING 0;
-            }
-         }
-         part { name: "elm.swallow.button_event";
-            type: SWALLOW;
-            repeat_events: 1;
-            description { state: "default" 0.0;
-               rel1.to: "elm.swallow.bg1";
-               rel2.to: "elm.swallow.bg1";
-               color : 128 0 0 128;
-            }
-         }
-         part { name: "button1";
-            type: SWALLOW;
-            repeat_events: 1;
-            description { state: "default" 0.0;
-               rel1.to: "mid_spacer";
-               rel2.to: "mid_spacer";
+               min: FLOATINGBUTTON_LR_WIDTH 0;
                fixed: 1 1;
-               align: 1.0 0.5;
-               rel1.relative: 0.0 0.5;
-               rel2.relative: 0.0 0.5;
-            }
-         }
-         part { name: "button2";
-            type: SWALLOW;
-            repeat_events: 1;
-            description { state: "default" 0.0;
-               fixed: 1 1;
-               rel1.to: "mid_spacer";
-               rel2.to: "mid_spacer";
                align: 0.0 0.5;
-               rel1.relative: 1.0 0.5;
-               rel2.relative: 1.0 0.5;
+               rel1 { to_x: "elm.swallow.box"; to_y: "elm.dragable.fb"; relative: 1.0 0.0; }
+               rel2 { to_x: "elm.swallow.box"; to_y: "elm.dragable.fb"; relative: 1.0 1.0; }
             }
          }
-         part { name: "event";
+         part { name: "elm.swallow.box";
+            type: SWALLOW;
+            scale: 1;
+            description { state: "default" 0.0;
+               min: 0 0;
+               fixed: 1 1;
+               align: 0.5 0.5;
+               rel1 { to: "elm.dragable.fb"; relative: 0.5 0.5; }
+               rel2 { to: "elm.dragable.fb"; relative: 0.5 0.5; }
+            }
+         }
+         part { name: "elm.dragable.fb";
             type: RECT;
+            scale: 1;
             repeat_events: 1;
             description { state: "default" 0.0;
+               min: FLOATINGBUTTON_1BTN_WIDTH FLOATINGBUTTON_HEIGHT;
+               fixed: 1 1;
+               align: 0.5 0.5;
+               rel1 { to: "elm.track.fb"; relative: 0.5 0.0; }
+               rel2 { to: "elm.track.fb"; relative: 0.5 1.0; }
                color: 0 0 0 0;
-               rel1.to: "elm.swallow.bg1";
-               rel2.to: "elm.swallow.bg1";
+            }
+            description { state: "2buttons" 0.0;
+               inherit: "default" 0.0;
+               min: FLOATINGBUTTON_2BTN_WIDTH FLOATINGBUTTON_HEIGHT;
+            }
+            dragable {
+               x: 1 1 0;
+               y: 0 0 0;
+               confine: "elm.track.fb";
             }
          }
       }
       programs {
-         program { name: "pressed";
-            signal: "mouse,down,1*";
-            source: "event";
-            action: STATE_SET "pressed" 0.0;
-            target: "bg1_clipper";
-         }
-         program { name: "unpressed";
-            signal: "mouse,up,1";
-            source: "event";
-            action: STATE_SET "default" 0.0;
-            target: "bg1_clipper";
-         }
-         program { name: "button1_show";
-            signal: "elm,state,button1,visible";
-            source: "elm";
+         program {
+            signal: "load";
             script {
-               set_int(btn1_added, 1)
-               if ((get_int(btn2_added) == 1)) {
-                  run_program(PROGRAM:"both_btn");
-               } else {
-                  run_program(PROGRAM:"btn1only");
-               }
+               custom_state(PART:"left_spacer", "default", 0.0);
+               custom_state(PART:"right_spacer", "default", 0.0);
             }
          }
-         program { name: "button2_show";
-            signal: "elm,state,button2,visible";
-            source: "elm";
-            script {
-               set_int(btn2_added, 1)
-               if ((get_int(btn1_added) == 1)) {
-                  run_program(PROGRAM:"both_btn");
-               } else {
-                  run_program(PROGRAM:"btn2only");
-               }
-            }
-         }
-         program { name: "button1_hide";
-            signal: "elm,state,button1,hidden";
-            source: "elm";
-            script {
-               set_int(btn1_added, 0);
-               run_program(PROGRAM:"btn2only");
-            }
-         }
-         program { name: "button2_hide";
-            signal: "elm,state,button2,hidden";
-            source: "elm";
-            script {
-               set_int(btn2_added, 0);
-               run_program(PROGRAM:"btn1only");
-            }
-         }
-
-         program { name: "both_btn";
-            action: STATE_SET "default" 0.0;
-            target: "mid_spacer";
-            target: "left_spacer";
-            target: "right_spacer";
-            target: "left_stretch_spacer";
-            target: "right_stretch_spacer";
-            target: "button1";
-            target: "button2";
-            target: "elm.swallow.bg1";
-         }
-
-         program { name: "btn1only";
-            action: STATE_SET "btn1" 0.0;
-            target: "mid_spacer";
-            target: "left_stretch_spacer";
-            target: "right_stretch_spacer";
-         }
-
-         program { name: "btn2only";
-            action: STATE_SET "btn2" 0.0;
-            target: "mid_spacer";
-            target: "left_stretch_spacer";
-            target: "right_stretch_spacer";
-         }
-
          program {
             signal: "elm,floatingbutton,state,0";
             source: "elm";
             action: STATE_SET "default" 0.0;
-            transition: DECELERATE STRETCH_ANIM_TIME;
-            target: "left_stretch_spacer";
-            target: "right_stretch_spacer";
+            target: "elm.dragable.fb";
+            target: "elm.track.left_hidden";
+            target: "elm.track.right_hidden";
          }
          program {
             signal: "elm,floatingbutton,state,1";
             source: "elm";
-            action: STATE_SET "state_1" 0.0;
-            transition: DECELERATE STRETCH_ANIM_TIME;
-            target: "left_stretch_spacer";
-            target: "right_stretch_spacer";
+            action: STATE_SET "2buttons" 0.0;
+            target: "elm.dragable.fb";
+            target: "elm.track.left_hidden";
+            target: "elm.track.right_hidden";
          }
-         program {
-            signal: "elm,floatingbutton,state,2";
-            source: "elm";
-            action: STATE_SET "state_2" 0.0;
-            transition: DECELERATE STRETCH_ANIM_TIME;
-            target: "left_stretch_spacer";
-            target: "right_stretch_spacer";
+         program { name: "mouse_down";
+            signal: "mouse,down,1";
+            source: "elm.dragable.fb";
+            script {
+               new x, y, w, h;
+               get_geometry(PART:"elm.dragable.fb", x, y, w, h);
+               set_int(g_prev_x, x);
+               set_int(mouse_down, 1);
+               set_state(PART:"vg_clipper", "pressed", 0.0);
+            }
          }
-         program {
-            signal: "elm,floatingbutton,state,3";
-            source: "elm";
+         program { name: "mouse_up";
+            signal: "mouse,up,1";
+            source: "elm.dragable.fb";
+            script {
+               set_int(mouse_down, 0);
+               set_state(PART:"vg_clipper", "default", 0.0);
+            }
+         }
+         program { name: "mouse_move";
+            signal: "mouse,move";
+            source: "elm.dragable.fb";
+            script {
+               new prev_x;
+               prev_x = get_int(g_prev_x);
+
+               if (get_int(mouse_down) == 1) {
+                  new x, y, w, h;
+                  new x1, y1, w1, h1;
+                  get_geometry(PART:"elm.dragable.fb", x, y, w, h);
+
+                  if (prev_x < x)
+                  {
+                     get_geometry(PART:"left_spacer", x1, y1, w1, h1);
+
+                     if (w1 + x - prev_x < FLOATINGBUTTON_LR_MAX_WIDTH)
+                        set_state_val(PART:"left_spacer", STATE_MIN, (w1 + x - prev_x), 0);
+                     else
+                        set_state_val(PART:"left_spacer", STATE_MIN, FLOATINGBUTTON_LR_MAX_WIDTH, 0);
+
+                     set_state(PART:"left_spacer", "custom", 0.0);
+                     run_program(PROGRAM:"left_spacer_animation");
+                  }
+                  else
+                  {
+                     get_geometry(PART:"right_spacer", x1, y1, w1, h1);
+
+                     if (w1 - x + prev_x < FLOATINGBUTTON_LR_MAX_WIDTH)
+                        set_state_val(PART:"right_spacer", STATE_MIN, (w1 - x + prev_x), 0);
+                     else
+                        set_state_val(PART:"right_spacer", STATE_MIN, FLOATINGBUTTON_LR_MAX_WIDTH, 0);
+
+                     set_state(PART:"right_spacer", "custom", 0.0);
+                     run_program(PROGRAM:"right_spacer_animation");
+                  }
+                  set_int(g_prev_x, x);
+               }
+            }
+         }
+         program { name: "left_spacer_animation";
             action: STATE_SET "default" 0.0;
-            transition: DECELERATE STRETCH_ANIM_TIME;
-            target: "left_stretch_spacer";
-            target: "right_stretch_spacer";
+            transition: DECEL 0.5;
+            target: "left_spacer";
          }
-         program {
-            signal: "elm,floatingbutton,state,4";
-            source: "elm";
-            action: STATE_SET "state_3" 0.0;
-            transition: DECELERATE STRETCH_ANIM_TIME;
-            target: "left_stretch_spacer";
-            target: "right_stretch_spacer";
+         program { name: "right_spacer_animation";
+            action: STATE_SET "default" 0.5;
+            transition: DECEL 1.0;
+            target: "right_spacer";
          }
-         program {
-            signal: "elm,floatingbutton,state,5";
+         program { name: "fixed_set";
+            signal: "elm,floatingbutton,state,fixed";
             source: "elm";
-            action: STATE_SET "state_4" 0.0;
-            transition: DECELERATE STRETCH_ANIM_TIME;
-            target: "left_stretch_spacer";
-            target: "right_stretch_spacer";
+            script {
+               set_mouse_events(PART:"elm.dragable.fb", 0);
+            }
          }
-         program {
-            signal: "elm,floatingbutton,state,6";
+         program { name: "nonfixed_set";
+            signal: "elm,floatingbutton,state,nonfixed";
             source: "elm";
-            action: STATE_SET "default" 0.0;
-            transition: DECELERATE STRETCH_ANIM_TIME;
-            target: "left_stretch_spacer";
-            target: "right_stretch_spacer";
+            script {
+               set_mouse_events(PART:"elm.dragable.fb", 1);
+            }
          }
       }
    }
-

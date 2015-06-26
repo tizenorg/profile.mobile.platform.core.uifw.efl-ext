@@ -6,8 +6,6 @@ Group:      System/Libraries
 License:    Apache-2.0
 URL:        http://www.tizen.org/
 Source0:    %{name}-%{version}.tar.gz
-BuildRequires:  pkgconfig(ecore)
-BuildRequires:  pkgconfig(ecore-x)
 BuildRequires:  pkgconfig(elementary)
 BuildRequires:  pkgconfig(dlog)
 BuildRequires:  pkgconfig(x11)
@@ -18,7 +16,6 @@ BuildRequires:  pkgconfig(fontconfig)
 BuildRequires:  gettext
 BuildRequires:  cmake
 BuildRequires:  pkgconfig(cairo)
-BuildRequires:  eo-devel
 BuildRequires:  eolian-devel
 Requires(post): /sbin/ldconfig
 Requires(postun): /sbin/ldconfig
