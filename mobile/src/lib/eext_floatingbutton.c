@@ -103,12 +103,6 @@ _box_recalc(Eo *obj, Eext_Floatingbutton_Data *sd)
 }
 
 static void
-_resize_cb(void *data, Evas *e EINA_UNUSED, Evas_Object *obj, void *event_info EINA_UNUSED)
-{
-   _pos_recalc(obj, data);
-}
-
-static void
 _vg_resize_cb(void *data, Evas *e EINA_UNUSED, Evas_Object *obj, void *event_info EINA_UNUSED)
 {
    Evas_Coord x, y, w, h;
@@ -147,6 +141,13 @@ _update_pos(Eo *obj, Eext_Floatingbutton_Data *fbd, Eina_Bool anim)
      edje_object_part_drag_value_set(elm_layout_edje_get(obj), DRAGABLE_PART, fbd->pos_table[fbd->pos], 0.5);
    else
      ecore_animator_timeline_add(0.2, _anim_cb, obj);
+}
+
+static void
+_resize_cb(void *data, Evas *e EINA_UNUSED, Evas_Object *obj, void *event_info EINA_UNUSED)
+{
+   _pos_recalc(obj, data);
+   _update_pos(obj, data, EINA_FALSE);
 }
 
 static void
