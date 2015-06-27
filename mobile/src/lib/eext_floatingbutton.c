@@ -29,7 +29,9 @@
 #define MY_CLASS_NAME "Eext_Floatingbutton"
 #define MY_CLASS_NAME_LEGACY "eext_floatingbutton"
 
-#define ELM_SCALE_SIZE(x) (((x) / elm_app_base_scale_get()) * elm_config_scale_get())
+#define EEXT_SCALE_SIZE(x, obj) ((x) / edje_object_base_scale_get(elm_layout_edje_get(obj)) \
+                                     * elm_config_scale_get() \
+                                     * elm_object_scale_get(obj))
 
 #define FLOATINGBUTTON_MID_PADDING_WIDTH 20
 
@@ -40,21 +42,22 @@ static const char *TRACK_PART = "elm.track.fb";
 
 typedef struct _Eext_Floatingbutton_Data {
 
-   Evas_Object *box;
-   Evas_Object *vg;
-   Efl_VG_Shape *base_shape;
+   Eo                      *obj;
+   Evas_Object             *box;
+   Evas_Object             *vg;
+   Efl_VG_Shape            *base_shape;
 
-   Evas_Object *btn1;
-   Evas_Object *btn2;
+   Evas_Object             *btn1;
+   Evas_Object             *btn2;
 
-   Evas_Coord x;
-   int dir;
+   Evas_Coord               x;
+   int                      dir;
 
-   Eext_Floatingbutton_Pos pos;
-   double last_pos;
-   double pos_table[EEXT_FLOATINGBUTTON_LAST];
+   Eext_Floatingbutton_Pos  pos;
+   double                   last_pos;
+   double                   pos_table[EEXT_FLOATINGBUTTON_LAST];
 
-   Eina_Bool pos_fixed : 1;
+   Eina_Bool                pos_fixed : 1;
 
 } Eext_Floatingbutton_Data;
 
@@ -74,13 +77,13 @@ _pos_recalc(Eo *obj, Eext_Floatingbutton_Data *sd)
 
    if (count >= 2)
      {
-        sd->pos_table[EEXT_FLOATINGBUTTON_LEFT] = ELM_SCALE_SIZE(261) / (double)w;
-        sd->pos_table[EEXT_FLOATINGBUTTON_RIGHT] = (w - ELM_SCALE_SIZE(261)) / (double)w;
+        sd->pos_table[EEXT_FLOATINGBUTTON_LEFT] = EEXT_SCALE_SIZE(261, obj) / (double)w;
+        sd->pos_table[EEXT_FLOATINGBUTTON_RIGHT] = (w - EEXT_SCALE_SIZE(261, obj)) / (double)w;
      }
    else
      {
-        sd->pos_table[EEXT_FLOATINGBUTTON_LEFT] = ELM_SCALE_SIZE(129) / (double)w;
-        sd->pos_table[EEXT_FLOATINGBUTTON_RIGHT] = (w -ELM_SCALE_SIZE(129)) / (double)w;
+        sd->pos_table[EEXT_FLOATINGBUTTON_LEFT] = EEXT_SCALE_SIZE(129, obj) / (double)w;
+        sd->pos_table[EEXT_FLOATINGBUTTON_RIGHT] = (w - EEXT_SCALE_SIZE(129, obj)) / (double)w;
      }
 }
 
@@ -105,12 +108,13 @@ _box_recalc(Eo *obj, Eext_Floatingbutton_Data *sd)
 static void
 _vg_resize_cb(void *data, Evas *e EINA_UNUSED, Evas_Object *obj, void *event_info EINA_UNUSED)
 {
+   Eext_Floatingbutton_Data *fbd = data;
    Evas_Coord x, y, w, h;
+
    evas_object_geometry_get(obj, &x, &y, &w, &h);
-   //Base Shape
-   evas_vg_shape_shape_reset((Efl_VG_Shape *)data);
-   evas_vg_shape_shape_append_rect((Efl_VG_Shape *)data, 0, 0, w, h,
-                                   ELM_SCALE_SIZE(50), 100);
+
+   evas_vg_shape_shape_reset(fbd->base_shape);
+   evas_vg_shape_shape_append_rect(fbd->base_shape, 0, 0, w, h, EEXT_SCALE_SIZE(50, fbd->obj), 100);
 }
 
 static Eina_Bool
@@ -193,7 +197,7 @@ _on_mouse_up(void *data, Evas_Object *obj, const char *emission, const char *sou
         edje_object_part_geometry_get(edje, TRACK_PART, NULL, NULL, &track_w, NULL);
         edje_object_part_geometry_get(edje, "elm.track.left_hidden", NULL, NULL, &left_w, NULL);
 
-        cur_pos = (left_w + cur_x + ELM_SCALE_SIZE((count >= 2) ? (290 / 2) : (185 / 2))) / (double)track_w;
+        cur_pos = (left_w + cur_x + EEXT_SCALE_SIZE(((count >= 2) ? (290 / 2) : (185 / 2)), fbd->obj)) / (double)track_w;
 
         if (fbd->dir > 0)
           {
@@ -282,6 +286,8 @@ _eext_floatingbutton_evas_object_smart_add(Eo *obj, Eext_Floatingbutton_Data *pr
    eo_do_super(obj, MY_CLASS, evas_obj_smart_add());
    elm_widget_sub_object_parent_add(obj);
 
+   priv->obj = obj;
+
    snprintf(buf, sizeof(buf), "elm/floatingbutton/base/%s", elm_widget_style_get(obj));
    elm_layout_file_set(obj, EFL_EXTENSION_EDJ, buf);
    evas_object_event_callback_add(obj, EVAS_CALLBACK_RESIZE, _resize_cb, priv);
@@ -295,11 +301,11 @@ _eext_floatingbutton_evas_object_smart_add(Eo *obj, Eext_Floatingbutton_Data *pr
    Efl_VG *base_root = evas_object_vg_root_node_get(priv->vg);
    priv->base_shape = evas_vg_shape_add(base_root);
    evas_vg_node_color_set(priv->base_shape, 255, 255, 255, 255);
-   evas_object_event_callback_add(priv->vg, EVAS_CALLBACK_RESIZE, _vg_resize_cb, priv->base_shape);
+   evas_object_event_callback_add(priv->vg, EVAS_CALLBACK_RESIZE, _vg_resize_cb, priv);
 
    priv->box = elm_box_add(obj);
    elm_box_horizontal_set(priv->box, EINA_TRUE);
-   elm_box_padding_set(priv->box, ELM_SCALE_SIZE(FLOATINGBUTTON_MID_PADDING_WIDTH), 0);
+   elm_box_padding_set(priv->box, EEXT_SCALE_SIZE(FLOATINGBUTTON_MID_PADDING_WIDTH, obj), 0);
    elm_object_part_content_set(obj, "elm.swallow.box", priv->box);
 
    priv->pos = EEXT_FLOATINGBUTTON_RIGHT;
