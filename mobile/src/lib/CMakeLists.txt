@@ -22,9 +22,11 @@ foreach(eo_file ${ALL_EO_FILES})
 		COMMENT "Compiling Eo: ${eo_file}, Output eo : ${out_c_file}"
 		VERBATIM)
 	add_custom_target(target_${eo_file} ALL DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/${out_c_file})
+	SET (ALL_EO_TARGETS ${ALL_EO_TARGETS} target_${eo_file})
 endforeach(eo_file)
 
 ADD_LIBRARY(${LIB_NAME} SHARED ${LIB_SRCS})
+ADD_DEPENDENCIES(${LIB_NAME} ${ALL_EO_TARGETS}
 
 ADD_DEFINITIONS("-DEXPORT_API=__attribute__((visibility(\"default\")))")
 PKG_CHECK_MODULES(LIB_PKGS REQUIRED
