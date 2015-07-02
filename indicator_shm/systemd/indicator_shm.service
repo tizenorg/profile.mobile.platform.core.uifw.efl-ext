@@ -1,0 +1,16 @@
+[Unit]
+Description=Indicator SHM
+After=tizen-runtime.target e17.service
+Requires=tizen-runtime.target
+
+[Service]
+User=app
+Group=app
+SmackProcessLabel=org.tizen.indicator_shm
+Type=oneshot
+RemainAfterExit=yes
+ExecStart=/opt/usr/apps/org.tizen.indicator_shm/bin/indicator_shm
+EnvironmentFile=/run/tizen-mobile-env
+
+[Install]
+WantedBy=multi-user.target

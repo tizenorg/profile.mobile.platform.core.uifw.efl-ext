@@ -1,0 +1,36 @@
+CMAKE_MINIMUM_REQUIRED(VERSION 2.6)
+PROJECT(indicator_shm C)
+
+SET(PREFIX "/opt/usr/apps/org.tizen.indicator_shm")
+SET(VERSION 0.1.0)
+
+SET(SRCS src/indicator_shm.c
+)
+
+INCLUDE_DIRECTORIES(${CMAKE_CURRENT_SOURCE_DIR})
+
+
+FOREACH(flag ${pkgs_CFLAGS})
+	SET(EXTRA_CFLAGS "${EXTRA_CFLAGS} ${flag}")
+ENDFOREACH(flag)
+
+SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${EXTRA_CFLAGS} -fvisibility=hidden -Wall -fPIC -g")
+
+SET(CMAKE_CXX_FLAGS_PROFILING  "-O0 -std=c++0x -g -pg -fPIE")
+SET(CMAKE_C_FLAGS_DEBUG        "-O0 -g -fPIE")
+SET(CMAKE_CXX_FLAGS_DEBUG      "-O0 -std=c++0x -g -fPIE")
+SET(CMAKE_C_FLAGS_RELEASE      "-O2 -g -fPIE")
+SET(CMAKE_CXX_FLAGS_RELEASE    "-O2 -std=c++0x -g -fPIE")
+SET(CMAKE_C_FLAGS_CCOV         "-O2 -g --coverage -fPIE")
+SET(CMAKE_CXX_FLAGS_CCOV       "-O2 -std=c++0x -g --coverage -fPIE")
+
+SET(CMAKE_EXE_LINKER_FLAGS "-Wl,--as-needed -pie")
+
+ADD_EXECUTABLE(${PROJECT_NAME} ${SRCS})
+TARGET_LINK_LIBRARIES(${PROJECT_NAME} -lrt)
+TARGET_LINK_LIBRARIES(${PROJECT_NAME} ${pkgs_LDFLAGS})
+
+
+INSTALL(TARGETS ${PROJECT_NAME} DESTINATION ${PREFIX}/bin)
+INSTALL(FILES ${CMAKE_CURRENT_SOURCE_DIR}/systemd/indicator_shm.service DESTINATION /usr/lib/systemd/user)
+INSTALL(FILES ${CMAKE_CURRENT_SOURCE_DIR}/systemd/indicator_shm.service DESTINATION /usr/lib/systemd/system)

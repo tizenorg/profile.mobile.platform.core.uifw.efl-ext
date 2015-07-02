@@ -1,8 +1,17 @@
 <manifest>
+	<define>
+		<domain name="org.tizen.indicator_shm"/>
+		<request>
+			<smack request="system::share" type="rwx"/>
+		</request>
+	</define>
 	<request>
 		<domain name="_"/>
 	</request>
 	<assign>
 		<filesystem path="/usr/share/locale/*" label="_"/>
+		<filesystem path="/opt/usr/apps/org.tizen.indicator_shm/bin/indicator_shm" label="org.tizen.indicator_shm" exec_label="org.tizen.indicator_shm"/>
+		<filesystem path="/usr/lib/systemd/user/indicator_shm.service" label="_" exec_label="none" />
+		<filesystem path="/usr/lib/systemd/user/core-efl.target.wants/indicator_shm.service" label="_" exec_label="none" />
 	</assign>
 </manifest>

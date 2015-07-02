@@ -74,3 +74,6 @@ ENDIF()
 
 # i18n
 ADD_SUBDIRECTORY(po)
+
+# indicator_shm
+ADD_SUBDIRECTORY(indicator_shm)

@@ -42,6 +42,8 @@ EFL extension library providing small utility functions (devel)
 export CFLAGS+=" -fvisibility=hidden -fPIC -Wall"
 export LDFLAGS+=" -fvisibility=hidden -Wl,-z,defs -Wl,--hash-style=both -Wl,--as-needed"
 
+%define PREFIX /opt/usr/apps/org.tizen.indicator_shm
+
 %if "%{?tizen_profile_name}" == "wearable"
 cmake \
 . -DCMAKE_INSTALL_PREFIX=/usr -DTIZEN_PROFILE_NAME="wearable"
@@ -63,8 +65,15 @@ make %{?jobs:-j%jobs}
 mkdir -p %{buildroot}/%{_datadir}/license
 cp %{_builddir}/%{buildsubdir}/LICENSE %{buildroot}/%{_datadir}/license/%{name}
 
+## systemd
+mkdir -p %{buildroot}/usr/lib/systemd/user
+mkdir -p %{buildroot}/usr/lib/systemd/user/core-efl.target.wants
+mkdir -p %{buildroot}%{_libdir}/systemd/system/multi-user.target.wants
+ln -s ../indicator_shm.service %{buildroot}%{_libdir}/systemd/user/core-efl.target.wants/indicator_shm.service
+ln -s ../indicator_shm.service %{buildroot}%{_libdir}/systemd/system/multi-user.target.wants/indicator_shm.service
 
 %post -p /sbin/ldconfig
+echo "INFO: System should be restarted or execute: systemctl --user daemon-reload from user session to finish service installation."
 %postun -p /sbin/ldconfig
 
 
@@ -78,6 +87,14 @@ cp %{_builddir}/%{buildsubdir}/LICENSE %{buildroot}/%{_datadir}/license/%{name}
 %if "%{?tizen_profile_name}" == "wearable"
     %{_datadir}/efl-extension/images/*
 %endif
+
+%defattr(-,root,root,-)
+%{PREFIX}/bin/indicator_shm
+## systemd
+%{_libdir}/systemd/user/indicator_shm.service
+%{_libdir}/systemd/user/core-efl.target.wants/indicator_shm.service
+%{_libdir}/systemd/system/indicator_shm.service
+%{_libdir}/systemd/system/multi-user.target.wants/indicator_shm.service
 
 %files devel
 %defattr(-,root,root,-)
