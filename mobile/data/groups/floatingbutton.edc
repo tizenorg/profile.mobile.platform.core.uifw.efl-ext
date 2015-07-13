@@ -25,8 +25,15 @@
 
    group { name: "elm/floatingbutton/base/default";
       script {
-         public mouse_down = 0;
-         public g_prev_x = 0;
+         public mouse_down= 0, g_prev_x = 0, g_width;
+
+         public message(Msg_Type:type, id, ...) {
+            if ((type == MSG_INT) && (id == 0)) {
+               new width;
+               width = getarg(2);
+               set_int(g_width, width);
+            }
+         }
       }
       parts {
          part { name: "elm.swallow.vg";
@@ -147,6 +154,19 @@
                x: 1 1 0;
                y: 0 0 0;
                confine: "elm.track.fb";
+               threshold: "elm.threshold.fb";
+            }
+         }
+         part { name : "elm.threshold.fb";
+            type: RECT;
+            scale: 1;
+            repeat_events: 1;
+            description { state: "default" 0.0;
+               min: 0 FLOATINGBUTTON_HEIGHT;
+               align: 0.5 0.5;
+               rel1 { to: "elm.track.fb"; relative: 0.5 0.0; }
+               rel2 { to: "elm.track.fb"; relative: 0.5 1.0; }
+               color: 0 0 0 0;
             }
          }
       }
@@ -156,6 +176,8 @@
             script {
                custom_state(PART:"left_spacer", "default", 0.0);
                custom_state(PART:"right_spacer", "default", 0.0);
+               custom_state(PART:"elm.threshold.fb", "default", 0.0);
+               set_state(PART:"elm.threshold.fb", "custom", 0.0);
             }
          }
          program {
@@ -173,6 +195,26 @@
             target: "elm.dragable.fb";
             target: "elm.track.left_hidden";
             target: "elm.track.right_hidden";
+         }
+         program {
+            signal: "elm,floatingbutton,threshold,update";
+            source: "elm";
+            script {
+               new width, Float:pos;
+               new x, y, w, h;
+               new x1, y1, w1, h1;
+
+               width = get_int(g_width);
+               set_state_val(PART:"elm.threshold.fb", STATE_MIN, width, 0);
+
+               get_geometry(PART:"elm.track.fb", x, y, w, h);
+               get_geometry(PART:"elm.dragable.fb", x1, y1, w1, h1);
+
+               pos = ((x1 - x) + float(w1) / 2) / w;
+
+               set_state_val(PART:"elm.threshold.fb", STATE_REL1, pos, 0.0);
+               set_state_val(PART:"elm.threshold.fb", STATE_REL2, pos, 1.0);
+            }
          }
          program { name: "mouse_down";
             signal: "mouse,down,1";
@@ -210,21 +252,21 @@
                      get_geometry(PART:"left_spacer", x1, y1, w1, h1);
 
                      if (w1 + x - prev_x < FLOATINGBUTTON_LR_MAX_WIDTH)
-                        set_state_val(PART:"left_spacer", STATE_MIN, (w1 + x - prev_x), 0);
+                       set_state_val(PART:"left_spacer", STATE_MIN, (w1 + x - prev_x), 0);
                      else
-                        set_state_val(PART:"left_spacer", STATE_MIN, FLOATINGBUTTON_LR_MAX_WIDTH, 0);
+                       set_state_val(PART:"left_spacer", STATE_MIN, FLOATINGBUTTON_LR_MAX_WIDTH, 0);
 
                      set_state(PART:"left_spacer", "custom", 0.0);
                      run_program(PROGRAM:"left_spacer_animation");
                   }
-                  else
+                  else if (prev_x > x)
                   {
                      get_geometry(PART:"right_spacer", x1, y1, w1, h1);
 
                      if (w1 - x + prev_x < FLOATINGBUTTON_LR_MAX_WIDTH)
-                        set_state_val(PART:"right_spacer", STATE_MIN, (w1 - x + prev_x), 0);
+                       set_state_val(PART:"right_spacer", STATE_MIN, (w1 - x + prev_x), 0);
                      else
-                        set_state_val(PART:"right_spacer", STATE_MIN, FLOATINGBUTTON_LR_MAX_WIDTH, 0);
+                       set_state_val(PART:"right_spacer", STATE_MIN, FLOATINGBUTTON_LR_MAX_WIDTH, 0);
 
                      set_state(PART:"right_spacer", "custom", 0.0);
                      run_program(PROGRAM:"right_spacer_animation");
@@ -240,7 +282,7 @@
          }
          program { name: "right_spacer_animation";
             action: STATE_SET "default" 0.5;
-            transition: DECEL 1.0;
+            transition: DECEL 0.5;
             target: "right_spacer";
          }
          program { name: "fixed_set";
@@ -255,6 +297,20 @@
             source: "elm";
             script {
                set_mouse_events(PART:"elm.dragable.fb", 1);
+            }
+         }
+         program {
+            signal: "elm,floatingbutton,state,freeze";
+            source: "elm";
+            script {
+               set_mask_flags(PART:"elm.dragable.fb", 1);
+            }
+         }
+         program {
+            signal: "elm,floatingbutton,state,thaw";
+            source: "elm";
+            script {
+               set_mask_flags(PART:"elm.dragable.fb", 0);
             }
          }
       }
