@@ -85,7 +85,7 @@ _threshold_update(Eo *obj, Eext_Floatingbutton_Data *sd)
    edje_object_part_geometry_get(edje, DRAGABLE_PART, NULL, NULL, &w1, NULL);
 
    msg->val = w1 + EEXT_SCALE_SIZE(40, obj);
-   edje_object_message_send(elm_layout_edje_get(obj), EDJE_MESSAGE_INT, MSG_THRESHOLD, msg);
+   edje_object_message_send(edje, EDJE_MESSAGE_INT, MSG_THRESHOLD, msg);
    free(msg);
 
    elm_layout_signal_emit(obj, "elm,floatingbutton,threshold,update", "elm");

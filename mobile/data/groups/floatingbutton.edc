@@ -16,7 +16,7 @@
  */
 
 #define FLOATINGBUTTON_LR_WIDTH 50
-#define FLOATINGBUTTON_LR_MAX_WIDTH 70
+#define FLOATINGBUTTON_LR_MAX_VARIATION 20
 #define FLOATINGBUTTON_MID_WIDTH 20
 #define FLOATINGBUTTON_1BTN_WIDTH 185
 #define FLOATINGBUTTON_2BTN_WIDTH 290
@@ -26,6 +26,7 @@
    group { name: "elm/floatingbutton/base/default";
       script {
          public mouse_down= 0, g_prev_x = 0, g_width;
+         public left_timer, right_timer;
 
          public message(Msg_Type:type, id, ...) {
             if ((type == MSG_INT) && (id == 0)) {
@@ -33,6 +34,12 @@
                width = getarg(2);
                set_int(g_width, width);
             }
+         }
+         public left_anim_go() {
+            run_program(PROGRAM:"left_spacer_animation");
+         }
+         public right_anim_go() {
+            run_program(PROGRAM:"right_spacer_animation");
          }
       }
       parts {
@@ -42,8 +49,8 @@
             clip_to: "vg_clipper";
             description { state: "default" 0.0;
                fixed: 1 1;
-               rel1.to: "left_spacer";
-               rel2.to: "right_spacer";
+               rel1.to: "left_expand";
+               rel2.to: "right_expand";
             }
          }
          part { name: "vg_clipper";
@@ -99,6 +106,26 @@
             description { state: "default" 0.0;
                rel1.to: "elm.track.left_hidden";
                rel2.to: "elm.track.right_hidden";
+            }
+         }
+         part { name: "left_expand";
+            type: SPACER;
+            description { state: "default" 0.0;
+               min: 0 0;
+               fixed: 1 1;
+               align: 1.0 0.5;
+               rel1 { to: "left_spacer"; relative: 0.0 0.0; }
+               rel2 { to: "left_spacer"; relative: 0.0 1.0; }
+            }
+         }
+         part { name: "right_expand";
+            type: SPACER;
+            description { state: "default" 0.0;
+               min: 0 0;
+               fixed: 1 1;
+               align: 0.0 0.5;
+               rel1 { to: "right_spacer"; relative: 1.0 0.0; }
+               rel2 { to: "right_spacer"; relative: 1.0 1.0; }
             }
          }
          part { name: "left_spacer";
@@ -163,6 +190,7 @@
             repeat_events: 1;
             description { state: "default" 0.0;
                min: 0 FLOATINGBUTTON_HEIGHT;
+               fixed: 1 1;
                align: 0.5 0.5;
                rel1 { to: "elm.track.fb"; relative: 0.5 0.0; }
                rel2 { to: "elm.track.fb"; relative: 0.5 1.0; }
@@ -174,8 +202,8 @@
          program {
             signal: "load";
             script {
-               custom_state(PART:"left_spacer", "default", 0.0);
-               custom_state(PART:"right_spacer", "default", 0.0);
+               custom_state(PART:"left_expand", "default", 0.0);
+               custom_state(PART:"right_expand", "default", 0.0);
                custom_state(PART:"elm.threshold.fb", "default", 0.0);
                set_state(PART:"elm.threshold.fb", "custom", 0.0);
             }
@@ -245,31 +273,44 @@
                if (get_int(mouse_down) == 1) {
                   new x, y, w, h;
                   new x1, y1, w1, h1;
+
                   get_geometry(PART:"elm.dragable.fb", x, y, w, h);
 
                   if (prev_x < x)
                   {
-                     get_geometry(PART:"left_spacer", x1, y1, w1, h1);
+                     get_geometry(PART:"left_expand", x1, y1, w1, h1);
 
-                     if (w1 + x - prev_x < FLOATINGBUTTON_LR_MAX_WIDTH)
-                       set_state_val(PART:"left_spacer", STATE_MIN, (w1 + x - prev_x), 0);
+                     if ((w1 + x - prev_x) < FLOATINGBUTTON_LR_MAX_VARIATION)
+                       set_state_val(PART:"left_expand", STATE_REL1_OFFSET, -(w1 + x - prev_x), 0);
                      else
-                       set_state_val(PART:"left_spacer", STATE_MIN, FLOATINGBUTTON_LR_MAX_WIDTH, 0);
+                       set_state_val(PART:"left_expand", STATE_REL1_OFFSET, -FLOATINGBUTTON_LR_MAX_VARIATION, 0);
 
-                     set_state(PART:"left_spacer", "custom", 0.0);
-                     run_program(PROGRAM:"left_spacer_animation");
+                     set_state(PART:"left_expand", "custom", 0.0);
+
+                     new id;
+                     id = get_int(left_timer);
+                     cancel_timer(id);
+
+                     id = timer(0.01, "left_anim_go", 1);
+                     set_int(left_timer, id);
                   }
                   else if (prev_x > x)
                   {
-                     get_geometry(PART:"right_spacer", x1, y1, w1, h1);
+                     get_geometry(PART:"right_expand", x1, y1, w1, h1);
 
-                     if (w1 - x + prev_x < FLOATINGBUTTON_LR_MAX_WIDTH)
-                       set_state_val(PART:"right_spacer", STATE_MIN, (w1 - x + prev_x), 0);
+                     if ((w1 + prev_x - x) < FLOATINGBUTTON_LR_MAX_VARIATION)
+                       set_state_val(PART:"right_expand", STATE_REL2_OFFSET, (w1 + prev_x - x), 0);
                      else
-                       set_state_val(PART:"right_spacer", STATE_MIN, FLOATINGBUTTON_LR_MAX_WIDTH, 0);
+                       set_state_val(PART:"right_expand", STATE_REL2_OFFSET, FLOATINGBUTTON_LR_MAX_VARIATION, 0);
 
-                     set_state(PART:"right_spacer", "custom", 0.0);
-                     run_program(PROGRAM:"right_spacer_animation");
+                     set_state(PART:"right_expand", "custom", 0.0);
+
+                     new id;
+                     id = get_int(right_timer);
+                     cancel_timer(id);
+
+                     id = timer(0.01, "right_anim_go", 1);
+                     set_int(right_timer, id);
                   }
                   set_int(g_prev_x, x);
                }
@@ -278,12 +319,12 @@
          program { name: "left_spacer_animation";
             action: STATE_SET "default" 0.0;
             transition: DECEL 0.5;
-            target: "left_spacer";
+            target: "left_expand";
          }
          program { name: "right_spacer_animation";
-            action: STATE_SET "default" 0.5;
+            action: STATE_SET "default" 0.0;
             transition: DECEL 0.5;
-            target: "right_spacer";
+            target: "right_expand";
          }
          program { name: "fixed_set";
             signal: "elm,floatingbutton,state,fixed";
