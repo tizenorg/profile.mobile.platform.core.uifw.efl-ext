@@ -111,7 +111,6 @@
          part { name: "left_expand";
             type: SPACER;
             description { state: "default" 0.0;
-               min: 0 0;
                fixed: 1 1;
                align: 1.0 0.5;
                rel1 { to: "left_spacer"; relative: 0.0 0.0; }
@@ -121,7 +120,6 @@
          part { name: "right_expand";
             type: SPACER;
             description { state: "default" 0.0;
-               min: 0 0;
                fixed: 1 1;
                align: 0.0 0.5;
                rel1 { to: "right_spacer"; relative: 1.0 0.0; }
@@ -299,9 +297,9 @@
                      get_geometry(PART:"right_expand", x1, y1, w1, h1);
 
                      if ((w1 + prev_x - x) < FLOATINGBUTTON_LR_MAX_VARIATION)
-                       set_state_val(PART:"right_expand", STATE_REL2_OFFSET, (w1 + prev_x - x), 0);
+                       set_state_val(PART:"right_expand", STATE_REL2_OFFSET, (w1 + prev_x - x), -1);
                      else
-                       set_state_val(PART:"right_expand", STATE_REL2_OFFSET, FLOATINGBUTTON_LR_MAX_VARIATION, 0);
+                       set_state_val(PART:"right_expand", STATE_REL2_OFFSET, FLOATINGBUTTON_LR_MAX_VARIATION, -1);
 
                      set_state(PART:"right_expand", "custom", 0.0);
 
