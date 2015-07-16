@@ -14,7 +14,6 @@ class Eext.Floatingbutton (Elm_Layout) {
             @since_tizen 2.4
 
             @ingroup Floatingbutton */
-
          }
          get {
             /*@
