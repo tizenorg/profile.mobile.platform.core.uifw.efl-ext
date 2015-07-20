@@ -26,7 +26,7 @@ extern "C" {
 
 /**
  * @defgroup EFL_EXTENSION_EVENTS_GROUP Efl Extension Event
- * @ingroup EFL_EXTENSION_GROUP
+ * @ingroup CAPI_EFL_EXTENSION_MODULE
  * @brief This group provides functionalities to handle back/send key events.
  * @since_tizen 2.3
  *
