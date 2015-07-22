@@ -1,7 +1,7 @@
 [Unit]
 Description=Indicator SHM
-After=tizen-runtime.target e17.service
-Requires=tizen-runtime.target
+DefaultDependencies=no
+After=wm_ready.service
 
 [Service]
 User=app
