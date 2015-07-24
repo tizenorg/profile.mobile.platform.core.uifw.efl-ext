@@ -36,7 +36,10 @@
  * Floatingbutton can be hidden by siganl emission.
  * @li show - elm_object_signal_emit(fb, "elm,state,show", "");
  * @li hide - elm_object_signal_emit(fb, "elm,state,hide", "");
- *
+ */
+
+/**
+ * addtogroup Floatingbutton
  * @{
  */
 #include "eext_floatingbutton_common.h"
