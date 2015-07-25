@@ -15,14 +15,4 @@
  *
  */
 
-/**
- * @ingroup Floatingbutton
- *
- * @{
- */
-
 #include "eext_floatingbutton.eo.h"
-
-/**
- * @}
- */

@@ -16,9 +16,12 @@
  */
 
 /**
+ * @MOBILE_ONLY
+ *
  * @brief Add a new floatingbutton to the parent
  *
- * @since_tizen 2.4
+ * @if MOBILE @since_tizen 2.4
+ * @endif
  *
  * @param[in] parent The parent object
  * @return The new object or NULL if it cannot be created

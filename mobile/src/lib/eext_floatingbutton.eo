@@ -4,6 +4,8 @@ class Eext.Floatingbutton (Elm_Layout) {
       pos {
          set {
             /*@
+            @MOBILE_ONLY
+
             @brief Set the floatingbutton position
 
             @remark The floatingbutton can be moved among fixed positions
@@ -11,19 +13,23 @@ class Eext.Floatingbutton (Elm_Layout) {
             eext_floatingbutton_pos_set() moves floatingbutton to a given position immediately
             (without animation).
 
-            @since_tizen 2.4
+            @if MOBILE @since_tizen 2.4
+            @endif
 
             @ingroup Floatingbutton */
          }
          get {
             /*@
+            @MOBILE_ONLY
+
             @brief Get the floatingbutton position
 
             @return Floatingbutton position with Eext_Floatingbutton_Pos enumeration
 
             @see eext_floatingbutton_position_set()
 
-            @since_tizen 2.4
+            @if MOBILE @since_tizen 2.4
+            @endif
 
             @ingroup Floatingbutton */
          }
@@ -34,16 +40,21 @@ class Eext.Floatingbutton (Elm_Layout) {
       pos_fixed {
          set {
             /*@
+            @MOBILE_ONLY
+
             @brief Set whether floatingbutton can be moved or not.
 
             @remark By default, floatingbutton are movable by user interaction.
 
-            @since_tizen 2.4
+            @if MOBILE @since_tizen 2.4
+            @endif
 
             @ingroup Floatingbutton */
          }
          get {
             /*@
+            @MOBILE_ONLY
+
             @brief Get movability for a given floatingbutton widget.
 
             @return @c EINA_TRUE, if @p obj is set to be unmovable,
@@ -51,7 +62,8 @@ class Eext.Floatingbutton (Elm_Layout) {
 
             @see eext_floatingbutton_pos_fixed_set()
 
-            @since_tizen 2.4
+            @if MOBILE @since_tizen 2.4
+            @endif
 
             @ingroup Floatingbutton */
          }
