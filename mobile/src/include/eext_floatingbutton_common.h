@@ -25,7 +25,7 @@
  * Positions where floatingbutton can be placed on
  */
 typedef enum {
-   EEXT_FLOATINGBUTTON_LEFT_OUT = 0, /**< hides in the left, but small hanlder will show only */
+   EEXT_FLOATINGBUTTON_LEFT_OUT = 0, /**< hides in the left, but small handler will show only */
    EEXT_FLOATINGBUTTON_LEFT, /**< shows all of buttons, but lies on the left */
    EEXT_FLOATINGBUTTON_CENTER, /**< shows all of buttons, but lies on the center */
    EEXT_FLOATINGBUTTON_RIGHT, /**< shows all of buttons, but lies on the right */
