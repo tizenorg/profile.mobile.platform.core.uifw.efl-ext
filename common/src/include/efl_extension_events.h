@@ -81,8 +81,8 @@ eext_ctxpopup_back_cb(void *data EINA_UNUSED, Evas_Object *obj, void *event_info
  * @brief Convenient macro function that sends more key events to the naviframe
  *        top item.
  *
- * @details Ctxpopup will be shown/hidden when naviframe has the more key event
- *          with eext_object_event_callback_add()
+ * @details More key action of naviframe will be executed when naviframe has the
+ *          more key event with eext_object_event_callback_add()
  *
  * @param[in] data user data
  * @param[in] obj target object
