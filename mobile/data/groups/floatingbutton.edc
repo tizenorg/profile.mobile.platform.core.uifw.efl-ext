@@ -231,7 +231,7 @@
             }
          }
          program {
-            signal: "elm,floatingbutton,state,0";
+            signal: "elm,state,floatingbutton,1btn";
             source: "elm";
             script {
                set_state(PART:"elm.dragable.fb", "default", 0.0);
@@ -241,7 +241,7 @@
             }
          }
          program {
-            signal: "elm,floatingbutton,state,1";
+            signal: "elm,state,floatingbutton,2btn";
             source: "elm";
             script {
                set_state(PART:"elm.dragable.fb", "2buttons", 0.0);
@@ -367,14 +367,14 @@
             }
          }
          program {
-            signal: "elm,floatingbutton,state,freeze";
+            signal: "elm,state,floatingbutton,freeze";
             source: "elm";
             script {
                set_mask_flags(PART:"elm.dragable.fb", 1);
             }
          }
          program {
-            signal: "elm,floatingbutton,state,thaw";
+            signal: "elm,state,floatingbutton,thaw";
             source: "elm";
             script {
                set_mask_flags(PART:"elm.dragable.fb", 0);

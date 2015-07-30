@@ -111,7 +111,7 @@ _box_recalc(Eo *obj, Eext_Floatingbutton_Data *sd)
    count = eina_list_count(items);
    eina_list_free(items);
 
-   snprintf(buf, sizeof(buf), "elm,floatingbutton,state,%d", (count >= 2));
+   snprintf(buf, sizeof(buf), "elm,state,floatingbutton,%s", ((count >= 2) ? "2btn" : "1btn"));
    elm_layout_signal_emit(obj, buf, "elm");
    edje_object_message_signal_process(edje);
 
@@ -224,7 +224,7 @@ _on_mouse_move(void *data, Evas_Object *obj, const char *emission, const char *s
 
         if (fbd->dir)
           {
-             edje_object_signal_emit(edje, "elm,floatingbutton,state,freeze", "elm");
+             edje_object_signal_emit(edje, "elm,state,floatingbutton,freeze", "elm");
              edje_object_message_signal_process(edje);
           }
      }
@@ -262,11 +262,11 @@ _on_mouse_up(void *data, Evas_Object *obj, const char *emission, const char *sou
 
         fbd->pos = i;
 
-        edje_object_signal_emit(edje, "elm,floatingbutton,state,thaw", "elm");
+        edje_object_signal_emit(edje, "elm,state,floatingbutton,thaw", "elm");
 
         l = elm_box_children_get(fbd->box);
         EINA_LIST_FREE(l, btn)
-          elm_layout_signal_emit(btn, "elm,floatingbutton,state,default", "elm");
+          elm_layout_signal_emit(btn, "elm,state,default", "elm");
 
      }
 
