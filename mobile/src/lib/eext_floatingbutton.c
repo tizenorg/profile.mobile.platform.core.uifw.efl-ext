@@ -181,6 +181,19 @@ _resize_cb(void *data, Evas *e EINA_UNUSED, Evas_Object *obj, void *event_info E
 }
 
 static void
+_size_hints_changed_cb(void *data, Evas *e EINA_UNUSED, Evas_Object *obj, void *event_info EINA_UNUSED)
+{
+   Evas_Display_Mode dispmode;
+
+   dispmode = evas_object_size_hint_display_mode_get(obj);
+
+   if (dispmode == EVAS_DISPLAY_MODE_COMPRESS)
+     elm_layout_signal_emit(obj, "elm,state,floatingbutton,hidden", "elm");
+   else
+     elm_layout_signal_emit(obj, "elm,state,floatingbutton,visible", "elm");
+}
+
+static void
 _on_mouse_down(void *data, Evas_Object *obj, const char *emission, const char *source)
 {
    Eext_Floatingbutton_Data *fbd = data;
@@ -339,6 +352,7 @@ _eext_floatingbutton_evas_object_smart_add(Eo *obj, Eext_Floatingbutton_Data *pr
    snprintf(buf, sizeof(buf), "elm/floatingbutton/base/%s", elm_widget_style_get(obj));
    elm_layout_file_set(obj, EFL_EXTENSION_EDJ, buf);
    evas_object_event_callback_add(obj, EVAS_CALLBACK_RESIZE, _resize_cb, priv);
+   evas_object_event_callback_add(obj, EVAS_CALLBACK_CHANGED_SIZE_HINTS, _size_hints_changed_cb, priv);
 
    elm_layout_signal_callback_add(obj, "mouse,down,1", DRAGABLE_PART, _on_mouse_down, priv);
    elm_layout_signal_callback_add(obj, "mouse,up,1", DRAGABLE_PART, _on_mouse_up, priv);
@@ -479,6 +493,5 @@ _eext_floatingbutton_elm_container_content_unset(Eo *obj, Eext_Floatingbutton_Da
 
    return ret;
 }
-
 
 #include "eext_floatingbutton.eo.c"

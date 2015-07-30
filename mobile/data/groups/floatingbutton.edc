@@ -27,6 +27,7 @@
       script {
          public mouse_down, g_prev_x, g_width, g_btns;
          public left_timer, right_timer;
+         public g_visible;
 
          public message(Msg_Type:type, id, ...) {
             if ((type == MSG_INT) && (id == 0)) {
@@ -226,6 +227,7 @@
                custom_state(PART:"right_expand", "default", 0.0);
                custom_state(PART:"elm.threshold.fb", "default", 0.0);
                set_state(PART:"elm.threshold.fb", "custom", 0.0);
+               set_int(g_visible, 1);
             }
          }
          program {
@@ -382,23 +384,42 @@
             signal: "elm,state,show";
             source: "";
             script {
-               set_state(PART:"elm.swallow.vg", "default", 0.0);
-               set_state(PART:"elm.swallow.box", "default", 0.0);
-               if (get_int(g_btns) < 2) {
-                  set_state(PART:"elm.dragable.fb", "default", 0.0);
-               }
-               else {
-                  set_state(PART:"elm.dragable.fb", "2buttons", 0.0);
-               }
+               set_int(g_visible, 1);
+               run_program(PROGRAM:"visible");
             }
          }
          program {
             signal: "elm,state,hide";
             source: "";
-            action: STATE_SET "hidden" 0.0;
-            target: "elm.swallow.vg";
-            target: "elm.swallow.box";
-            target: "elm.dragable.fb";
+            script {
+               set_int(g_visible, 0);
+               run_program(PROGRAM:"hidden");
+            }
+         }
+         program { name: "visible";
+            signal: "elm,state,floatingbutton,visible";
+            source: "elm";
+            script {
+               if (get_int(g_visible) == 1) {
+                  set_state(PART:"elm.swallow.vg", "default", 0.0);
+                  set_state(PART:"elm.swallow.box", "default", 0.0);
+                  if (get_int(g_btns) < 2) {
+                     set_state(PART:"elm.dragable.fb", "default", 0.0);
+                  }
+                  else {
+                     set_state(PART:"elm.dragable.fb", "2buttons", 0.0);
+                  }
+               }
+            }
+         }
+         program { name: "hidden";
+            signal: "elm,state,floatingbutton,hidden";
+            source: "elm";
+            script {
+               set_state(PART:"elm.swallow.vg", "hidden", 0.0);
+               set_state(PART:"elm.swallow.box", "hidden", 0.0);
+               set_state(PART:"elm.dragable.fb", "hidden", 0.0);
+            }
          }
       }
    }
