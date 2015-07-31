@@ -29,6 +29,15 @@
 #define MY_CLASS_NAME "Eext_Floatingbutton"
 #define MY_CLASS_NAME_LEGACY "eext_floatingbutton"
 
+static const char SIG_PRESSED[] = "pressed";
+static const char SIG_UNPRESSED[] = "unpressed";
+
+static const Evas_Smart_Cb_Description _smart_callbacks[] = {
+   {SIG_PRESSED, ""},
+   {SIG_UNPRESSED, ""},
+   {NULL, NULL}
+};
+
 #define EEXT_SCALE_SIZE(x, obj) ((x) / edje_object_base_scale_get(elm_layout_edje_get(obj)) \
                                      * elm_config_scale_get() \
                                      * elm_object_scale_get(obj))
@@ -180,6 +189,9 @@ _on_mouse_down(void *data, Evas_Object *obj, const char *emission, const char *s
    edje_object_part_geometry_get(edje, DRAGABLE_PART, &fbd->x, NULL, NULL, NULL);
 
    fbd->dir = 0;
+
+   if (!elm_widget_disabled_get(obj) && !evas_object_freeze_events_get(obj))
+     evas_object_smart_callback_call(obj, SIG_PRESSED, NULL);
 }
 
 static void
@@ -246,6 +258,9 @@ _on_mouse_up(void *data, Evas_Object *obj, const char *emission, const char *sou
      }
 
    _update_pos(obj, fbd, EINA_TRUE);
+
+   if (!elm_widget_disabled_get(obj) && !evas_object_freeze_events_get(obj))
+     evas_object_smart_callback_call(obj, SIG_UNPRESSED, NULL);
 }
 
 EOLIAN static void
@@ -307,7 +322,8 @@ _eext_floatingbutton_eo_base_constructor(Eo *obj, Eext_Floatingbutton_Data *sd E
 {
    eo_do_super(obj, MY_CLASS, eo_constructor());
    eo_do(obj,
-         evas_obj_type_set(MY_CLASS_NAME_LEGACY));
+         evas_obj_type_set(MY_CLASS_NAME_LEGACY),
+         evas_obj_smart_callbacks_descriptions_set(_smart_callbacks));
 }
 
 EOLIAN static void
