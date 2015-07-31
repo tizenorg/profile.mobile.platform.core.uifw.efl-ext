@@ -59,6 +59,7 @@
          }
          part { name: "vg_clipper";
             type: RECT;
+            clip_to: "clipper";
             description { state: "default" 0.0;
                fixed: 1 1;
                color: 76 103 211 255;
@@ -155,6 +156,7 @@
          part { name: "elm.swallow.box";
             type: SWALLOW;
             scale: 1;
+            clip_to: "clipper";
             description { state: "default" 0.0;
                min: 0 0;
                fixed: 1 1;
@@ -170,6 +172,7 @@
          part { name: "elm.dragable.fb";
             type: RECT;
             scale: 1;
+            clip_to: "clipper";
             repeat_events: 1;
             description { state: "default" 0.0;
                min: FLOATINGBUTTON_1BTN_WIDTH FLOATINGBUTTON_HEIGHT;
@@ -205,6 +208,13 @@
                rel1 { to: "elm.track.fb"; relative: 0.5 0.0; }
                rel2 { to: "elm.track.fb"; relative: 0.5 1.0; }
                color: 0 0 0 0;
+            }
+         }
+         part { name: "clipper";
+            type: RECT;
+            mouse_events: 0;
+            description { state: "default" 0.0;
+               color: 255 255 255 255;
             }
          }
       }
