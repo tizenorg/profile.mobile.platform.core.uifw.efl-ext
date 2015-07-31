@@ -58,7 +58,7 @@ typedef struct _Eext_Floatingbutton_Data {
    double                   last_pos;
    double                   pos_table[EEXT_FLOATINGBUTTON_LAST];
 
-   Eina_Bool                pos_fixed : 1;
+   Eina_Bool                block : 1;
 
 } Eext_Floatingbutton_Data;
 
@@ -255,31 +255,31 @@ _eext_floatingbutton_evas_object_smart_del(Eo *obj, Eext_Floatingbutton_Data *pd
 }
 
 EOLIAN static void
-_eext_floatingbutton_pos_fixed_set(Eo *obj, Eext_Floatingbutton_Data *sd, Eina_Bool pos_fixed)
+_eext_floatingbutton_movement_block_set(Eo *obj, Eext_Floatingbutton_Data *sd, Eina_Bool block)
 {
    char buf[200];
 
-   pos_fixed = !!pos_fixed;
-   sd->pos_fixed = pos_fixed;
+   block = !!block;
+   sd->block = block;
 
-   if (pos_fixed)
-     snprintf(buf, sizeof(buf), "elm,floatingbutton,state,fixed");
+   if (block)
+     snprintf(buf, sizeof(buf), "elm,state,floatingbutton,block");
    else
-     snprintf(buf, sizeof(buf), "elm,floatingbutton,state,nonfixed");
+     snprintf(buf, sizeof(buf), "elm,state,floatingbutton,unblock");
 
    elm_layout_signal_emit(obj, buf, "elm");
 }
 
 EOLIAN static Eina_Bool
-_eext_floatingbutton_pos_fixed_get(Eo *obj EINA_UNUSED, Eext_Floatingbutton_Data *sd)
+_eext_floatingbutton_movement_block_get(Eo *obj EINA_UNUSED, Eext_Floatingbutton_Data *sd)
 {
-   return sd->pos_fixed;
+   return sd->block;
 }
 
 EOLIAN static void
 _eext_floatingbutton_pos_set(Eo *obj, Eext_Floatingbutton_Data *sd, Eext_Floatingbutton_Pos pos)
 {
-   if (sd->pos_fixed) return;
+   if (sd->block) return;
 
    if (pos < EEXT_FLOATINGBUTTON_LEFT_OUT || pos > EEXT_FLOATINGBUTTON_RIGHT_OUT) return;
    sd->pos = pos;
@@ -341,7 +341,7 @@ _eext_floatingbutton_evas_object_smart_add(Eo *obj, Eext_Floatingbutton_Data *pr
    elm_object_part_content_set(obj, "elm.swallow.box", priv->box);
 
    priv->pos = EEXT_FLOATINGBUTTON_RIGHT;
-   priv->pos_fixed = EINA_FALSE;
+   priv->block = EINA_FALSE;
 
    priv->pos_table[EEXT_FLOATINGBUTTON_LEFT_OUT] = 0.0;
    priv->pos_table[EEXT_FLOATINGBUTTON_CENTER] = 0.5;

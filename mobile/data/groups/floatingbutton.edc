@@ -340,15 +340,15 @@
             transition: DECEL 0.5;
             target: "right_expand";
          }
-         program { name: "fixed_set";
-            signal: "elm,floatingbutton,state,fixed";
+         program { name: "block";
+            signal: "elm,state,floatingbutton,block";
             source: "elm";
             script {
                set_mouse_events(PART:"elm.dragable.fb", 0);
             }
          }
-         program { name: "nonfixed_set";
-            signal: "elm,floatingbutton,state,nonfixed";
+         program { name: "unblock";
+            signal: "elm,state,floatingbutton,unblock";
             source: "elm";
             script {
                set_mouse_events(PART:"elm.dragable.fb", 1);

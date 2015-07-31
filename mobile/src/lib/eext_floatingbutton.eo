@@ -37,7 +37,7 @@ class Eext.Floatingbutton (Elm_Layout) {
             Eext_Floatingbutton_Pos pos; /*@ the floatingbutton position */
          }
       }
-      pos_fixed {
+      movement_block {
          set {
             /*@
             @MOBILE_ONLY
@@ -68,7 +68,7 @@ class Eext.Floatingbutton (Elm_Layout) {
             @ingroup Floatingbutton */
          }
          values {
-            Eina_Bool pos_fixed; /*@ the floatingbutton movability */
+            Eina_Bool block; /*@ the floatingbutton movability */
          }
       }
    }
