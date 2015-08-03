@@ -304,15 +304,17 @@ _eext_floatingbutton_movement_block_get(Eo *obj EINA_UNUSED, Eext_Floatingbutton
    return sd->block;
 }
 
-EOLIAN static void
+EOLIAN static Eina_Bool
 _eext_floatingbutton_pos_set(Eo *obj, Eext_Floatingbutton_Data *sd, Eext_Floatingbutton_Pos pos)
 {
-   if (sd->block) return;
+   if (sd->block) return EINA_FALSE;
 
-   if (pos < EEXT_FLOATINGBUTTON_LEFT_OUT || pos > EEXT_FLOATINGBUTTON_RIGHT_OUT) return;
+   if (pos < EEXT_FLOATINGBUTTON_LEFT_OUT || pos > EEXT_FLOATINGBUTTON_RIGHT_OUT) return EINA_FALSE;
    sd->pos = pos;
 
    _update_pos(obj, sd, EINA_FALSE);
+
+   return EINA_TRUE;
 }
 
 EOLIAN static Eext_Floatingbutton_Pos
