@@ -102,8 +102,6 @@ eext_naviframe_more_cb(void *data EINA_UNUSED, Evas_Object *obj, void *event_inf
                                                             "toolbar_more_btn");
    if (more_btn)
      evas_object_smart_callback_call(more_btn, "clicked", NULL);
-   else
-     elm_object_item_signal_emit(top, "elm,action,more_event", "");
 }
 
 /**
