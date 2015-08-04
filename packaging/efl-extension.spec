@@ -3,7 +3,7 @@ Summary:    EFL extension library
 Version:    0.2.13
 Release:    1
 Group:      System/Libraries
-License:    Apache-2.0
+License:    Flora-1.1
 URL:        http://www.tizen.org/
 Source0:    %{name}-%{version}.tar.gz
 BuildRequires:  pkgconfig(elementary)
