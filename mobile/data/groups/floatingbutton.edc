@@ -66,10 +66,6 @@
                rel1.to: "elm.swallow.vg";
                rel2.to: "elm.swallow.vg";
             }
-            description { state: "pressed" 0.0;
-               inherit: "default";
-               color: 57 78 160 255;
-            }
             description { state: "disabled" 0.0;
                inherit: "default";
                color: 134 155 239 255;
@@ -277,7 +273,6 @@
                get_geometry(PART:"elm.dragable.fb", x, y, w, h);
                set_int(g_prev_x, x);
                set_int(mouse_down, 1);
-               set_state(PART:"vg_clipper", "pressed", 0.0);
             }
          }
          program { name: "mouse_up";
@@ -285,7 +280,6 @@
             source: "elm.dragable.fb";
             script {
                set_int(mouse_down, 0);
-               set_state(PART:"vg_clipper", "default", 0.0);
             }
          }
          program { name: "mouse_move";
