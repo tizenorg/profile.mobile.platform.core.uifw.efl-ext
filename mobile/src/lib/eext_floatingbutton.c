@@ -65,6 +65,7 @@ typedef struct _Eext_Floatingbutton_Data {
    Eext_Floatingbutton_Pos  pos;
    double                   last_pos;
    double                   pos_table[EEXT_FLOATINGBUTTON_LAST];
+   Eina_Bool                pos_disabled[EEXT_FLOATINGBUTTON_LAST];
 
    Eina_Bool                block : 1;
 
@@ -251,12 +252,24 @@ _on_mouse_up(void *data, Evas_Object *obj, const char *emission, const char *sou
         if (fbd->dir > 0)
           {
              for (i = EEXT_FLOATINGBUTTON_LEFT_OUT; i < EEXT_FLOATINGBUTTON_RIGHT_OUT; ++i)
-               if (cur_pos < (fbd->pos_table[i] + ((i == 1 || i == 2) ? 0.12 : 0))) break;
+               if (!fbd->pos_disabled[i] &&
+                    cur_pos < (fbd->pos_table[i] + ((i == 1 || i == 2) ? 0.12 : 0)))
+                 break;
+
+             if (i == EEXT_FLOATINGBUTTON_RIGHT_OUT && fbd->pos_disabled[i])
+               while (--i >= EEXT_FLOATINGBUTTON_LEFT_OUT)
+                 if (!fbd->pos_disabled[i]) break;
           }
         else
           {
              for (i = EEXT_FLOATINGBUTTON_RIGHT_OUT; i > EEXT_FLOATINGBUTTON_LEFT_OUT; --i)
-               if (cur_pos > (fbd->pos_table[i] - ((i == 3 || i == 2) ? 0.12 : 0))) break;
+               if (!fbd->pos_disabled[i] &&
+                    cur_pos > (fbd->pos_table[i] - ((i == 3 || i == 2) ? 0.12 : 0)))
+                 break;
+
+             if (i == EEXT_FLOATINGBUTTON_LEFT_OUT && fbd->pos_disabled[i])
+               while (++i <= EEXT_FLOATINGBUTTON_RIGHT_OUT)
+                 if (!fbd->pos_disabled[i]) break;
           }
 
         fbd->pos = i;
@@ -308,7 +321,7 @@ _eext_floatingbutton_movement_block_get(Eo *obj EINA_UNUSED, Eext_Floatingbutton
 EOLIAN static Eina_Bool
 _eext_floatingbutton_pos_set(Eo *obj, Eext_Floatingbutton_Data *sd, Eext_Floatingbutton_Pos pos)
 {
-   if (sd->block) return EINA_FALSE;
+   if (sd->block || sd->pos_disabled[pos]) return EINA_FALSE;
 
    if (pos < EEXT_FLOATINGBUTTON_LEFT_OUT || pos > EEXT_FLOATINGBUTTON_RIGHT_OUT) return EINA_FALSE;
    sd->pos = pos;
@@ -380,6 +393,12 @@ _eext_floatingbutton_evas_object_smart_add(Eo *obj, Eext_Floatingbutton_Data *pr
    priv->pos_table[EEXT_FLOATINGBUTTON_LEFT_OUT] = 0.0;
    priv->pos_table[EEXT_FLOATINGBUTTON_CENTER] = 0.5;
    priv->pos_table[EEXT_FLOATINGBUTTON_RIGHT_OUT] = 1.0;
+
+   // Tizen 2.4 (enable LEFT, RIGHT only)
+   priv->pos_disabled[EEXT_FLOATINGBUTTON_LEFT_OUT] = EINA_TRUE;
+   priv->pos_disabled[EEXT_FLOATINGBUTTON_CENTER] = EINA_TRUE;
+   priv->pos_disabled[EEXT_FLOATINGBUTTON_RIGHT_OUT] = EINA_TRUE;
+   //
 
    _pos_recalc(obj, priv);
    _update_pos(obj, priv, EINA_FALSE);
