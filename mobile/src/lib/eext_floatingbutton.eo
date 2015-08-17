@@ -82,5 +82,6 @@ class Eext.Floatingbutton (Elm_Layout) {
       Elm_Container.content_set;
       Elm_Container.content_get;
       Elm_Container.content_unset;
+      Elm_Widget.theme_apply;
    }
 }
