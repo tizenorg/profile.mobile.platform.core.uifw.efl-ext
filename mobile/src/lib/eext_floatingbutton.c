@@ -276,9 +276,11 @@ _on_mouse_up(void *data, Evas_Object *obj, const char *emission, const char *sou
 }
 
 EOLIAN static void
-_eext_floatingbutton_evas_object_smart_del(Eo *obj, Eext_Floatingbutton_Data *pd EINA_UNUSED)
+_eext_floatingbutton_evas_object_smart_del(Eo *obj, Eext_Floatingbutton_Data *sd)
 {
    eo_do_super(obj, MY_CLASS, evas_obj_smart_del());
+
+   elm_theme_extension_del(NULL, EFL_EXTENSION_EDJ);
 }
 
 EOLIAN static void
@@ -350,8 +352,9 @@ _eext_floatingbutton_evas_object_smart_add(Eo *obj, Eext_Floatingbutton_Data *pr
 
    priv->obj = obj;
 
-   snprintf(buf, sizeof(buf), "elm/floatingbutton/base/%s", elm_widget_style_get(obj));
-   elm_layout_file_set(obj, EFL_EXTENSION_EDJ, buf);
+   elm_theme_extension_add(NULL, EFL_EXTENSION_EDJ);
+
+   elm_layout_theme_set(obj, "floatingbutton", "base", elm_object_style_get(obj));
    evas_object_event_callback_add(obj, EVAS_CALLBACK_RESIZE, _resize_cb, priv);
    evas_object_event_callback_add(obj, EVAS_CALLBACK_CHANGED_SIZE_HINTS, _size_hints_changed_cb, priv);
 
@@ -408,12 +411,14 @@ EOLIAN static Eina_Bool
 _eext_floatingbutton_elm_container_content_set(Eo *obj, Eext_Floatingbutton_Data *sd, const char *part, Evas_Object *content)
 {
    Eina_Bool int_ret = EINA_FALSE;
+   char buf[256];
 
    if ((!part) || (!content)) return int_ret;
 
    if (!strcmp(part, BTN1_PART))
      {
-        elm_object_style_set(content, "floatingbutton");
+        snprintf(buf, sizeof(buf), "floatingbutton/%s", elm_object_style_get(obj));
+        elm_object_style_set(content, buf);
 
         if (sd->btn1) evas_object_del(sd->btn1);
 
@@ -427,7 +432,8 @@ _eext_floatingbutton_elm_container_content_set(Eo *obj, Eext_Floatingbutton_Data
      }
    else if (!strcmp(part, BTN2_PART))
      {
-        elm_object_style_set(content, "floatingbutton");
+        snprintf(buf, sizeof(buf), "floatingbutton/%s", elm_object_style_get(obj));
+        elm_object_style_set(content, buf);
 
         if (sd->btn2) evas_object_del(sd->btn2);
 
@@ -493,6 +499,23 @@ _eext_floatingbutton_elm_container_content_unset(Eo *obj, Eext_Floatingbutton_Da
    _box_recalc(obj, sd);
 
    return ret;
+}
+
+EOLIAN static Eina_Bool
+_eext_floatingbutton_elm_widget_theme_apply(Eo *obj, Eext_Floatingbutton_Data *sd)
+{
+   Eina_Bool int_ret = EINA_FALSE;
+   char buf[256];
+
+   eo_do_super(obj, MY_CLASS, int_ret = elm_obj_widget_theme_apply());
+   if (!int_ret) return EINA_FALSE;
+
+   snprintf(buf, sizeof(buf), "floatingbutton/%s", elm_object_style_get(obj));
+
+   if (sd->btn1) elm_object_style_set(sd->btn1, buf);
+   if (sd->btn2) elm_object_style_set(sd->btn2, buf);
+
+   return EINA_TRUE;
 }
 
 #include "eext_floatingbutton.eo.c"
