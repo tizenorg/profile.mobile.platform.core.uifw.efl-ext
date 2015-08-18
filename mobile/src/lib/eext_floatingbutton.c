@@ -55,6 +55,7 @@ typedef struct _Eext_Floatingbutton_Data {
    Evas_Object             *box;
    Evas_Object             *vg;
    Efl_VG_Shape            *base_shape;
+   Ecore_Animator          *anim;
 
    Evas_Object             *btn1;
    Evas_Object             *btn2;
@@ -147,6 +148,9 @@ _anim_cb(void *data, double pos)
 
    edje_object_part_drag_value_set(elm_layout_edje_get(fbd->obj), DRAGABLE_PART, cur_pos, 0.5);
 
+   if (pos >= 1.0)
+     fbd->anim = NULL;
+
    return ECORE_CALLBACK_RENEW;
 }
 
@@ -168,7 +172,12 @@ _update_pos(Eo *obj, Eext_Floatingbutton_Data *fbd, Eina_Bool anim)
    if (!anim)
      edje_object_part_drag_value_set(elm_layout_edje_get(obj), DRAGABLE_PART, fbd->pos_table[fbd->pos], 0.5);
    else
-     ecore_animator_timeline_add(0.2, _anim_cb, fbd);
+     {
+        if (fbd->anim)
+          ecore_animator_del(fbd->anim);
+
+        fbd->anim = ecore_animator_timeline_add(0.2, _anim_cb, fbd);
+     }
 
    ecore_timer_add(0.2, _message_send, fbd);
 }
@@ -335,6 +344,19 @@ EOLIAN static Eext_Floatingbutton_Pos
 _eext_floatingbutton_pos_get(Eo *obj EINA_UNUSED, Eext_Floatingbutton_Data *sd)
 {
    return sd->pos;
+}
+
+EOLIAN static Eina_Bool
+_eext_floatingbutton_pos_bring_in(Eo *obj, Eext_Floatingbutton_Data *sd, Eext_Floatingbutton_Pos pos)
+{
+   if (sd->block || sd->pos_disabled[pos]) return EINA_FALSE;
+
+   if (pos < EEXT_FLOATINGBUTTON_LEFT_OUT || pos > EEXT_FLOATINGBUTTON_RIGHT_OUT) return EINA_FALSE;
+   sd->pos = pos;
+
+   _update_pos(obj, sd, EINA_TRUE);
+
+   return EINA_TRUE;
 }
 
 EAPI Evas_Object *
