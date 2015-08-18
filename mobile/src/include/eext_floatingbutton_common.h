@@ -32,6 +32,12 @@ typedef enum {
    EEXT_FLOATINGBUTTON_LAST /** never used **/
 } Eext_Floatingbutton_Pos;
 
+typedef enum {
+   EEXT_FLOATINGBUTTON_MODE_DEFAULT = 0, /**< allows all positions */
+   EEXT_FLOATINGBUTTON_MODE_BOTH_SIDES, /**< allows LEFT and RIGHT positions only */
+   EEXT_FLOATINGBUTTON_MODE_LAST /** never used **/
+} Eext_Floatingbutton_Mode;
+
 /**
  * @}
  */

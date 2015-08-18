@@ -74,6 +74,37 @@ class Eext.Floatingbutton (Elm_Layout) {
             Eina_Bool block; /*@ the floatingbutton movability */
          }
       }
+      mode {
+         set {
+            /*@
+            @MOBILE_ONLY
+
+            @brief Set floatingbutton mode.
+
+            @remark Positions where floatingbutton can stop are restrained by mode.
+
+            @if MOBILE @since_tizen 2.4
+            @endif
+
+            @ingroup Floatingbutton */
+         }
+         get {
+            /*@
+            @MOBILE_ONLY
+
+            @brief Get floatingbutton mode.
+
+            @see eext_floatingbutton_mode_set()
+
+            @if MOBILE @since_tizen 2.4
+            @endif
+
+            @ingroup Floatingbutton */
+         }
+         values {
+            Eext_Floatingbutton_Mode mode; /*@ floatingbutton mode */
+         }
+      }
    }
    implements {
       class.constructor;

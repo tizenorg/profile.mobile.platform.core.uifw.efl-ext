@@ -62,6 +62,7 @@ typedef struct _Eext_Floatingbutton_Data {
    Evas_Coord               x;
    int                      dir;
 
+   Eext_Floatingbutton_Mode mode;
    Eext_Floatingbutton_Pos  pos;
    double                   last_pos;
    double                   pos_table[EEXT_FLOATINGBUTTON_LAST];
@@ -399,12 +400,6 @@ _eext_floatingbutton_evas_object_smart_add(Eo *obj, Eext_Floatingbutton_Data *pr
    priv->pos_table[EEXT_FLOATINGBUTTON_CENTER] = 0.5;
    priv->pos_table[EEXT_FLOATINGBUTTON_RIGHT_OUT] = 1.0;
 
-   // Tizen 2.4 (enable LEFT, RIGHT only)
-   priv->pos_disabled[EEXT_FLOATINGBUTTON_LEFT_OUT] = EINA_TRUE;
-   priv->pos_disabled[EEXT_FLOATINGBUTTON_CENTER] = EINA_TRUE;
-   priv->pos_disabled[EEXT_FLOATINGBUTTON_RIGHT_OUT] = EINA_TRUE;
-   //
-
    _pos_recalc(obj, priv);
    _update_pos(obj, priv, EINA_FALSE);
 
@@ -569,6 +564,48 @@ _eext_floatingbutton_elm_widget_theme_apply(Eo *obj, Eext_Floatingbutton_Data *s
    if (sd->btn2) elm_object_style_set(sd->btn2, buf);
 
    return EINA_TRUE;
+}
+
+EOLIAN static void
+_eext_floatingbutton_mode_set(Eo *obj,
+                              Eext_Floatingbutton_Data *sd,
+                              Eext_Floatingbutton_Mode mode)
+{
+   if (sd->mode == mode) return;
+
+   if ((mode < EEXT_FLOATINGBUTTON_MODE_DEFAULT) ||
+       (mode >= EEXT_FLOATINGBUTTON_MODE_LAST))
+     return;
+
+   sd->mode = mode;
+
+   switch(mode)
+     {
+      case EEXT_FLOATINGBUTTON_MODE_DEFAULT:
+        sd->pos_disabled[EEXT_FLOATINGBUTTON_LEFT_OUT] = 0;
+        sd->pos_disabled[EEXT_FLOATINGBUTTON_LEFT] = 0;
+        sd->pos_disabled[EEXT_FLOATINGBUTTON_CENTER] = 0;
+        sd->pos_disabled[EEXT_FLOATINGBUTTON_RIGHT] = 0;
+        sd->pos_disabled[EEXT_FLOATINGBUTTON_RIGHT_OUT] = 0;
+        break;
+      case EEXT_FLOATINGBUTTON_MODE_BOTH_SIDES:
+        sd->pos_disabled[EEXT_FLOATINGBUTTON_LEFT_OUT] = 1;
+        sd->pos_disabled[EEXT_FLOATINGBUTTON_LEFT] = 0;
+        sd->pos_disabled[EEXT_FLOATINGBUTTON_CENTER] = 1;
+        sd->pos_disabled[EEXT_FLOATINGBUTTON_RIGHT] = 0;
+        sd->pos_disabled[EEXT_FLOATINGBUTTON_RIGHT_OUT] = 1;
+        break;
+      case EEXT_FLOATINGBUTTON_MODE_LAST:
+        /* you must not reach here */
+        break;
+     }
+}
+
+EOLIAN static Eext_Floatingbutton_Mode
+_eext_floatingbutton_mode_get(Eo *obj,
+                              Eext_Floatingbutton_Data *sd)
+{
+   return sd->mode;
 }
 
 #include "eext_floatingbutton.eo.c"
