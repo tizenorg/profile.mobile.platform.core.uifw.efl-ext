@@ -358,8 +358,6 @@ _eext_floatingbutton_eo_base_constructor(Eo *obj, Eext_Floatingbutton_Data *sd E
 EOLIAN static void
 _eext_floatingbutton_evas_object_smart_add(Eo *obj, Eext_Floatingbutton_Data *priv)
 {
-   char buf[1024];
-
    eo_do_super(obj, MY_CLASS, evas_obj_smart_add());
    elm_widget_sub_object_parent_add(obj);
 
