@@ -67,7 +67,8 @@ typedef struct _Eext_Floatingbutton_Data {
    double                   pos_table[EEXT_FLOATINGBUTTON_LAST];
    Eina_Bool                pos_disabled[EEXT_FLOATINGBUTTON_LAST];
 
-   Eina_Bool                block : 1;
+   Eina_Bool                mouse_down : 1;
+   Eina_Bool                block      : 1;
 
 } Eext_Floatingbutton_Data;
 
@@ -199,6 +200,8 @@ _on_mouse_down(void *data, Evas_Object *obj, const char *emission, const char *s
    Eext_Floatingbutton_Data *fbd = data;
    Evas_Object *edje = elm_layout_edje_get(obj);
 
+   fbd->mouse_down = EINA_TRUE;
+
    edje_object_part_geometry_get(edje, DRAGABLE_PART, &fbd->x, NULL, NULL, NULL);
 
    fbd->dir = 0;
@@ -212,7 +215,7 @@ _on_mouse_move(void *data, Evas_Object *obj, const char *emission, const char *s
 {
    Eext_Floatingbutton_Data *fbd = data;
 
-   if (!fbd->dir)
+   if (fbd->mouse_down && !fbd->dir)
      {
         Evas_Object *edje = elm_layout_edje_get(obj);
         Evas_Coord x, finger_size = elm_config_finger_size_get();
@@ -238,6 +241,8 @@ _on_mouse_up(void *data, Evas_Object *obj, const char *emission, const char *sou
    Evas_Coord track_x, track_w, drag_x, drag_w;
    double cur_pos;
    int i;
+
+   fbd->mouse_down = EINA_FALSE;
 
    if (fbd->dir)
      {
