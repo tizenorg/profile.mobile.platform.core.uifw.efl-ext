@@ -429,6 +429,27 @@ _btn_del_cb(void *data, Evas *e EINA_UNUSED, Evas_Object *obj, void *event_info 
    _update_pos(obj, fbd, EINA_FALSE);
 }
 
+static void _assign_atspi_relations(Evas_Object *relation_from_button, Evas_Object *relation_to_button)
+{
+   if (relation_from_button)
+     elm_atspi_accessible_relationship_remove(relation_from_button, ELM_ATSPI_RELATION_FLOWS_TO, relation_to_button);
+   if (relation_to_button)
+     elm_atspi_accessible_relationship_remove(relation_to_button, ELM_ATSPI_RELATION_FLOWS_TO, relation_from_button);
+   if (relation_to_button)
+     elm_atspi_accessible_relationship_remove(relation_to_button, ELM_ATSPI_RELATION_FLOWS_FROM, relation_from_button);
+   if (relation_from_button)
+     elm_atspi_accessible_relationship_remove(relation_from_button, ELM_ATSPI_RELATION_FLOWS_FROM, relation_to_button);
+
+   if (relation_from_button)
+     elm_atspi_accessible_relationship_append(relation_from_button, ELM_ATSPI_RELATION_FLOWS_TO, relation_to_button);
+   if (relation_to_button)
+     elm_atspi_accessible_relationship_append(relation_to_button, ELM_ATSPI_RELATION_FLOWS_TO, relation_from_button);
+   if (relation_to_button)
+     elm_atspi_accessible_relationship_append(relation_to_button, ELM_ATSPI_RELATION_FLOWS_FROM, relation_from_button);
+   if (relation_from_button)
+     elm_atspi_accessible_relationship_append(relation_from_button, ELM_ATSPI_RELATION_FLOWS_FROM, relation_to_button);
+}
+
 EOLIAN static Eina_Bool
 _eext_floatingbutton_elm_container_content_set(Eo *obj, Eext_Floatingbutton_Data *sd, const char *part, Evas_Object *content)
 {
@@ -445,6 +466,9 @@ _eext_floatingbutton_elm_container_content_set(Eo *obj, Eext_Floatingbutton_Data
         if (sd->btn1) evas_object_del(sd->btn1);
 
         sd->btn1 = content;
+
+        _assign_atspi_relations(sd->btn1, sd->btn2);
+
         evas_object_show(sd->btn1);
         elm_box_pack_start(sd->box, content);
 
@@ -460,6 +484,9 @@ _eext_floatingbutton_elm_container_content_set(Eo *obj, Eext_Floatingbutton_Data
         if (sd->btn2) evas_object_del(sd->btn2);
 
         sd->btn2 = content;
+
+        _assign_atspi_relations(sd->btn1, sd->btn2);
+
         evas_object_show(sd->btn2);
         elm_box_pack_end(sd->box, content);
 
