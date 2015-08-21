@@ -17,6 +17,7 @@ BuildRequires:  gettext
 BuildRequires:  cmake
 BuildRequires:  pkgconfig(cairo)
 BuildRequires:  eolian-devel
+BuildRequires:  pkgconfig(glib-2.0)
 Requires(post): /sbin/ldconfig
 Requires(postun): /sbin/ldconfig
 

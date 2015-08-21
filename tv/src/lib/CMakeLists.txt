@@ -39,6 +39,7 @@ PKG_CHECK_MODULES(LIB_PKGS REQUIRED
 		xi
 		inputproto
 		fontconfig
+		glib-2.0
 		)
 
 FOREACH(flag ${LIB_PKGS_CFLAGS})

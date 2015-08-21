@@ -26,6 +26,7 @@
 #include <unistd.h>
 #include <fontconfig/fontconfig.h>
 #include <fontconfig/fcfreetype.h>
+#include <glib.h>
 
 #ifdef __cplusplus
 extern "C" {

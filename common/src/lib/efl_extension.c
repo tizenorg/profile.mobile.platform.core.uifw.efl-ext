@@ -64,7 +64,8 @@ _eext_magic_fail(const void *d, eext_magic m, eext_magic req_m, const char *fnam
 		    (unsigned int)req_m, _magic_string_get(req_m),
 		    (unsigned int)m, _magic_string_get(m));
 
-   if (getenv("EEXT_ERROR_ABORT")) abort();
+        gchar **envp = g_get_environ();
+        if (g_environ_getenv(envp, "EEXT_ERROR_ABORT")) abort();
 }
 
 /*===========================================================================*
