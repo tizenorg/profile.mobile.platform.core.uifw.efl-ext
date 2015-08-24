@@ -72,3 +72,22 @@ _eext_magic_fail(const void *d, eext_magic m, eext_magic req_m, const char *fnam
  *                                  API                                      *
  *===========================================================================*/
 
+EAPI Eina_Bool
+eext_win_keygrab_set(Elm_Win *obj, const char *key)
+{
+   Eina_Bool ret = EINA_FALSE;
+   ret = elm_win_keygrab_set(obj, key, 0, 0, 0, ELM_WIN_KEYGRAB_TOPMOST);
+   if (!ret)
+     LOGE("  Can't set keygrab of [%s].", key);
+   return ret;
+}
+
+EAPI Eina_Bool
+eext_win_keygrab_unset(Elm_Win *obj, const char *key)
+{
+   Eina_Bool ret = EINA_FALSE;
+   ret = elm_win_keygrab_unset(obj, key, 0, 0);
+   if (!ret)
+     LOGE("  Can't unset keygrab of [%s].", key);
+   return ret;
+}
