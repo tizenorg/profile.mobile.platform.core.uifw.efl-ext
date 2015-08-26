@@ -92,6 +92,8 @@ _threshold_update(Eo *obj, Eext_Floatingbutton_Data *sd)
    Evas_Object *edje = elm_layout_edje_get(obj);
    Edje_Message_Int *msg = calloc(1, sizeof(*msg) + sizeof(int));
 
+   if (!msg) return;
+
    edje_object_part_geometry_get(edje, DRAGABLE_PART, NULL, NULL, &w1, NULL);
 
    msg->val = w1 + EEXT_SCALE_SIZE(40, obj);
@@ -419,6 +421,8 @@ static void
 _btn_del_cb(void *data, Evas *e EINA_UNUSED, Evas_Object *obj, void *event_info EINA_UNUSED)
 {
    Eext_Floatingbutton_Data *fbd = eo_data_scope_get((Eo *)data, EEXT_FLOATINGBUTTON_CLASS);
+
+   if (!fbd) return;
 
    elm_box_unpack(fbd->box, obj);
    _box_recalc(data, fbd);
