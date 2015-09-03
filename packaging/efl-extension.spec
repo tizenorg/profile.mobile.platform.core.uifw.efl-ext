@@ -1,6 +1,6 @@
 Name:       efl-extension
 Summary:    EFL extension library
-Version:    0.2.13
+Version:    0.2.14
 Release:    1
 Group:      System/Libraries
 License:    Flora-1.1
