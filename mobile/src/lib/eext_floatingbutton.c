@@ -568,6 +568,8 @@ _eext_floatingbutton_elm_widget_theme_apply(Eo *obj, Eext_Floatingbutton_Data *s
    if (sd->btn1) elm_object_style_set(sd->btn1, buf);
    if (sd->btn2) elm_object_style_set(sd->btn2, buf);
 
+   _box_recalc(obj, sd);
+
    return EINA_TRUE;
 }
 
