@@ -106,6 +106,30 @@ class Eext.Floatingbutton (Elm_Layout) {
          }
       }
    }
+   methods {
+      pos_bring_in @const {
+         /*@
+         @MOBILE_ONLY
+
+         @brief Set the floatingbutton position with animation
+
+         @remark Move floatingbutton similar to eext_floatingbutton_pos_set(),
+         but with animation.
+
+         @return @c EINA_TRUE on success, @c EINA_FALSE otherwise.
+
+         @see eext_floatingbutton_pos_set()
+
+         @if MOBILE @since_tizen 2.4
+         @endif
+
+         @ingroup Floatingbutton */
+         return: Eina_Bool;
+         params {
+            @in Eext_Floatingbutton_Pos pos; /*@ the floatingbutton position */
+         }
+      }
+   }
    implements {
       class.constructor;
       Eo.Base.constructor;
