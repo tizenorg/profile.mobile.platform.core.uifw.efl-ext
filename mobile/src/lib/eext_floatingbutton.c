@@ -52,6 +52,7 @@ static const char *TRACK_PART = "elm.track.fb";
 typedef struct _Eext_Floatingbutton_Data {
 
    Eo                      *obj;
+   Elm_Theme               *th;
    Evas_Object             *box;
    Evas_Object             *vg;
    Efl_VG_Shape            *base_shape;
@@ -310,7 +311,8 @@ _eext_floatingbutton_evas_object_smart_del(Eo *obj, Eext_Floatingbutton_Data *sd
 {
    eo_do_super(obj, MY_CLASS, evas_obj_smart_del());
 
-   elm_theme_extension_del(NULL, EFL_EXTENSION_EDJ);
+   elm_theme_extension_del(sd->th, EFL_EXTENSION_EDJ);
+   elm_theme_free(sd->th);
 }
 
 EOLIAN static void
@@ -393,8 +395,11 @@ _eext_floatingbutton_evas_object_smart_add(Eo *obj, Eext_Floatingbutton_Data *pr
 
    priv->obj = obj;
 
-   elm_theme_extension_add(NULL, EFL_EXTENSION_EDJ);
+   priv->th = elm_theme_new();
+   elm_theme_ref_set(priv->th, NULL);
+   elm_theme_extension_add(priv->th, EFL_EXTENSION_EDJ);
 
+   elm_object_theme_set(obj, priv->th);
    elm_layout_theme_set(obj, "floatingbutton", "base", elm_object_style_get(obj));
    evas_object_event_callback_add(obj, EVAS_CALLBACK_RESIZE, _resize_cb, priv);
    evas_object_event_callback_add(obj, EVAS_CALLBACK_CHANGED_SIZE_HINTS, _size_hints_changed_cb, priv);
