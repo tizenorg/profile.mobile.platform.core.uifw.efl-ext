@@ -181,10 +181,10 @@ _update_pos(Eo *obj, Eext_Floatingbutton_Data *fbd, Eina_Bool anim)
         if (fbd->anim)
           ecore_animator_del(fbd->anim);
 
-        fbd->anim = ecore_animator_timeline_add(0.2, _anim_cb, fbd);
+        fbd->anim = ecore_animator_timeline_add(0.4, _anim_cb, fbd);
      }
 
-   ecore_timer_add(0.2, _message_send, fbd);
+   ecore_timer_add(0.4, _message_send, fbd);
 }
 
 static void
@@ -297,7 +297,6 @@ _on_mouse_up(void *data, Evas_Object *obj, const char *emission, const char *sou
         l = elm_box_children_get(fbd->box);
         EINA_LIST_FREE(l, btn)
           elm_layout_signal_emit(btn, "elm,state,default", "elm");
-
      }
 
    _update_pos(obj, fbd, EINA_TRUE);
@@ -362,6 +361,14 @@ _eext_floatingbutton_pos_bring_in(Eo *obj, Eext_Floatingbutton_Data *sd, Eext_Fl
    if (sd->block || sd->pos_disabled[pos]) return EINA_FALSE;
 
    if (pos < EEXT_FLOATINGBUTTON_LEFT_OUT || pos > EEXT_FLOATINGBUTTON_RIGHT_OUT) return EINA_FALSE;
+
+   if (sd->pos > pos)
+     elm_layout_signal_emit(obj, "elm,action,floatingbutton,left", "elm");
+   else if (sd->pos < pos)
+     elm_layout_signal_emit(obj, "elm,action,floatingbutton,right", "elm");
+
+   edje_object_message_signal_process(elm_layout_edje_get(obj));
+
    sd->pos = pos;
 
    _update_pos(obj, sd, EINA_TRUE);

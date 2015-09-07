@@ -300,9 +300,9 @@
                      get_geometry(PART:"left_expand", x1, y1, w1, h1);
 
                      if ((w1 + x - prev_x) < FLOATINGBUTTON_LR_MAX_VARIATION)
-                       set_state_val(PART:"left_expand", STATE_REL1_OFFSET, -(w1 + x - prev_x), 0);
+                       set_state_val(PART:"left_expand", STATE_MIN, (w1 + x - prev_x), 0);
                      else
-                       set_state_val(PART:"left_expand", STATE_REL1_OFFSET, -FLOATINGBUTTON_LR_MAX_VARIATION, 0);
+                       set_state_val(PART:"left_expand", STATE_MIN, FLOATINGBUTTON_LR_MAX_VARIATION, 0);
 
                      set_state(PART:"left_expand", "custom", 0.0);
 
@@ -318,9 +318,9 @@
                      get_geometry(PART:"right_expand", x1, y1, w1, h1);
 
                      if ((w1 + prev_x - x) < FLOATINGBUTTON_LR_MAX_VARIATION)
-                       set_state_val(PART:"right_expand", STATE_REL2_OFFSET, (w1 + prev_x - x), -1);
+                       set_state_val(PART:"right_expand", STATE_MIN, (w1 + prev_x - x), 0);
                      else
-                       set_state_val(PART:"right_expand", STATE_REL2_OFFSET, FLOATINGBUTTON_LR_MAX_VARIATION, -1);
+                       set_state_val(PART:"right_expand", STATE_MIN, FLOATINGBUTTON_LR_MAX_VARIATION, 0);
 
                      set_state(PART:"right_expand", "custom", 0.0);
 
@@ -337,13 +337,25 @@
          }
          program { name: "left_spacer_animation";
             action: STATE_SET "default" 0.0;
-            transition: DECEL 0.5;
+            transition: DECEL 0.4;
             target: "left_expand";
          }
          program { name: "right_spacer_animation";
             action: STATE_SET "default" 0.0;
-            transition: DECEL 0.5;
+            transition: DECEL 0.4;
             target: "right_expand";
+         }
+         program { name: "left_spacer_stretch";
+            action: STATE_SET "custom" 0.0;
+            transition: ACCEL 0.2;
+            target: "left_expand";
+            after: "left_spacer_animation";
+         }
+         program { name: "right_spacer_stretch";
+            action: STATE_SET "custom" 0.0;
+            transition: ACCEL 0.2;
+            target: "right_expand";
+            after: "right_spacer_animation";
          }
          program { name: "block";
             signal: "elm,state,floatingbutton,block";
@@ -412,6 +424,22 @@
                set_state(PART:"elm.swallow.vg", "hidden", 0.0);
                set_state(PART:"elm.swallow.box", "hidden", 0.0);
                set_state(PART:"elm.dragable.fb", "hidden", 0.0);
+            }
+         }
+         program { name: "left_bring_in";
+            signal: "elm,action,floatingbutton,left";
+            source: "elm";
+            script {
+               set_state_val(PART:"right_expand", STATE_MIN, FLOATINGBUTTON_LR_MAX_VARIATION, 0);
+               run_program(PROGRAM:"right_spacer_stretch");
+            }
+         }
+         program { name: "right_bring_in";
+            signal: "elm,action,floatingbutton,right";
+            source: "elm";
+            script {
+               set_state_val(PART:"left_expand", STATE_MIN, FLOATINGBUTTON_LR_MAX_VARIATION, 0);
+               run_program(PROGRAM:"left_spacer_stretch");
             }
          }
       }
