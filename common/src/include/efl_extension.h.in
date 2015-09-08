@@ -42,6 +42,15 @@ EAPI tzsh_native_window eext_win_tzsh_native_window_get(const Elm_Win *obj);
 #endif
 
 /**
+ * @defgroup EFL_EXTENSION_HARDWARE_KEYEVENT_GROUP Efl Extension Hardware Keyevent
+ * @ingroup CAPI_EFL_EXTENSION_MODULE
+ * @brief This group provides functionalities to grab hardware key events.
+ * @since_tizen 2.4
+ *
+ * @{
+ */
+
+/**
  * @brief Set the keygrab of the Elm_Win object
  *
  * @details This API returns the sucessness of keygrab_set.
@@ -71,6 +80,10 @@ EAPI Eina_Bool eext_win_keygrab_set(Elm_Win *obj, const char *key);
  * @since_tizen 2.4
  */
 EAPI Eina_Bool eext_win_keygrab_unset(Elm_Win *obj, const char *key);
+
+/**
+ * @}
+ */
 
 #ifdef __cplusplus
 }
