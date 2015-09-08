@@ -22,6 +22,8 @@ extern "C" {
 #endif
 
 @HEADER_INCS@
+// This API will be not used. For history keep this codes.
+#if 0
 typedef uintptr_t tzsh_native_window;
 
 /**
@@ -37,6 +39,7 @@ typedef uintptr_t tzsh_native_window;
  * @since_tizen 2.4
  */
 EAPI tzsh_native_window eext_win_tzsh_native_window_get(const Elm_Win *obj);
+#endif
 
 /**
  * @brief Set the keygrab of the Elm_Win object

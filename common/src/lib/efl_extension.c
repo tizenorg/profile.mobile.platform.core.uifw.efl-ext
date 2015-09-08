@@ -71,6 +71,7 @@ _eext_magic_fail(const void *d, eext_magic m, eext_magic req_m, const char *fnam
 /*===========================================================================*
  *                                  API                                      *
  *===========================================================================*/
+#if 0 //This API will be not used. For history, keep this codes
 
 EAPI tzsh_native_window
 eext_win_tzsh_native_window_get(const Elm_Win *obj)
@@ -101,6 +102,7 @@ eext_win_tzsh_native_window_get(const Elm_Win *obj)
    LOGE("  Do not support %s window system", engine_name);
    return 0;
 }
+#endif
 
 EAPI Eina_Bool
 eext_win_keygrab_set(Elm_Win *obj, const char *key)
