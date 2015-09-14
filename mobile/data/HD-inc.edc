@@ -14,10 +14,16 @@
  * limitations under the License.
  */
 
-#include "HD-inc.edc"
+#define BASE_SCALE_INC 2.6
 
-collections {
-   base_scale: BASE_SCALE_INC;
-@EDC_INCS@
-}
-
+//****************************************************************************//
+// Floatingbutton
+//****************************************************************************//
+#define FLOATINGBUTTON_LR_WIDTH 50
+#define FLOATINGBUTTON_LR_MAX_VARIATION 20
+#define FLOATINGBUTTON_MID_WIDTH 20
+#define FLOATINGBUTTON_1BTN_WIDTH 180
+#define FLOATINGBUTTON_2BTN_WIDTH 280
+#define FLOATINGBUTTON_HEIGHT 120
+#define FLOATINGBUTTON_HANDLER_SIZE 32
+#define FLOATINGBUTTON_SIDE_MARGIN 20

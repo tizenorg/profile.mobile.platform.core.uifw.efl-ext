@@ -20,6 +20,7 @@
 
 #include "efl_extension.h"
 #include "efl_extension_private.h"
+#include "../../data/HD-inc.edc"
 
 #include <elm_widget.h>
 
@@ -41,7 +42,6 @@ static const Evas_Smart_Cb_Description _smart_callbacks[] = {
                                      * elm_config_scale_get() \
                                      * elm_object_scale_get(obj))
 
-#define FLOATINGBUTTON_MID_PADDING_WIDTH 20
 #define MSG_THRESHOLD 0
 
 static const char *BTN1_PART = "button1";
@@ -70,22 +70,67 @@ typedef struct _Eext_Floatingbutton_Data {
    double                   pos_table[EEXT_FLOATINGBUTTON_LAST];
    Eina_Bool                pos_disabled[EEXT_FLOATINGBUTTON_LAST];
 
+   Eina_Bool                on_update  : 1;
    Eina_Bool                mouse_down : 1;
    Eina_Bool                block      : 1;
+   Eina_Bool                center     : 1;
 
 } Eext_Floatingbutton_Data;
 
 static void
+_signal_emit(Eo *obj, Eext_Floatingbutton_Data *sd)
+{
+   int count = 0;
+   char buf[200];
+   Evas_Object *edje = elm_layout_edje_get(obj);
+
+   count = !!(sd->btn1) + !!(sd->btn2);
+
+   switch (sd->pos)
+     {
+      case EEXT_FLOATINGBUTTON_LEFT_OUT:
+      case EEXT_FLOATINGBUTTON_LEFT:
+         snprintf(buf, sizeof(buf), "elm,state,floatingbutton,left,%s", ((count >= 2) ? "2btn" : "1btn"));
+         edje_object_signal_emit(edje, buf, "elm");
+         sd->center = EINA_FALSE;
+         break;
+      case EEXT_FLOATINGBUTTON_CENTER:
+         snprintf(buf, sizeof(buf), "elm,state,floatingbutton,center,%s", ((count >= 2) ? "2btn" : "1btn"));
+         edje_object_signal_emit(edje, buf, "elm");
+         sd->center = EINA_TRUE;
+         break;
+      case EEXT_FLOATINGBUTTON_RIGHT:
+      case EEXT_FLOATINGBUTTON_RIGHT_OUT:
+         snprintf(buf, sizeof(buf), "elm,state,floatingbutton,right,%s", ((count >= 2) ? "2btn" : "1btn"));
+         edje_object_signal_emit(edje, buf, "elm");
+         sd->center = EINA_FALSE;
+         break;
+      case EEXT_FLOATINGBUTTON_LAST:
+         /* you must not reach here */
+         break;
+     }
+
+   sd->on_update = EINA_TRUE;
+
+   edje_object_message_signal_process(edje);
+}
+
+static void
 _pos_recalc(Eo *obj, Eext_Floatingbutton_Data *sd)
 {
+   int count = 0;
    Evas_Coord w, w1;
    Evas_Object *edje = elm_layout_edje_get(obj);
 
    edje_object_part_geometry_get(edje, TRACK_PART, NULL, NULL, &w, NULL);
-   edje_object_part_geometry_get(edje, DRAGABLE_PART, NULL, NULL, &w1, NULL);
 
-   sd->pos_table[EEXT_FLOATINGBUTTON_LEFT] = (w1 - EEXT_SCALE_SIZE(78, obj)) / (double)(w - w1);
-   sd->pos_table[EEXT_FLOATINGBUTTON_RIGHT] = (w - w1 * 2 + EEXT_SCALE_SIZE(78, obj)) / (double)(w - w1);
+   count = !!(sd->btn1) + !!(sd->btn2);
+
+   if (count >= 2) w1 = EEXT_SCALE_SIZE(FLOATINGBUTTON_2BTN_WIDTH, obj);
+   else w1 = EEXT_SCALE_SIZE(FLOATINGBUTTON_1BTN_WIDTH, obj);
+
+   sd->pos_table[EEXT_FLOATINGBUTTON_LEFT] = (w1 - EEXT_SCALE_SIZE(50, obj)) / (double)(w - w1);
+   sd->pos_table[EEXT_FLOATINGBUTTON_RIGHT] = (w - w1 * 2 + EEXT_SCALE_SIZE(50, obj)) / (double)(w - w1);
 }
 
 static void
@@ -99,7 +144,7 @@ _threshold_update(Eo *obj, Eext_Floatingbutton_Data *sd)
 
    edje_object_part_geometry_get(edje, DRAGABLE_PART, NULL, NULL, &w1, NULL);
 
-   msg->val = w1 + EEXT_SCALE_SIZE(40, obj);
+   msg->val = w1 + EEXT_SCALE_SIZE(30, obj);
    edje_object_message_send(edje, EDJE_MESSAGE_INT, MSG_THRESHOLD, msg);
    free(msg);
 
@@ -109,18 +154,7 @@ _threshold_update(Eo *obj, Eext_Floatingbutton_Data *sd)
 static void
 _box_recalc(Eo *obj, Eext_Floatingbutton_Data *sd)
 {
-   int count;
-   char buf[200];
-   Evas_Object *edje = elm_layout_edje_get(obj);
-
-   Eina_List *items = elm_box_children_get(sd->box);
-   count = eina_list_count(items);
-   eina_list_free(items);
-
-   snprintf(buf, sizeof(buf), "elm,state,floatingbutton,%s", ((count >= 2) ? "2btn" : "1btn"));
-   elm_layout_signal_emit(obj, buf, "elm");
-   edje_object_message_signal_process(edje);
-
+   _signal_emit(obj, sd);
    _pos_recalc(obj, sd);
    _threshold_update(obj, sd);
 }
@@ -134,7 +168,9 @@ _vg_resize_cb(void *data, Evas *e EINA_UNUSED, Evas_Object *obj, void *event_inf
    evas_object_geometry_get(obj, &x, &y, &w, &h);
 
    evas_vg_shape_shape_reset(fbd->base_shape);
-   evas_vg_shape_shape_append_rect(fbd->base_shape, 0, 0, w, h, EEXT_SCALE_SIZE(50, fbd->obj), 100);
+   evas_vg_shape_shape_append_rect(fbd->base_shape, 0, 0, w, h,
+                                   EEXT_SCALE_SIZE(FLOATINGBUTTON_LR_WIDTH, fbd->obj),
+                                   (EEXT_SCALE_SIZE(FLOATINGBUTTON_HEIGHT, fbd->obj)/2));
 }
 
 static Eina_Bool
@@ -179,12 +215,25 @@ _update_pos(Eo *obj, Eext_Floatingbutton_Data *fbd, Eina_Bool anim)
    else
      {
         if (fbd->anim)
-          ecore_animator_del(fbd->anim);
+          {
+             ecore_animator_del(fbd->anim);
+             fbd->anim = NULL;
+          }
 
-        fbd->anim = ecore_animator_timeline_add(0.4, _anim_cb, fbd);
+        if ((fbd->last_pos - fbd->pos_table[fbd->pos] >= 0.005) ||
+            (fbd->last_pos - fbd->pos_table[fbd->pos] <= -0.005))
+          fbd->anim = ecore_animator_timeline_add(0.4, _anim_cb, fbd);
+        else
+          edje_object_part_drag_value_set(elm_layout_edje_get(obj), DRAGABLE_PART, fbd->pos_table[fbd->pos], 0.5);
      }
 
-   ecore_timer_add(0.4, _message_send, fbd);
+   if (!anim || !fbd->on_update)
+     _signal_emit(obj, fbd);
+
+   fbd->on_update = EINA_FALSE;
+
+   if (!anim || fbd->anim)
+     ecore_timer_add(0.4, _message_send, fbd);
 }
 
 static void
@@ -228,20 +277,44 @@ _on_mouse_move(void *data, Evas_Object *obj, const char *emission, const char *s
 {
    Eext_Floatingbutton_Data *fbd = data;
 
-   if (fbd->mouse_down && !fbd->dir)
+   double dx;
+
+   if (fbd->mouse_down)
      {
         Evas_Object *edje = elm_layout_edje_get(obj);
-        Evas_Coord x, finger_size = elm_config_finger_size_get();
 
-        edje_object_part_geometry_get(edje, DRAGABLE_PART, &x, NULL, NULL, NULL);
-
-        if (x > (fbd->x + finger_size)) fbd->dir = 1;
-        else if(x < (fbd->x - finger_size)) fbd->dir = -1;
-
-        if (fbd->dir)
+        if (!fbd->dir)
           {
-             edje_object_signal_emit(edje, "elm,state,floatingbutton,freeze", "elm");
-             edje_object_message_signal_process(edje);
+             Evas_Coord x, finger_size = elm_config_finger_size_get();
+
+             edje_object_part_geometry_get(edje, DRAGABLE_PART, &x, NULL, NULL, NULL);
+
+             if (x > (fbd->x + finger_size)) fbd->dir = 1;
+             else if(x < (fbd->x - finger_size)) fbd->dir = -1;
+
+             if (fbd->dir)
+               {
+                  edje_object_signal_emit(edje, "elm,state,floatingbutton,freeze", "elm");
+                  edje_object_message_signal_process(edje);
+               }
+          }
+
+        if (!fbd->center)
+          {
+             int count;
+             char buf[200];
+
+             count = !!(fbd->btn1) + !!(fbd->btn2);
+
+             edje_object_part_drag_value_get(edje, DRAGABLE_PART, &dx, NULL);
+
+             if ((dx > fbd->pos_table[EEXT_FLOATINGBUTTON_LEFT] + 0.02) &&
+                 (dx < fbd->pos_table[EEXT_FLOATINGBUTTON_RIGHT] - 0.02))
+               {
+                  snprintf(buf, sizeof(buf), "elm,state,floatingbutton,center,%s", ((count >= 2) ? "2btn" : "1btn"));
+                  edje_object_signal_emit(edje, buf, "elm");
+                  fbd->center = EINA_TRUE;
+               }
           }
      }
 }
@@ -401,6 +474,7 @@ _eext_floatingbutton_evas_object_smart_add(Eo *obj, Eext_Floatingbutton_Data *pr
    elm_widget_sub_object_parent_add(obj);
 
    priv->obj = obj;
+   priv->pos = EEXT_FLOATINGBUTTON_RIGHT;
 
    priv->th = elm_theme_new();
    elm_theme_ref_set(priv->th, NULL);
@@ -424,10 +498,9 @@ _eext_floatingbutton_evas_object_smart_add(Eo *obj, Eext_Floatingbutton_Data *pr
 
    priv->box = elm_box_add(obj);
    elm_box_horizontal_set(priv->box, EINA_TRUE);
-   elm_box_padding_set(priv->box, EEXT_SCALE_SIZE(FLOATINGBUTTON_MID_PADDING_WIDTH, obj), 0);
+   elm_box_padding_set(priv->box, EEXT_SCALE_SIZE(FLOATINGBUTTON_MID_WIDTH, obj), 0);
    elm_object_part_content_set(obj, "elm.swallow.box", priv->box);
 
-   priv->pos = EEXT_FLOATINGBUTTON_RIGHT;
    priv->block = EINA_FALSE;
 
    priv->pos_table[EEXT_FLOATINGBUTTON_LEFT_OUT] = 0.0;
@@ -531,6 +604,7 @@ _eext_floatingbutton_elm_container_content_set(Eo *obj, Eext_Floatingbutton_Data
      eo_do_super(obj, MY_CLASS, int_ret = elm_obj_container_content_set(part, content));
 
    _box_recalc(obj, sd);
+   _update_pos(obj, sd, EINA_TRUE);
 
    return int_ret;
 }
@@ -579,6 +653,7 @@ _eext_floatingbutton_elm_container_content_unset(Eo *obj, Eext_Floatingbutton_Da
      eo_do_super(obj, MY_CLASS, ret = elm_obj_container_content_unset(part));
 
    _box_recalc(obj, sd);
+   _update_pos(obj, sd, EINA_TRUE);
 
    return ret;
 }
