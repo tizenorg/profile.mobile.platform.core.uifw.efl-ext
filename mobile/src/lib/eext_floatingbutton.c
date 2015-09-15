@@ -294,8 +294,15 @@ _on_mouse_move(void *data, Evas_Object *obj, const char *emission, const char *s
 
              if (fbd->dir)
                {
+                  Eina_List *l;
+                  Evas_Object *btn;
+
                   edje_object_signal_emit(edje, "elm,state,floatingbutton,freeze", "elm");
                   edje_object_message_signal_process(edje);
+
+                  l = elm_box_children_get(fbd->box);
+                  EINA_LIST_FREE(l, btn)
+                    elm_layout_signal_emit(btn, "elm,state,default", "elm");
                }
           }
 
@@ -332,9 +339,6 @@ _on_mouse_up(void *data, Evas_Object *obj, const char *emission, const char *sou
 
    if (fbd->dir)
      {
-        Eina_List *l;
-        Evas_Object *btn;
-
         edje_object_part_geometry_get(edje, DRAGABLE_PART, &drag_x, NULL, &drag_w, NULL);
         edje_object_part_geometry_get(edje, TRACK_PART, &track_x, NULL, &track_w, NULL);
 
@@ -366,10 +370,6 @@ _on_mouse_up(void *data, Evas_Object *obj, const char *emission, const char *sou
         fbd->pos = i;
 
         edje_object_signal_emit(edje, "elm,state,floatingbutton,thaw", "elm");
-
-        l = elm_box_children_get(fbd->box);
-        EINA_LIST_FREE(l, btn)
-          elm_layout_signal_emit(btn, "elm,state,default", "elm");
      }
 
    _update_pos(obj, fbd, EINA_TRUE);
