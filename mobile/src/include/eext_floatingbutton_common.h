@@ -29,13 +29,13 @@ typedef enum {
    EEXT_FLOATINGBUTTON_CENTER, /**< shows all of buttons, but lies on the center */
    EEXT_FLOATINGBUTTON_RIGHT, /**< shows all of buttons, but lies on the right */
    EEXT_FLOATINGBUTTON_RIGHT_OUT, /**< hides in the right, but small handler will show only */
-   EEXT_FLOATINGBUTTON_LAST /** never used **/
+   EEXT_FLOATINGBUTTON_LAST /**< indicates the last, do not use this **/
 } Eext_Floatingbutton_Pos;
 
 typedef enum {
    EEXT_FLOATINGBUTTON_MODE_DEFAULT = 0, /**< allows all positions */
    EEXT_FLOATINGBUTTON_MODE_BOTH_SIDES, /**< allows LEFT and RIGHT positions only */
-   EEXT_FLOATINGBUTTON_MODE_LAST /** never used **/
+   EEXT_FLOATINGBUTTON_MODE_LAST /**< indicates the last, do not use this **/
 } Eext_Floatingbutton_Mode;
 
 /**
