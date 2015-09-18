@@ -352,7 +352,7 @@ _on_mouse_up(void *data, Evas_Object *obj, const char *emission, const char *sou
                  break;
 
              if (i == EEXT_FLOATINGBUTTON_RIGHT_OUT && fbd->pos_disabled[i])
-               while (--i >= EEXT_FLOATINGBUTTON_LEFT_OUT)
+               while (--i > EEXT_FLOATINGBUTTON_LEFT_OUT)
                  if (!fbd->pos_disabled[i]) break;
           }
         else
