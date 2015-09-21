@@ -367,6 +367,9 @@ _on_mouse_up(void *data, Evas_Object *obj, const char *emission, const char *sou
                  if (!fbd->pos_disabled[i]) break;
           }
 
+        //just for exceptional case.
+        if (i == EEXT_FLOATINGBUTTON_LAST) i = EEXT_FLOATINGBUTTON_RIGHT_OUT;
+
         fbd->pos = i;
 
         edje_object_signal_emit(edje, "elm,state,floatingbutton,thaw", "elm");
