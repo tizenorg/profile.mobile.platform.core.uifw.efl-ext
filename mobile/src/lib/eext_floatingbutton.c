@@ -169,7 +169,7 @@ _vg_resize_cb(void *data, Evas *e EINA_UNUSED, Evas_Object *obj, void *event_inf
 
    evas_vg_shape_shape_reset(fbd->base_shape);
    evas_vg_shape_shape_append_rect(fbd->base_shape, 0, 0, w, h,
-                                   EEXT_SCALE_SIZE(FLOATINGBUTTON_LR_WIDTH, fbd->obj),
+                                   EEXT_SCALE_SIZE(FLOATINGBUTTON_LAYOUT_LR_WIDTH, fbd->obj),
                                    (EEXT_SCALE_SIZE(FLOATINGBUTTON_HEIGHT, fbd->obj)/2));
 }
 

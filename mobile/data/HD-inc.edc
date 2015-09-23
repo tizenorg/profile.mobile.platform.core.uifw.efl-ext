@@ -19,6 +19,7 @@
 //****************************************************************************//
 // Floatingbutton
 //****************************************************************************//
+#define FLOATINGBUTTON_LAYOUT_LR_WIDTH 64
 #define FLOATINGBUTTON_LR_WIDTH 50
 #define FLOATINGBUTTON_LR_MAX_VARIATION 20
 #define FLOATINGBUTTON_MID_WIDTH 20
