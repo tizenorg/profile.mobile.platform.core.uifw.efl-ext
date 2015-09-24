@@ -129,8 +129,8 @@ _pos_recalc(Eo *obj, Eext_Floatingbutton_Data *sd)
    if (count >= 2) w1 = EEXT_SCALE_SIZE(FLOATINGBUTTON_2BTN_WIDTH, obj);
    else w1 = EEXT_SCALE_SIZE(FLOATINGBUTTON_1BTN_WIDTH, obj);
 
-   sd->pos_table[EEXT_FLOATINGBUTTON_LEFT] = (w1 - EEXT_SCALE_SIZE(50, obj)) / (double)(w - w1);
-   sd->pos_table[EEXT_FLOATINGBUTTON_RIGHT] = (w - w1 * 2 + EEXT_SCALE_SIZE(50, obj)) / (double)(w - w1);
+   sd->pos_table[EEXT_FLOATINGBUTTON_LEFT] = (w1 - EEXT_SCALE_SIZE(FLOATINGBUTTON_LR_WIDTH, obj)) / (double)(w - w1);
+   sd->pos_table[EEXT_FLOATINGBUTTON_RIGHT] = (w - w1 * 2 + EEXT_SCALE_SIZE(FLOATINGBUTTON_LR_WIDTH, obj)) / (double)(w - w1);
 }
 
 static void

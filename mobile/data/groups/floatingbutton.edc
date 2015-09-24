@@ -131,7 +131,7 @@
             }
             description { state: "expand" 0.0;
                inherit: "default" 0.0;
-               min: (FLOATINGBUTTON_LR_WIDTH+FLOATINGBUTTON_SIDE_MARGIN) 0;
+               min: (FLOATINGBUTTON_LR_WIDTH+FLOATINGBUTTON_LAYOUT_SIDE_MARGIN) 0;
             }
          }
          part { name: "right_spacer";
@@ -146,7 +146,7 @@
             }
             description { state: "expand" 0.0;
                inherit: "default" 0.0;
-               min: (FLOATINGBUTTON_LR_WIDTH+FLOATINGBUTTON_SIDE_MARGIN) 0;
+               min: (FLOATINGBUTTON_LR_WIDTH+FLOATINGBUTTON_LAYOUT_SIDE_MARGIN) 0;
             }
          }
          part { name: "elm.swallow.box";
