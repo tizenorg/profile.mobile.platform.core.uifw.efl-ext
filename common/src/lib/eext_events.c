@@ -155,12 +155,9 @@ _eext_find_event_target(Eina_List *candidates, Evas_Object *parent)
    Evas_Object *obj;
    Eina_List *members = NULL;
 
-   //FIXME: when eo api is opened, we should use
-   // eo_isa(parent, evas_object_smart_class_get)
-   const char *type = evas_object_type_get(parent);
-   if (strcmp(type, "rectangle") && strcmp(type, "line") && strcmp(type, "polygon")
-       && strcmp(type, "text") && strcmp(type, "textblock") && strcmp(type, "image"))
+   if (eo_isa(parent, EVAS_OBJECT_SMART_CLASS))
      members = evas_object_smart_members_get(parent);
+
    if (members)
      {
         EINA_LIST_REVERSE_FOREACH(members, l, obj)
