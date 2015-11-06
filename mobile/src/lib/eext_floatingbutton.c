@@ -42,6 +42,10 @@ static const Evas_Smart_Cb_Description _smart_callbacks[] = {
                                      * elm_config_scale_get() \
                                      * elm_object_scale_get(obj))
 
+#define EEXT_SCALE_SIZE_INVERSE(x, obj) ((x) * edje_object_base_scale_get(elm_layout_edje_get(obj)) \
+                                             / elm_config_scale_get() \
+                                             / elm_object_scale_get(obj))
+
 #define MSG_THRESHOLD 0
 
 static const char *BTN1_PART = "button1";
@@ -143,6 +147,7 @@ _threshold_update(Eo *obj, Eext_Floatingbutton_Data *sd)
    if (!msg) return;
 
    edje_object_part_geometry_get(edje, DRAGABLE_PART, NULL, NULL, &w1, NULL);
+   w1 = EEXT_SCALE_SIZE_INVERSE(w1, obj);
 
    msg->val = w1 + EEXT_SCALE_SIZE(30, obj);
    edje_object_message_send(edje, EDJE_MESSAGE_INT, MSG_THRESHOLD, msg);
