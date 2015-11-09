@@ -19,6 +19,7 @@
          public mouse_down, g_prev_x, g_width, g_btns;
          public left_timer, right_timer;
          public g_visible;
+         public g_expand;
 
          public message(Msg_Type:type, id, ...) {
             if ((type == MSG_INT) && (id == 0)) {
@@ -415,10 +416,20 @@
                   set_state(PART:"elm.swallow.vg", "default", 0.0);
                   set_state(PART:"elm.swallow.box", "default", 0.0);
                   if (get_int(g_btns) < 2) {
-                     set_state(PART:"elm.dragable.fb", "default", 0.0);
+                     if (get_int(g_expand) == 0) {
+                        set_state(PART:"elm.dragable.fb", "default", 0.0);
+                     }
+                     else {
+                        set_state(PART:"elm.dragable.fb", "expand", 0.0);
+                     }
                   }
                   else {
-                     set_state(PART:"elm.dragable.fb", "2buttons", 0.0);
+                     if (get_int(g_expand) == 0) {
+                        set_state(PART:"elm.dragable.fb", "2buttons", 0.0);
+                     }
+                     else {
+                        set_state(PART:"elm.dragable.fb", "2buttons_expand", 0.0);
+                     }
                   }
                }
             }
@@ -455,6 +466,13 @@
             target: "left_spacer";
             transition: DECEL 0.4;
          }
+         program {
+            signal: "elm,state,floatingbutton,left,*";
+            source: "elm";
+            script {
+               set_int(g_expand, 1);
+            }
+         }
          program { name: "move_to_left_1btn";
             signal: "elm,state,floatingbutton,left,1btn";
             source: "elm";
@@ -475,6 +493,13 @@
             action: STATE_SET "expand" 0.0;
             target: "right_spacer";
             transition: DECEL 0.4;
+         }
+         program {
+            signal: "elm,state,floatingbutton,right,*";
+            source: "elm";
+            script {
+               set_int(g_expand, 1);
+            }
          }
          program { name: "move_to_right_1btn";
             signal: "elm,state,floatingbutton,right,1btn";
@@ -497,6 +522,13 @@
             target: "left_spacer";
             target: "right_spacer";
             transition: DECEL 0.4;
+         }
+         program {
+            signal: "elm,state,floatingbutton,center,*";
+            source: "elm";
+            script {
+               set_int(g_expand, 0);
+            }
          }
          program { name: "move_to_center_1btn";
             signal: "elm,state,floatingbutton,center,1btn";
