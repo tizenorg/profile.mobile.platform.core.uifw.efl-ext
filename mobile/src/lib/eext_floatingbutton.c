@@ -149,7 +149,7 @@ _threshold_update(Eo *obj, Eext_Floatingbutton_Data *sd)
    edje_object_part_geometry_get(edje, DRAGABLE_PART, NULL, NULL, &w1, NULL);
    w1 = EEXT_SCALE_SIZE_INVERSE(w1, obj);
 
-   msg->val = w1 + EEXT_SCALE_SIZE(30, obj);
+   msg->val = w1 + 30;
    edje_object_message_send(edje, EDJE_MESSAGE_INT, MSG_THRESHOLD, msg);
    free(msg);
 
