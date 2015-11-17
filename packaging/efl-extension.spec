@@ -12,6 +12,15 @@ BuildRequires:  cmake
 Requires(post): /sbin/ldconfig
 Requires(postun): /sbin/ldconfig
 
+#BuildRequires:  pkgconfig(x11)
+#BuildRequires:  pkgconfig(xext)
+#BuildRequires:  pkgconfig(xi)
+#BuildRequires:  pkgconfig(inputproto)
+BuildRequires:  pkgconfig(fontconfig)
+BuildRequires:  gettext
+#BuildRequires:  pkgconfig(cairo)
+BuildRequires:  eolian-devel
+BuildRequires:  pkgconfig(glib-2.0)
 
 %description
 EFL extension library
@@ -58,6 +67,10 @@ cp %{_builddir}/%{buildsubdir}/LICENSE %{buildroot}/%{_datadir}/license/%{name}
 %{_libdir}/libefl-extension.so.*
 %{_datadir}/license/%{name}
 %manifest %{name}.manifest
+%{_datadir}/efl-extension/themes/*.edj
+#%{_datadir}/locale/*
+%manifest %{name}.manifest
+
 
 %files devel
 %defattr(-,root,root,-)
