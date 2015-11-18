@@ -32,5 +32,5 @@ TARGET_LINK_LIBRARIES(${PROJECT_NAME} ${pkgs_LDFLAGS})
 
 
 INSTALL(TARGETS ${PROJECT_NAME} DESTINATION ${PREFIX}/bin)
-INSTALL(FILES ${CMAKE_CURRENT_SOURCE_DIR}/systemd/indicator_shm.service DESTINATION /usr/lib/systemd/user)
-INSTALL(FILES ${CMAKE_CURRENT_SOURCE_DIR}/systemd/indicator_shm.service DESTINATION /usr/lib/systemd/system)
+INSTALL(FILES ${CMAKE_CURRENT_SOURCE_DIR}/systemd/indicator_shm.service DESTINATION ${CMAKE_INSTALL_LIBDIR}/systemd/user)
+INSTALL(FILES ${CMAKE_CURRENT_SOURCE_DIR}/systemd/indicator_shm.service DESTINATION ${CMAKE_INSTALL_LIBDIR}/systemd/system)
