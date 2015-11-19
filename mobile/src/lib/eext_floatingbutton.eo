@@ -1,132 +1,88 @@
-class Eext.Floatingbutton (Elm_Layout) {
+class Eext.Floatingbutton (Elm.Layout) {
    eo_prefix: eext_obj_floatingbutton;
-   properties {
-      pos {
+   methods {
+      @property pos {
          set {
-            /*@
-            @MOBILE_ONLY
+            [[
+            Set the floatingbutton position
 
-            @brief Set the floatingbutton position
-
-            @remark The floatingbutton can be moved among predefined positions
+            The floatingbutton can be moved among predefined positions
             (LEFT_OUT, LEFT, CENTER, RIGHT, RIGHT_OUT),
             eext_floatingbutton_pos_set() moves floatingbutton to a given position immediately
             (without animation).
 
-            @return @c EINA_TRUE on success, @c EINA_FALSE otherwise.
-
-            @if MOBILE @since_tizen 2.4
-            @endif
-
-            @ingroup Floatingbutton */
+            return EINA_TRUE on success, EINA_FALSE otherwise.
+            ]]
             return: bool;
          }
          get {
-            /*@
-            @MOBILE_ONLY
+            [[
+            Get the floatingbutton position
 
-            @brief Get the floatingbutton position
+            return Floatingbutton position with Eext_Floatingbutton_Pos enumeration
 
-            @return Floatingbutton position with Eext_Floatingbutton_Pos enumeration
-
-            @see eext_floatingbutton_pos_set()
-
-            @if MOBILE @since_tizen 2.4
-            @endif
-
-            @ingroup Floatingbutton */
+            see eext_floatingbutton_pos_set()
+            ]]
          }
          values {
-            Eext_Floatingbutton_Pos pos; /*@ the floatingbutton position */
+            pos: Eext_Floatingbutton_Pos; [[ the floatingbutton position ]]
          }
       }
-      movement_block {
+      @property movement_block {
          set {
-            /*@
-            @MOBILE_ONLY
+            [[
+            Set whether floatingbutton can be moved or not.
 
-            @brief Set whether floatingbutton can be moved or not.
-
-            @remark By default, floatingbutton are movable by user interaction.
-
-            @if MOBILE @since_tizen 2.4
-            @endif
-
-            @ingroup Floatingbutton */
+            By default, floatingbutton are movable by user interaction.
+            ]]
          }
          get {
-            /*@
-            @MOBILE_ONLY
+            [[
+            Get movability for a given floatingbutton widget.
 
-            @brief Get movability for a given floatingbutton widget.
+            return EINA_TRUE, if obj is set to be unmovable,
+            EINA_FALSE, if it's movable.
 
-            @return @c EINA_TRUE, if @p obj is set to be unmovable,
-            @c EINA_FALSE, if it's @b movable.
-
-            @see eext_floatingbutton_movement_block_set()
-
-            @if MOBILE @since_tizen 2.4
-            @endif
-
-            @ingroup Floatingbutton */
+            see eext_floatingbutton_movement_block_set()
+            ]]
          }
          values {
-            Eina_Bool block; /*@ the floatingbutton movability */
+            block: Eina_Bool; [[ the floatingbutton movability ]]
          }
       }
-      mode {
+      @property mode {
          set {
-            /*@
-            @MOBILE_ONLY
+            [[
+            Set floatingbutton mode.
 
-            @brief Set floatingbutton mode.
-
-            @remark Positions where floatingbutton can stop are restrained by mode.
-
-            @if MOBILE @since_tizen 2.4
-            @endif
-
-            @ingroup Floatingbutton */
+            Positions where floatingbutton can stop are restrained by mode.
+            ]]
          }
          get {
-            /*@
-            @MOBILE_ONLY
+            [[
+            Get floatingbutton mode.
 
-            @brief Get floatingbutton mode.
-
-            @see eext_floatingbutton_mode_set()
-
-            @if MOBILE @since_tizen 2.4
-            @endif
-
-            @ingroup Floatingbutton */
+            see eext_floatingbutton_mode_set()
+            ]]
          }
          values {
-            Eext_Floatingbutton_Mode mode; /*@ floatingbutton mode */
+            mode: Eext_Floatingbutton_Mode; [[ floatingbutton mode ]]
          }
       }
-   }
-   methods {
-      pos_bring_in @const {
-         /*@
-         @MOBILE_ONLY
+      pos_bring_in {
+         [[
+         Set the floatingbutton position with animation
 
-         @brief Set the floatingbutton position with animation
-
-         @remark Move floatingbutton similar to eext_floatingbutton_pos_set(),
+         Move floatingbutton similar to eext_floatingbutton_pos_set(),
          but with animation.
 
-         @return @c EINA_TRUE on success, @c EINA_FALSE otherwise.
+         return EINA_TRUE on success, EINA_FALSE otherwise.
 
-         @see eext_floatingbutton_pos_set()
-
-         @if MOBILE @since_tizen 2.4
-         @endif
-
-         @ingroup Floatingbutton */
+         see eext_floatingbutton_pos_set()
+         ]]
          return: Eina_Bool;
          params {
-            @in Eext_Floatingbutton_Pos pos; /*@ the floatingbutton position */
+            @in pos: const(Eext_Floatingbutton_Pos); [[ the floatingbutton position ]]
          }
       }
    }
@@ -135,9 +91,9 @@ class Eext.Floatingbutton (Elm_Layout) {
       Eo.Base.constructor;
       Evas.Object_Smart.add;
       Evas.Object_Smart.del;
-      Elm_Container.content_set;
-      Elm_Container.content_get;
-      Elm_Container.content_unset;
-      Elm_Widget.theme_apply;
+      Elm.Container.content_set;
+      Elm.Container.content_get;
+      Elm.Container.content_unset;
+      Elm.Widget.theme_apply;
    }
 }
