@@ -1,12 +1,12 @@
-class Eext.Floatingbutton (Elm_Layout) {
+class Eext.Floatingbutton (Elm.Layout) {
    eo_prefix: eext_obj_floatingbutton;
-   properties {
-      pos {
+   methods {
+      @property pos {
          set {
-            /*@
+            [[
             @MOBILE_ONLY
 
-            @brief Set the floatingbutton position
+            Set the floatingbutton position
 
             @remark The floatingbutton can be moved among predefined positions
             (LEFT_OUT, LEFT, CENTER, RIGHT, RIGHT_OUT),
@@ -18,11 +18,12 @@ class Eext.Floatingbutton (Elm_Layout) {
             @if MOBILE @since_tizen 2.4
             @endif
 
-            @ingroup Floatingbutton */
+            @ingroup Floatingbutton
+            ]]
             return: bool;
          }
          get {
-            /*@
+            [[
             @MOBILE_ONLY
 
             @brief Get the floatingbutton position
@@ -34,15 +35,16 @@ class Eext.Floatingbutton (Elm_Layout) {
             @if MOBILE @since_tizen 2.4
             @endif
 
-            @ingroup Floatingbutton */
+            @ingroup Floatingbutton
+            ]]
          }
          values {
-            Eext_Floatingbutton_Pos pos; /*@ the floatingbutton position */
+            pos: Eext_Floatingbutton_Pos; [[@ the floatingbutton position ]]
          }
       }
       movement_block {
          set {
-            /*@
+            [[
             @MOBILE_ONLY
 
             @brief Set whether floatingbutton can be moved or not.
@@ -52,10 +54,11 @@ class Eext.Floatingbutton (Elm_Layout) {
             @if MOBILE @since_tizen 2.4
             @endif
 
-            @ingroup Floatingbutton */
+            @ingroup Floatingbutton
+            ]]
          }
          get {
-            /*@
+            [[
             @MOBILE_ONLY
 
             @brief Get movability for a given floatingbutton widget.
@@ -68,15 +71,16 @@ class Eext.Floatingbutton (Elm_Layout) {
             @if MOBILE @since_tizen 2.4
             @endif
 
-            @ingroup Floatingbutton */
+            @ingroup Floatingbutton
+            ]]
          }
          values {
-            Eina_Bool block; /*@ the floatingbutton movability */
+            block: Eina_Bool; [[@ the floatingbutton movability ]]
          }
       }
       mode {
          set {
-            /*@
+            [[
             @MOBILE_ONLY
 
             @brief Set floatingbutton mode.
@@ -86,10 +90,11 @@ class Eext.Floatingbutton (Elm_Layout) {
             @if MOBILE @since_tizen 2.4
             @endif
 
-            @ingroup Floatingbutton */
+            @ingroup Floatingbutton
+            ]]
          }
          get {
-            /*@
+            [[
             @MOBILE_ONLY
 
             @brief Get floatingbutton mode.
@@ -99,16 +104,15 @@ class Eext.Floatingbutton (Elm_Layout) {
             @if MOBILE @since_tizen 2.4
             @endif
 
-            @ingroup Floatingbutton */
+            @ingroup Floatingbutton
+            ]]
          }
          values {
-            Eext_Floatingbutton_Mode mode; /*@ floatingbutton mode */
+            mode: Eext_Floatingbutton_Mode; [[@ floatingbutton mode ]]
          }
       }
-   }
-   methods {
       pos_bring_in @const {
-         /*@
+         [[
          @MOBILE_ONLY
 
          @brief Set the floatingbutton position with animation
@@ -123,10 +127,11 @@ class Eext.Floatingbutton (Elm_Layout) {
          @if MOBILE @since_tizen 2.4
          @endif
 
-         @ingroup Floatingbutton */
+         @ingroup Floatingbutton
+         ]]
          return: Eina_Bool;
          params {
-            @in Eext_Floatingbutton_Pos pos; /*@ the floatingbutton position */
+            @in pos: Eext_Floatingbutton_Pos; [[@ the floatingbutton position ]]
          }
       }
    }
@@ -135,9 +140,9 @@ class Eext.Floatingbutton (Elm_Layout) {
       Eo.Base.constructor;
       Evas.Object_Smart.add;
       Evas.Object_Smart.del;
-      Elm_Container.content_set;
-      Elm_Container.content_get;
-      Elm_Container.content_unset;
-      Elm_Widget.theme_apply;
+      Elm.Container.content_set;
+      Elm.Container.content_get;
+      Elm.Container.content_unset;
+      Elm.Widget.theme_apply;
    }
 }
