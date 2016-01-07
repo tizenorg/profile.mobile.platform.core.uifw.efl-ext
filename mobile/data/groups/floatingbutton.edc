@@ -368,32 +368,28 @@
             signal: "elm,state,floatingbutton,block";
             source: "elm";
             script {
-               //TEMPORARY CODE: comment out before efl1.16 upgrade
-               //set_mouse_events(PART:"elm.dragable.fb", 0);
+               set_mouse_events(PART:"elm.dragable.fb", 0);
             }
          }
          program { name: "unblock";
             signal: "elm,state,floatingbutton,unblock";
             source: "elm";
             script {
-               //TEMPORARY CODE: comment out before efl1.16 upgrade
-               //set_mouse_events(PART:"elm.dragable.fb", 1);
+               set_mouse_events(PART:"elm.dragable.fb", 1);
             }
          }
          program {
             signal: "elm,state,floatingbutton,freeze";
             source: "elm";
             script {
-               //TEMPORARY CODE: comment out before efl1.16 upgrade
-               //set_mask_flags(PART:"elm.dragable.fb", 1);
+               set_mask_flags(PART:"elm.dragable.fb", 1);
             }
          }
          program {
             signal: "elm,state,floatingbutton,thaw";
             source: "elm";
             script {
-               //TEMPORARY CODE: comment out before efl1.16 upgrade
-               //set_mask_flags(PART:"elm.dragable.fb", 0);
+               set_mask_flags(PART:"elm.dragable.fb", 0);
             }
          }
          program {
