@@ -66,7 +66,6 @@ cp %{_builddir}/%{buildsubdir}/LICENSE %{buildroot}/%{_datadir}/license/%{name}
 %defattr(-,root,root,-)
 %{_libdir}/libefl-extension.so.*
 %{_datadir}/license/%{name}
-%manifest %{name}.manifest
 %{_datadir}/efl-extension/themes/*.edj
 #%{_datadir}/locale/*
 %manifest %{name}.manifest
