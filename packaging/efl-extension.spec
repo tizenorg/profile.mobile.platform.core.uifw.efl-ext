@@ -67,7 +67,7 @@ cp %{_builddir}/%{buildsubdir}/LICENSE %{buildroot}/%{_datadir}/license/%{name}
 %{_libdir}/libefl-extension.so.*
 %{_datadir}/license/%{name}
 %{_datadir}/efl-extension/themes/*.edj
-#%{_datadir}/locale/*
+%{_datadir}/locale/*
 %manifest %{name}.manifest
 
 
