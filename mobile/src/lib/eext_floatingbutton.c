@@ -420,9 +420,12 @@ _eext_floatingbutton_movement_block_get(Eo *obj EINA_UNUSED, Eext_Floatingbutton
 EOLIAN static Eina_Bool
 _eext_floatingbutton_pos_set(Eo *obj, Eext_Floatingbutton_Data *sd, Eext_Floatingbutton_Pos pos)
 {
-   if (sd->block || sd->pos_disabled[pos]) return EINA_FALSE;
+   if ((pos < EEXT_FLOATINGBUTTON_LEFT_OUT) || (pos > EEXT_FLOATINGBUTTON_RIGHT_OUT))
+     return EINA_FALSE;
 
-   if (pos < EEXT_FLOATINGBUTTON_LEFT_OUT || pos > EEXT_FLOATINGBUTTON_RIGHT_OUT) return EINA_FALSE;
+   if ((sd->block) || (sd->pos_disabled[pos]))
+     return EINA_FALSE;
+
    sd->pos = pos;
 
    _update_pos(obj, sd, EINA_FALSE);
@@ -439,9 +442,11 @@ _eext_floatingbutton_pos_get(Eo *obj EINA_UNUSED, Eext_Floatingbutton_Data *sd)
 EOLIAN static Eina_Bool
 _eext_floatingbutton_pos_bring_in(Eo *obj, Eext_Floatingbutton_Data *sd, Eext_Floatingbutton_Pos pos)
 {
-   if (sd->block || sd->pos_disabled[pos]) return EINA_FALSE;
+   if ((pos < EEXT_FLOATINGBUTTON_LEFT_OUT) || (pos > EEXT_FLOATINGBUTTON_RIGHT_OUT))
+     return EINA_FALSE;
 
-   if (pos < EEXT_FLOATINGBUTTON_LEFT_OUT || pos > EEXT_FLOATINGBUTTON_RIGHT_OUT) return EINA_FALSE;
+   if ((sd->block) || (sd->pos_disabled[pos]))
+     return EINA_FALSE;
 
    if (sd->pos > pos)
      elm_layout_signal_emit(obj, "elm,action,floatingbutton,left", "elm");
