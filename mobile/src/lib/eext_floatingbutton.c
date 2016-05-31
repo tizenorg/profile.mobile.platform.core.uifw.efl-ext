@@ -477,7 +477,8 @@ _eext_floatingbutton_eo_base_constructor(Eo *obj, Eext_Floatingbutton_Data *sd E
    obj = eo_do_super_ret(obj, MY_CLASS, obj, eo_constructor());
    eo_do(obj,
          evas_obj_type_set(MY_CLASS_NAME_LEGACY),
-         evas_obj_smart_callbacks_descriptions_set(_smart_callbacks));
+         evas_obj_smart_callbacks_descriptions_set(_smart_callbacks),
+         elm_interface_atspi_accessible_role_set(ELM_ATSPI_ROLE_PUSH_BUTTON));
 
    return obj;
 }
@@ -503,6 +504,7 @@ _eext_floatingbutton_evas_object_smart_add(Eo *obj, Eext_Floatingbutton_Data *pr
    elm_layout_signal_callback_add(obj, "mouse,down,1", DRAGABLE_PART, _on_mouse_down, priv);
    elm_layout_signal_callback_add(obj, "mouse,up,1", DRAGABLE_PART, _on_mouse_up, priv);
    elm_layout_signal_callback_add(obj, "mouse,move", DRAGABLE_PART, _on_mouse_move, priv);
+   elm_atspi_accessible_name_set(obj, "Floating");
 
    priv->vg = evas_object_vg_add(evas_object_evas_get(obj));
    elm_layout_content_set(obj, "elm.swallow.vg", priv->vg);
@@ -549,28 +551,7 @@ _btn_del_cb(void *data, Evas *e EINA_UNUSED, Evas_Object *obj, void *event_info 
 
    _update_pos(obj, fbd, EINA_FALSE);
 }
-/*
-static void _assign_atspi_relations(Evas_Object *relation_from_button, Evas_Object *relation_to_button)
-{
-   if (relation_from_button)
-     elm_atspi_accessible_relationship_remove(relation_from_button, ELM_ATSPI_RELATION_FLOWS_TO, relation_to_button);
-   if (relation_to_button)
-     elm_atspi_accessible_relationship_remove(relation_to_button, ELM_ATSPI_RELATION_FLOWS_TO, relation_from_button);
-   if (relation_to_button)
-     elm_atspi_accessible_relationship_remove(relation_to_button, ELM_ATSPI_RELATION_FLOWS_FROM, relation_from_button);
-   if (relation_from_button)
-     elm_atspi_accessible_relationship_remove(relation_from_button, ELM_ATSPI_RELATION_FLOWS_FROM, relation_to_button);
 
-   if (relation_from_button)
-     elm_atspi_accessible_relationship_append(relation_from_button, ELM_ATSPI_RELATION_FLOWS_TO, relation_to_button);
-   if (relation_to_button)
-     elm_atspi_accessible_relationship_append(relation_to_button, ELM_ATSPI_RELATION_FLOWS_TO, relation_from_button);
-   if (relation_to_button)
-     elm_atspi_accessible_relationship_append(relation_to_button, ELM_ATSPI_RELATION_FLOWS_FROM, relation_from_button);
-   if (relation_from_button)
-     elm_atspi_accessible_relationship_append(relation_from_button, ELM_ATSPI_RELATION_FLOWS_FROM, relation_to_button);
-}
-*/
 EOLIAN static Eina_Bool
 _eext_floatingbutton_elm_container_content_set(Eo *obj, Eext_Floatingbutton_Data *sd, const char *part, Evas_Object *content)
 {
@@ -588,8 +569,6 @@ _eext_floatingbutton_elm_container_content_set(Eo *obj, Eext_Floatingbutton_Data
 
         sd->btn1 = content;
 
-        //_assign_atspi_relations(sd->btn1, sd->btn2);
-
         evas_object_show(sd->btn1);
         elm_box_pack_start(sd->box, content);
 
@@ -605,8 +584,6 @@ _eext_floatingbutton_elm_container_content_set(Eo *obj, Eext_Floatingbutton_Data
         if (sd->btn2) evas_object_del(sd->btn2);
 
         sd->btn2 = content;
-
-        //_assign_atspi_relations(sd->btn1, sd->btn2);
 
         evas_object_show(sd->btn2);
         elm_box_pack_end(sd->box, content);
