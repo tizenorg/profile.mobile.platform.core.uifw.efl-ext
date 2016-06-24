@@ -256,9 +256,15 @@ _size_hints_changed_cb(void *data, Evas *e EINA_UNUSED, Evas_Object *obj, void *
    dispmode = evas_object_size_hint_display_mode_get(obj);
 
    if (dispmode == EVAS_DISPLAY_MODE_COMPRESS)
-     elm_layout_signal_emit(obj, "elm,state,floatingbutton,hidden", "elm");
+     {
+        elm_layout_signal_emit(obj, "elm,state,floatingbutton,hidden", "elm");
+        elm_atspi_accessible_role_set(obj, ELM_ATSPI_ROLE_FILLER);
+     }
    else
-     elm_layout_signal_emit(obj, "elm,state,floatingbutton,visible", "elm");
+     {
+        elm_layout_signal_emit(obj, "elm,state,floatingbutton,visible", "elm");
+        elm_atspi_accessible_role_set(obj, ELM_ATSPI_ROLE_PUSH_BUTTON);
+     }
 }
 
 static void
