@@ -656,14 +656,14 @@ _eext_floatingbutton_elm_container_content_unset(Eo *obj, Eext_Floatingbutton_Da
    return ret;
 }
 
-EOLIAN static Eina_Bool
+EOLIAN static Elm_Theme_Apply
 _eext_floatingbutton_elm_widget_theme_apply(Eo *obj, Eext_Floatingbutton_Data *sd)
 {
-   Eina_Bool int_ret = EINA_FALSE;
+   Elm_Theme_Apply int_ret = ELM_THEME_APPLY_FAILED;
    char buf[256];
 
    eo_do_super(obj, MY_CLASS, int_ret = elm_obj_widget_theme_apply());
-   if (!int_ret) return EINA_FALSE;
+   if (!int_ret) return ELM_THEME_APPLY_FAILED;
 
    snprintf(buf, sizeof(buf), "floatingbutton/%s", elm_object_style_get(obj));
 
@@ -672,7 +672,7 @@ _eext_floatingbutton_elm_widget_theme_apply(Eo *obj, Eext_Floatingbutton_Data *s
 
    _box_recalc(obj, sd);
 
-   return EINA_TRUE;
+   return int_ret;
 }
 
 EOLIAN static void
