@@ -232,8 +232,8 @@
                image.middle: 0;
                fill.smooth: 0;
                align: 0.5 0.5;
-               rel1.to: "elm.dragable.fb";
-               rel2.to: "elm.dragable.fb";
+               rel1 { to: "elm.dragable.fb"; relative: 0.15 0.0; }
+               rel2 { to: "elm.dragable.fb"; relative: 0.85 1.0; }
                visible: 0;
             }
             description { state: "visible" 0.0;
