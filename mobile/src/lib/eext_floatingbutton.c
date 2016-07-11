@@ -256,15 +256,9 @@ _size_hints_changed_cb(void *data, Evas *e EINA_UNUSED, Evas_Object *obj, void *
    dispmode = evas_object_size_hint_display_mode_get(obj);
 
    if (dispmode == EVAS_DISPLAY_MODE_COMPRESS)
-     {
-        elm_layout_signal_emit(obj, "elm,state,floatingbutton,hidden", "elm");
-        elm_atspi_accessible_role_set(obj, ELM_ATSPI_ROLE_FILLER);
-     }
+     elm_layout_signal_emit(obj, "elm,state,floatingbutton,hidden", "elm");
    else
-     {
-        elm_layout_signal_emit(obj, "elm,state,floatingbutton,visible", "elm");
-        elm_atspi_accessible_role_set(obj, ELM_ATSPI_ROLE_PUSH_BUTTON);
-     }
+     elm_layout_signal_emit(obj, "elm,state,floatingbutton,visible", "elm");
 }
 
 static void
@@ -483,8 +477,7 @@ _eext_floatingbutton_eo_base_constructor(Eo *obj, Eext_Floatingbutton_Data *sd E
    obj = eo_do_super_ret(obj, MY_CLASS, obj, eo_constructor());
    eo_do(obj,
          evas_obj_type_set(MY_CLASS_NAME_LEGACY),
-         evas_obj_smart_callbacks_descriptions_set(_smart_callbacks),
-         elm_interface_atspi_accessible_role_set(ELM_ATSPI_ROLE_PUSH_BUTTON));
+         evas_obj_smart_callbacks_descriptions_set(_smart_callbacks));
 
    return obj;
 }
@@ -510,7 +503,6 @@ _eext_floatingbutton_evas_object_smart_add(Eo *obj, Eext_Floatingbutton_Data *pr
    elm_layout_signal_callback_add(obj, "mouse,down,1", DRAGABLE_PART, _on_mouse_down, priv);
    elm_layout_signal_callback_add(obj, "mouse,up,1", DRAGABLE_PART, _on_mouse_up, priv);
    elm_layout_signal_callback_add(obj, "mouse,move", DRAGABLE_PART, _on_mouse_move, priv);
-   elm_atspi_accessible_name_set(obj, "Floating");
 
    priv->vg = evas_object_vg_add(evas_object_evas_get(obj));
    elm_layout_content_set(obj, "elm.swallow.vg", priv->vg);
